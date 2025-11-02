@@ -1,0 +1,25 @@
+{
+  "scenarioId": "journalist_stopped_by_police",
+  "title": "Stopped by Police While Reporting",
+  "categoryId": "press_freedom",
+  "description": "You are a journalist covering a protest...",
+  "startNode": "q1",
+  "nodes": {
+    "q1": {
+      "question": "Police ask for ID.",
+      "choices": [
+        { "label": "Provide ID", "nextNode": "q2" },
+        { "label": "Refuse", "nextNode": "outcome" }
+      ]
+    }
+  },
+  "legalSummaryText": "Under UK law, journalists have the right to film in public and police cannot seize equipment without a court order.",
+  "legalSources": [
+    {
+      "sourceId": "src001",
+      "title": "Police and Criminal Evidence Act 1984",
+      "link": "https://www.legislation.gov.uk/ukpga/1984/60"
+    }
+  ],
+  "updatedAt": "2025-01-01"
+}
