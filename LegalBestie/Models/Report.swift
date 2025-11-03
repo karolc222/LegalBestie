@@ -1,30 +1,61 @@
 //  Report.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 08/10/2025.
 
 import Foundation
+import SwiftData
 
-struct Report: Codable {
-    let reportID: String
-    let reportType: String
-    let reportTitle: String
-    let reportStatus: String
-    let reportDescription: String
-    let contentSummary: String
-    let storagePath: String
-    let createdAt: Date
-    let updatedAt: Date
+@Model final class Report{
+    @Attribute(.unique) var reportID: String
+    var reportType: String
+    var reportTitle: String
+    var reportStatus: String
+    var reportDescription: String
+    var contentSummary: String
+    var storagePath: String
+    var createdAt: Date
+    var updatedAt: Date
     
-    //let user: User
-    //let legalArticles: [LegalArticle]
+    var user: User?
+    var legalArticles: [LegalArticle] = []
     
-    // Generates a report summary based on user data and scenario.
+    init(
+         reportID: String,
+         reportType: String,
+         reportTitle: String,
+         reportStatus: String,
+         reportDescription: String,
+         contentSummary: String,
+         storagePath: String,
+         createdAt: Date,
+         updatedAt: Date,
+         user: User? = nil,
+         legalArticles: [LegalArticle] = []
+    ){
+        
+        self.reportID = reportID
+        self.reportType = reportType
+        self.reportTitle = reportTitle
+        self.reportStatus = reportStatus
+        self.reportDescription = reportDescription
+        self.contentSummary = contentSummary
+        self.storagePath = storagePath
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.user = user
+        self.legalArticles = legalArticles
+    }
+}
+
+
+// Generates a report summary based on user data and scenario.
+extension Report {
     func generateFromScenario(scenario: Scenario) -> String {
         return "Report for Scenario: \(scenario.scenarioTitle)"
     }
     
-    // Adds relevant articles or saved items to the report content.
+    /// Adds relevant articles or saved items to the report content.
     func collectData(from items: [UserSavedItem]) -> [String] {
         var collectedInfo: [String] = []
         for item in items {

@@ -8,7 +8,7 @@ import SwiftUI
 import FirebaseCore
 
 @main
-struct LegalBuddyApp: App {
+struct LegalBestieApp: App {
     init() {
         FirebaseApp.configure()
     }
