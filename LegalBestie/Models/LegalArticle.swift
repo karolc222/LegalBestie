@@ -26,7 +26,7 @@ struct LegalArticle: Codable, Identifiable {
     }
     
     func fetchSourceMetadata() -> String {
-        //return "Source: \(source.title) (\(source.publisher))"
+        return "Source: \(source.title) (\(source.publisher))"
         }
         
         func linkToCategory(_ category: LegalCategory) -> String {

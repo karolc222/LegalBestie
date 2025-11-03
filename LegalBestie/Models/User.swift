@@ -1,6 +1,6 @@
 //
 //  User.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 08/10/2025.
 //
