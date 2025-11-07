@@ -65,6 +65,7 @@ import SwiftData
 //Core user actions
 extension User {
     //start new legal Scenario (skeleton instance)
+    //factory method: new legal scenario session 
     func initiateScenario(title: String, description: String ) -> Scenario {
         return Scenario(
             scenarioId: UUID().uuidString,
