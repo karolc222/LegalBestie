@@ -1,13 +1,13 @@
 //
 //  LegalCategory.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 12/09/2025.
 //
 
 import Foundation
 
-struct LegalCategory: Codable, Identifiable {
+struct LegalCategory: Identifiable {
     let id: String
     let name: String
     let description: String
@@ -19,7 +19,7 @@ struct LegalCategory: Codable, Identifiable {
     var sources: [LegalSource]?
     //var articles: [LegalArticle]?
 
-    // MARK: - Methods
+
     func listSources() -> [String] {
         return sources?.map { $0.title } ?? []
     }

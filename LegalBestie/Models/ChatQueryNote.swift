@@ -16,7 +16,6 @@ struct QueryNote: Codable, Identifiable {
     let linkedSourceID: String?
     let createdAt: Date
 
-    // MARK: - Methods
     func displayNote() -> String {
         return "[\(noteType.capitalized)] \(content)"
     }

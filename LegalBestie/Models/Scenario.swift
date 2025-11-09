@@ -1,15 +1,39 @@
 import Foundation
+import SwiftData
 
-struct Scenario: Codable {
-    let scenarioId: String
-    let scenarioTitle: String 
-    let categoryId: String // FK to LegalCategory
-    let scenarioDescription: String?
-    let scenarioStartNode: String
-    let scenarioNodes: [String: ScenarioNode]
-    let legalSummaryText: String
-    let legalSources: [LegalSource] // matches ScenarioSource link
-    let updatedAt: Date?
+@Model
+final class Scenario {
+    var scenarioId: String
+    var scenarioTitle: String
+    var categoryId: String // FK to LegalCategory
+    var scenarioDescription: String?
+    var scenarioStartNode: String
+    var legalSummaryText: String
+    var legalSources: [LegalSource] // matches ScenarioSource link
+    var updatedAt: Date?
+    
+    //not to be saved in the db
+    @Transient var currentNodeKey: String?
+    
+    init(
+        scenarioId: String,
+        scenarioTitle: String,
+        categoryId: String,
+        scenarioDescription: String? = nil,
+        scenarioStartNode: String,
+        legalSummaryText: String,
+        legalSources: [LegalSource],
+        updatedAt: Date? = nil
+    ){
+        self.scenarioId = scenarioId
+        self.scenarioTitle = scenarioTitle
+        self.categoryId = categoryId
+        self.scenarioDescription = scenarioDescription
+        self.scenarioStartNode = scenarioStartNode
+        self.legalSummaryText = legalSummaryText
+        self.legalSources = legalSources
+        self.updatedAt = updatedAt
+    }
 }
 
 struct ScenarioNode: Codable {
@@ -27,4 +51,3 @@ struct Choice: Codable {
     let label: String
     let nextNode: String
 }
-
