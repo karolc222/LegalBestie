@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LegalArticle: Codable, Identifiable {
+struct LegalArticle: Identifiable {
     let id: String
     let title: String
     let summary: String
@@ -20,13 +20,12 @@ struct LegalArticle: Codable, Identifiable {
     let source: LegalSource
     let categories: [LegalCategory]?
     
-    // MARK: - Methods
     func getArticleSummary() -> String {
         return summary
     }
     
     func fetchSourceMetadata() -> String {
-        return "Source: \(source.title) (\(source.publisher))"
+        return "Source: \(source.title)"
         }
         
         func linkToCategory(_ category: LegalCategory) -> String {

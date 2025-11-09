@@ -1,39 +1,53 @@
 //
 //  ChatQuery.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 16/10/2025.
-//
 
 import Foundation
+import SwiftData
 
-struct ChatQuery: Codable, Identifiable {
-    let queryId: String
+@Model
+final class ChatQuery {
+    var queryId: String
     var id: String { queryId }
-    let userId: String
-    let queryText: String
-    let responseText: String?
-    let isSaved: Bool
-    let savedAt: Date?
-    let tags: [String]?
-    let resourceReferences: [String]?
+    var userId: String
+    var queryText: String
+    var responseText: String?
+    var isSaved: Bool
+    var savedAt: Date?
+    var tags: [String]?
+    var resourceReferences: [String]?
 
     // Relationships
     var queryNotes: [QueryNote]?
+    
+    init(
+        queryId: String = UUID().uuidString,
+        userId: String,
+        queryText: String,
+        responseText: String? = nil,
+        isSaved: Bool = false,
+        savedAt: Date? = nil,
+        tags: [String]? = nil,
+        resourceReferences: [String]? = nil,
+        queryNotes: [QueryNote]? = nil
+    )
+    {
+        self.queryId = queryId
+        self.userId = userId
+        self.queryText = queryText
+        self.responseText = responseText
+        self.isSaved = isSaved
+        self.savedAt = savedAt
+        self.tags = tags
+        self.resourceReferences = resourceReferences
+        self.queryNotes = queryNotes
+    }
 
-    // MARK: - Methods
-    func saveQuery() -> ChatQuery {
-        return ChatQuery(
-            queryId: queryId,
-            userId: userId,
-            queryText: queryText,
-            responseText: responseText,
-            isSaved: true,
-            savedAt: Date(),
-            tags: tags,
-            resourceReferences: resourceReferences,
-            queryNotes: queryNotes
-        )
+    func savedQuery() {
+        isSaved = true
+        savedAt = Date()
     }
 
     func containsKeyword(_ keyword: String) -> Bool {

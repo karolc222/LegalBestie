@@ -1,8 +1,9 @@
 // ScenarioView displays a step-by-step legal scenario loaded from a JSON file.
 // It shows questions with choices or outcomes based on user input.
 
+/*
 
-/*import SwiftUI
+import SwiftUI
 import WebKit
 import Foundation
 
@@ -29,19 +30,20 @@ struct ScenarioView: View {
     // Initialize the view with a scenario and set the starting node
     init(scenario: Scenario) {
         self.scenario = scenario
-        //_currentNodeId = State(initialValue: scenario.startNode) // From JSON: the ID where the scenario starts
-        //_currentNode = State(initialValue: scenario.nodes[scenario.startNode]) // Loads the node object from the dictionary
+        _currentNodeId = State(initialValue: scenario.startNode) // From JSON: the ID where the scenario starts
+        _currentNode = State(initialValue: scenario.nodes[scenario.startNode]) // Loads the node object from the dictionary
     }
     
- /*  var body: some View {
+var body: some View {
   VStack(alignment: .leading, spacing: 24) {
   if let node = currentNode {
   if node.type == "outcome" {
+      
   // If the node is an outcome, show the result screen with legal summary
   ScenarioOutcomeView(
-  // title: node.title ?? "Outcome",
-  //description: node.description ?? "",
-  //legalSummary: node.legalSummary
+  title: node.title ?? "Outcome",
+  description: node.description ?? "",
+  legalSummary: node.legalSummary
   )
   } else {
   // If the node is a question, show the question and multiple choice buttons
@@ -81,8 +83,8 @@ struct ScenarioView: View {
   
   // Updates the view to show the node with the given ID
   func navigate(to nextId: String) {
-  //currentNodeId = nextId
-  //currentNode = scenario.nodes[nextId]
+  currentNodeId = nextId
+  currentNode = scenario.nodes[nextId]
   }
   }
   
@@ -116,11 +118,10 @@ struct ScenarioView: View {
   .padding(.top)
   }
   }
-  
-  */
 
-// ScenarioView — temporary compiling stub so you can keep building while you wire Firebase/Auth.
-// The full step-by-step UI you had is preserved in git history; reintroduce it piece‑by‑piece later.
+
+ScenarioView — temporary compiling stub so you can keep building while you wire Firebase/Auth.
+The full step-by-step UI you had is preserved in git history; reintroduce it piece‑by‑piece later.
 
 import SwiftUI
 import WebKit

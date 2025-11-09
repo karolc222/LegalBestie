@@ -73,7 +73,7 @@ extension User {
             categoryId: "",
             scenarioDescription: description,
             scenarioStartNode: "",
-            scenarioNodes: [:],
+           //scenarioNode: [:],
             legalSummaryText: "",
             legalSources: [],
             updatedAt: Date()
