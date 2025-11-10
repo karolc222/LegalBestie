@@ -26,12 +26,10 @@ struct LegalBestieApp: App {
             User.self,
             Report.self,
             Scenario.self,
-            //ScenarioChoice.self,
-            //UserSavedItem.self,
+            UserSavedItem.self,
             ChatQuery.self,
-            //LegalArticle.self,
-            //LegalCategory.self
-            LegalSource.self
+            LegalArticle.self,
+            LegalCategory.self,
         ])
     }
 }

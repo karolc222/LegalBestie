@@ -4,23 +4,41 @@
 //  Created by Carolina LC on 08/10/2025.
 
 import Foundation
+import SwiftData
 
-struct UserSavedItem: Codable, Identifiable {
-    let savedItemId: String
-    let userId: String
-    let itemTitle: String
-    let itemType: String       //"article", "note", "query"
-    let itemContent: String
-    let mediaType: String?
-    let storagePath: String?  //file or URL path
-    let fileSize: Double?
-    let durationSeconds: Double?
-    let thumbnailPath: String?
-    let transcription: String?
-    let itemTags: [String]?  //keywords or hashtags
-    let savedAt: Date
+@Model
+final class UserSavedItem {
+    var savedItemId: String
+    var userId: String
+    var itemTitle: String
+    var itemType: String       //"article", "note", "query"
+    var itemContent: String
+    var mediaType: String?
+    var storagePath: String?  //file or URL path
+    var fileSize: Double?
+    var durationSeconds: Double?
+    var thumbnailPath: String?
+    var transcription: String?
+    var itemTags: [String]?  //keywords or hashtags
+    var savedAt: Date
     
     var id: String {savedItemId}
+    
+    init(savedItemId: String, userId: String, itemTitle: String, itemType: String, itemContent: String, mediaType: String? = nil, storagePath: String? = nil, fileSize: Double? = nil, durationSeconds: Double? = nil, thumbnailPath: String? = nil, transcription: String? = nil, itemTags: [String]? = nil, savedAt: Date) {
+        self.savedItemId = savedItemId
+        self.userId = userId
+        self.itemTitle = itemTitle
+        self.itemType = itemType
+        self.itemContent = itemContent
+        self.mediaType = mediaType
+        self.storagePath = storagePath
+        self.fileSize = fileSize
+        self.durationSeconds = durationSeconds
+        self.thumbnailPath = thumbnailPath
+        self.transcription = transcription
+        self.itemTags = itemTags
+        self.savedAt = savedAt
+    }
 
     // MARK: - Methods
     func displayInfo() -> String {

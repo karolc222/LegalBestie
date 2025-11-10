@@ -5,11 +5,11 @@ import SwiftData
 final class Scenario {
     var scenarioId: String
     var scenarioTitle: String
-    var categoryId: String // FK to LegalCategory
+    var categoryIds: [String] // FK to LegalCategory
     var scenarioDescription: String?
     var scenarioStartNode: String
     var legalSummaryText: String
-    var legalSources: [LegalSource] // matches ScenarioSource link
+    var legalSources: [LegalSourceDTO] // matches ScenarioSource link
     var updatedAt: Date?
     
     //not to be saved in the db
@@ -22,12 +22,12 @@ final class Scenario {
         scenarioDescription: String? = nil,
         scenarioStartNode: String,
         legalSummaryText: String,
-        legalSources: [LegalSource],
+        legalSources: [LegalSourceDTO],
         updatedAt: Date? = nil
     ){
         self.scenarioId = scenarioId
         self.scenarioTitle = scenarioTitle
-        self.categoryId = categoryId
+        self.categoryIds = [categoryId]
         self.scenarioDescription = scenarioDescription
         self.scenarioStartNode = scenarioStartNode
         self.legalSummaryText = legalSummaryText
