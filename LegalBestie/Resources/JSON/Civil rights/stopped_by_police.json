@@ -11,6 +11,19 @@
         { "label": "Provide ID", "nextNode": "q2" },
         { "label": "Refuse", "nextNode": "outcome" }
       ]
+    },
+    "q2": {
+      "question": "Police ask to delete footage.",
+      "choices": [
+        { "label": "Comply and delete footage", "nextNode": "outcome" },
+        { "label": "Refuse to delete footage", "nextNode": "outcome" }
+      ]
+    },
+    "outcome": {
+      "question": "The interaction ends.",
+      "choices": [
+        { "label": "Restart scenario", "nextNode": "q1" }
+      ]
     }
   },
   "legalSummaryText": "Under UK law, journalists have the right to film in public and police cannot seize equipment without a court order.",
