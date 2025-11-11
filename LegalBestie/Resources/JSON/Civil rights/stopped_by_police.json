@@ -1,8 +1,8 @@
 {
   "scenarioId": "journalist_stopped_by_police",
-  "title": "Stopped by Police While Reporting",
+  "scenarioTitle": "Stopped by Police While Reporting",
   "categoryId": "press_freedom",
-  "description": "You are a journalist covering a protest...",
+  "scenarioDescription": "You are a journalist covering a protest...",
   "startNode": "q1",
   "nodes": {
     "q1": {
@@ -30,9 +30,9 @@
   "legalSources": [
     {
       "sourceId": "src001",
-      "title": "Police and Criminal Evidence Act 1984",
-      "link": "https://www.legislation.gov.uk/ukpga/1984/60"
+      "scenarioTitle": "Police and Criminal Evidence Act 1984",
+      "scenarioLink": "https://www.legislation.gov.uk/ukpga/1984/60"
     }
   ],
-  "updatedAt": "01-01-2025"
+  "scenarioUpdatedAt": "01-01-2025"
 }
