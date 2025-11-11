@@ -8,7 +8,7 @@ import SwiftData
 
 @Model
 final class LegalArticle {
-    @Attribute(.unique) var id: String
+    @Attribute(.unique) var articleId: String
     var title: String
     var summary: String
     var fullText: String
@@ -21,7 +21,7 @@ final class LegalArticle {
     var categories: [LegalCategory]
     
     init(
-        id: String,
+        articleId: String,
         title: String,
         summary: String,
         fullText: String,
@@ -31,7 +31,7 @@ final class LegalArticle {
         source: LegalSource,
         categories: [LegalCategory] = []
     ) {
-        self.id = id
+        self.articleId = articleId
         self.title = title
         self.summary = summary
         self.fullText = fullText

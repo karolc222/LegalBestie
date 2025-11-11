@@ -4,15 +4,37 @@
 //  Created by Carolina LC on 16/10/2025.
 
 import Foundation
+import SwiftData
 
-struct QueryNote: Codable, Identifiable {
-    let id: String
-    let chatQueryID: String
-    let noteType: String        // e.g., "article", "chatResponse", "link"
-    let content: String
-    let linkedArticleID: String?
-    let linkedSourceID: String?
-    let createdAt: Date
+@Model
+final class QueryNote {
+    @Attribute(.unique) var noteId: String
+    var noteType: String
+    var content: String
+    var linkedArticleID: String?
+    var linkedSourceID: String?
+    var createdAt: Date
+    
+    @Relationship(inverse: \ChatQuery.queryNotes)
+    var chatQuery: ChatQuery?
+    
+    
+    init(noteId: String = UUID().uuidString, chatQuery: ChatQuery? = nil, noteType: String, content: String, linkedArticleID: String? = nil, linkedSourceID: String? = nil, createdAt: Date) {
+        self.noteId = noteId
+        self.chatQuery = chatQuery
+        self.noteType = noteType
+        self.content = content
+        self.linkedArticleID = linkedArticleID
+        self.linkedSourceID = linkedSourceID
+        self.createdAt = createdAt
+        self.noteType = noteType
+        self.content = content
+    }
+    
+    @Transient var displayContent: String {
+        return content
+    }
+    
 
     func displayNote() -> String {
         return "[\(noteType.capitalized)] \(content)"

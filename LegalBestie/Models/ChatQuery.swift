@@ -8,7 +8,7 @@ import SwiftData
 
 @Model
 final class ChatQuery {
-    var queryId: String
+    @Attribute(.unique) var queryId: String
     var id: String { queryId }
     var userId: String
     var queryText: String
@@ -18,8 +18,8 @@ final class ChatQuery {
     var tags: [String]?
     var resourceReferences: [String]?
 
-    // Relationships
-    var queryNotes: [QueryNote]?
+    @Relationship(deleteRule: .cascade)
+    var queryNotes: [QueryNote] = []
     
     init(
         queryId: String = UUID().uuidString,
@@ -41,7 +41,7 @@ final class ChatQuery {
         self.savedAt = savedAt
         self.tags = tags
         self.resourceReferences = resourceReferences
-        self.queryNotes = queryNotes
+        //self.queryNotes = queryNotes
     }
 
     func savedQuery() {

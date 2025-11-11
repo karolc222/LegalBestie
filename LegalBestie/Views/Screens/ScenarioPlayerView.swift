@@ -15,8 +15,8 @@ private struct ScenarioTemplate: Codable {
     let startNode: String
     let nodes: [String: Node]
     let legalSummaryText: String
-    let legalSources: [ScenarioSourceDTO]
-    let updatedAt: Date
+    let legalSources: [ScenarioSourceDTO]?
+    let updatedAt: Date?
 }
 
 private struct Node: Codable {
@@ -56,7 +56,7 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
         throw NSError(
             domain: "ScenarioPlayer",
             code: 1,
-            userInfo: [NSLocalizedDescriptionKey: "Template not found at JSON/\(category)/\(name).json"]
+            userInfo: [NSLocalizedDescriptionKey: "Template not found: \(name).json"]
         )
     }
     let data = try Data(contentsOf: url)
@@ -99,7 +99,7 @@ struct ScenarioPlayerView: View {
                         HStack {
                             Text("Last updated")
                             Text(
-                                template.updatedAt.formatted(date: .abbreviated, time: .shortened)
+                                (template.updatedAt ?? .now).formatted(date: .abbreviated, time: .shortened)
                             )
                             .environment(\.locale, Locale(identifier: "en_GB"))
                         }
@@ -115,9 +115,10 @@ struct ScenarioPlayerView: View {
                     }
                     .padding()
                 } else {
-                    ProgressView().task { load() }
+                    ProgressView()
                 }
             }
+            .task { load() }
             .navigationTitle("Scenario")
         }
     }
