@@ -9,7 +9,7 @@ final class Scenario {
     var scenarioDescription: String?
     var scenarioStartNode: String
     var legalSummaryText: String
-    var legalSources: [LegalSourceDTO] // matches ScenarioSource link
+    var legalSources: [LegalSource] // persisted sources
     var updatedAt: Date?
     
     //not to be saved in the db
@@ -22,7 +22,7 @@ final class Scenario {
         scenarioDescription: String? = nil,
         scenarioStartNode: String,
         legalSummaryText: String,
-        legalSources: [LegalSourceDTO],
+        legalSources: [LegalSource],
         updatedAt: Date? = nil
     ){
         self.scenarioId = scenarioId

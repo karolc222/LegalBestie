@@ -7,7 +7,8 @@ import Foundation
 import SwiftData
 
 @Model final class Report{
-    @Attribute(.unique) var reportID: String
+    @Attribute(.unique)
+    var reportID: String
     var reportType: String
     var reportTitle: String
     var reportStatus: String

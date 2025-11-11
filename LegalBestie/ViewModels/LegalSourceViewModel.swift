@@ -7,7 +7,7 @@
 import Foundation
 
 class LegalSourceViewModel: ObservableObject {
-    @Published var sources: [LegalSourceDTO] = []
+    @Published var sources: [LegalSource] = []
 
     init() {
         loadSources()
@@ -15,12 +15,14 @@ class LegalSourceViewModel: ObservableObject {
 
     func loadSources() {
         guard let url = Bundle.main.url(forResource: "civil_rights_links", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let decodedSources = try? JSONDecoder().decode([LegalSourceDTO].self, from: data) else {
+                      let data = try? Data(contentsOf: url),
+                      let decodedSources = try? JSONDecoder().decode([LegalSourceDTO].self, from: data) else {
             print("⚠️ Failed to load civil_rights_links.json")
             return
         }
 
-        self.sources = decodedSources
+        self.sources = decodedSources.map {
+            LegalSource(dto: $0)
+        }
     }
 }

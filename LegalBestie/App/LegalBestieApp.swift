@@ -1,5 +1,4 @@
-//
-//  LegalBuddyApp.swift
+//  LegalBestieApp.swift
 //  LegalBestie
 //
 //  Created by Carolina LC on 23/10/2025.
@@ -17,8 +16,9 @@ struct LegalBestieApp: App {
     
     var body: some Scene {
         WindowGroup {
+            ScenarioPlayerView(category: "Civil rights", name: "stopped_by_police")
             //AuthGate()
-            ScenarioListView()
+            //ScenarioListView()
         }
         
         //SwiftData container

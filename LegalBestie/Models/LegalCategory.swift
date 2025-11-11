@@ -16,10 +16,10 @@ final class LegalCategory {
     
     
     // Relationships
-    var sources: [LegalSourceDTO]?
-    var articles: [LegalArticle]?
+    var sources: [LegalSource] = []
+    var articles: [LegalArticle] = []
     
-    init(id: String, name: String, categoryDescription: String, createdAt: Date, updatedAt: Date, sources: [LegalSourceDTO]? = nil, articles: [LegalArticle]? = nil) {
+    init(id: String, name: String, categoryDescription: String, createdAt: Date, updatedAt: Date, sources: [LegalSource] = [], articles: [LegalArticle] = []) {
         self.id = id
         self.name = name
         self.categoryDescription = categoryDescription
@@ -31,15 +31,14 @@ final class LegalCategory {
     
     
     func listSources() -> [String] {
-        return sources?.map { $0.title } ?? []
+        return sources.map { $0.title }
     }
     
     func listArticles() -> [String] {
-        return articles?.map { $0.title } ?? []
-        
-        
-        func categorySummary() -> String {
-            return "Category: \(name) — \(categoryDescription)"
-        }
+        return articles.map { $0.title }
+    }
+    
+    func categorySummary() -> String {
+        return "Category: \(name) — \(categoryDescription)"
     }
 }
