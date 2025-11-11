@@ -1,4 +1,3 @@
-//
 //  Choice.swift
 //  LegalBestie
 //

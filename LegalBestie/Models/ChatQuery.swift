@@ -1,4 +1,3 @@
-//
 //  ChatQuery.swift
 //  LegalBestie
 //

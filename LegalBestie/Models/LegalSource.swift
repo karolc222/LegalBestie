@@ -2,7 +2,41 @@
 //  LegalBestie
 
 import Foundation
+import SwiftData
 
+@Model
+final class LegalSource {
+    @Attribute(.unique) var id: String
+    var title: String
+    var url: String
+    var details: String
+    var organization: String
+    var status: String
+    var keywords: [String]
+    
+    @Transient var urlValue: URL? {
+        URL(string: url)
+    }
+    
+    init(id: String = UUID().uuidString,
+         title: String,
+         url: String,
+         details: String,
+         organization: String,
+         status: String,
+         keywords: [String]) {
+        
+        self.id = id
+        self.title = title
+        self.url = url
+        self.details = details
+        self.organization = organization
+        self.status = status
+        self.keywords = keywords
+    }
+}
+
+//runtime DTO for decoding JSON
 struct LegalSourceDTO: Decodable {
     let id: String
     let title: String
@@ -13,5 +47,19 @@ struct LegalSourceDTO: Decodable {
     let keywords: [String]
 }
 
-func 
-    
+func loadLegalSources(from data: Data) throws -> [LegalSourceDTO] {
+    try
+    JSONDecoder().decode([LegalSourceDTO].self, from: data)
+}
+
+extension LegalSource {
+    convenience init(dto: LegalSourceDTO) {
+        self.init( id: dto.id,
+                   title: dto.title,
+                   url: dto.url,
+                   details: dto.description,
+                   organization: dto.organization,
+                   status: dto.status,
+                   keywords: dto.keywords)
+    }
+}

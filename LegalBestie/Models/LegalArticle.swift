@@ -8,15 +8,29 @@ import SwiftData
 
 @Model
 final class LegalArticle {
-    var id: String
+    @Attribute(.unique) var id: String
     var title: String
     var summary: String
     var fullText: String
-    var references: [String]?
+    var references: [String]
     var createdAt: Date
     var updatedAt: Date
+
+    // Relationships
+    var source: LegalSource
+    var categories: [LegalCategory]
     
-    init(id: String, title: String, summary: String, fullText: String, references: [String]? = nil, createdAt: Date, updatedAt: Date, source: LegalSourceDTO, categories: [LegalCategory]? = nil) {
+    init(
+        id: String,
+        title: String,
+        summary: String,
+        fullText: String,
+        references: [String] = [],
+        createdAt: Date,
+        updatedAt: Date,
+        source: LegalSource,
+        categories: [LegalCategory] = []
+    ) {
         self.id = id
         self.title = title
         self.summary = summary
@@ -27,10 +41,6 @@ final class LegalArticle {
         self.source = source
         self.categories = categories
     }
-    
-    // Relationships
-    var source: LegalSourceDTO
-    var categories: [LegalCategory]?
     
     func getArticleSummary() -> String {
         return summary
@@ -44,4 +54,3 @@ final class LegalArticle {
             return "Linked to category: \(category.name)"
         }
     }
-

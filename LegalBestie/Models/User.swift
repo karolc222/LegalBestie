@@ -3,7 +3,7 @@
 //  LegalBestie
 //
 //  Created by Carolina LC on 08/10/2025.
-//
+
 import Foundation
 import SwiftData
 
@@ -19,12 +19,12 @@ import SwiftData
     var status: String     // active/inactive
     
     // Relationships
-    var reports: [Report]?
-    var scenarios: [Scenario]?
-    var savedItems: [UserSavedItem]?
-    var chatQueries: [ChatQuery]?
-    var legalArticles: [LegalArticle]?
-    var legalCategories: [LegalCategory]?
+    var reports: [Report] = []
+    var scenarios: [Scenario] = []
+    var savedItems: [UserSavedItem] = []
+    var chatQueries: [ChatQuery] = []
+    var legalArticles: [LegalArticle] = []
+    var legalCategories: [LegalCategory] = []
     
     init(
         userId: String,
@@ -35,12 +35,12 @@ import SwiftData
         userType: String,
         createdAt: Date = .now,
         status: String = "active",
-        reports: [Report]? = nil,
-        scenarios: [Scenario]? = nil,
-        savedItems: [UserSavedItem]? = nil,
-        chatQueries: [ChatQuery]? = nil,
-        legalArticles: [LegalArticle]? = nil,
-        legalCategories: [LegalCategory]? = nil
+        reports: [Report] = [],
+        scenarios: [Scenario] = [],
+        savedItems: [UserSavedItem] = [],
+        chatQueries: [ChatQuery] = [],
+        legalArticles: [LegalArticle] = [],
+        legalCategories: [LegalCategory] = []
     )
     {
         self.userId = userId
@@ -119,7 +119,7 @@ extension User {
     }
     
     func saveItem(_ item: UserSavedItem) -> [UserSavedItem] {
-        var updatedItems = savedItems ?? []
+        var updatedItems = savedItems
         updatedItems.append(item)
         self.savedItems = updatedItems
         return updatedItems
@@ -127,7 +127,7 @@ extension User {
     
     //generate report that aggregates all saved items (notes, articles, media)
     func generateReportFromSavedItems(reportTitle: String = "Evidence & Saved Items Report") -> Report {
-        let items = (savedItems ?? []).sorted { $0.savedAt < $1.savedAt }
+        let items = savedItems.sorted { $0.savedAt < $1.savedAt }
         
         //to collect report data
         var summary = ""

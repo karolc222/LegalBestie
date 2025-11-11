@@ -1,9 +1,7 @@
-//
 //  ChatQueryNote.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 16/10/2025.
-//
 
 import Foundation
 

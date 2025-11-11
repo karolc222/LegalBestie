@@ -6,7 +6,7 @@
 import SwiftUI
 import Foundation
 
-// MARK: - Runtime Codable structs (not SwiftData)
+// Runtime Codable structs
 private struct ScenarioTemplate: Codable {
     let scenarioId: String
     let title: String
@@ -35,7 +35,7 @@ private struct ScenarioSourceDTO: Codable, Hashable {
     let link: URL
 }
 
-// MARK: - Decoder and loader
+// Decoder and loader
 private func makeScenarioDecoder() -> JSONDecoder {
     let dec = JSONDecoder()
     // Decode dates like "09-11-2025" in British time
@@ -52,7 +52,6 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
     guard let url = Bundle.main.url(
         forResource: name,
         withExtension: "json",
-        subdirectory: "JSON/\(category)"
     ) else {
         throw NSError(
             domain: "ScenarioPlayer",
@@ -64,7 +63,7 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
     return try makeScenarioDecoder().decode(ScenarioTemplate.self, from: data)
 }
 
-// MARK: - Scenario Player View
+// Scenario Player View
 struct ScenarioPlayerView: View {
     let category: String
     let name: String
@@ -100,14 +99,9 @@ struct ScenarioPlayerView: View {
                         HStack {
                             Text("Last updated")
                             Text(
-                                template.updatedAt.formatted(
-                                    .dateTime
-                                        .day().month(.abbreviated).year()
-                                        .hour().minute()
-                                        .locale(Locale(identifier: "en_GB"))
-                                        .timeZone(TimeZone(identifier: "Europe/London")!)
-                                )
+                                template.updatedAt.formatted(date: .abbreviated, time: .shortened)
                             )
+                            .environment(\.locale, Locale(identifier: "en_GB"))
                         }
                         .font(.caption)
                         .foregroundStyle(.secondary)

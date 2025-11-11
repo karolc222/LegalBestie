@@ -1,4 +1,3 @@
-//
 //  ScenarioListView.swift
 //  LegalBestie
 //
