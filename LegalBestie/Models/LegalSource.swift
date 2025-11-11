@@ -6,7 +6,7 @@ import SwiftData
 
 @Model
 final class LegalSource {
-    @Attribute(.unique) var id: String
+    @Attribute(.unique) var sourceId: String
     var title: String
     var url: String
     var details: String
@@ -18,7 +18,7 @@ final class LegalSource {
         URL(string: url)
     }
     
-    init(id: String = UUID().uuidString,
+    init(sourceId: String = UUID().uuidString,
          title: String,
          url: String,
          details: String,
@@ -26,7 +26,7 @@ final class LegalSource {
          status: String,
          keywords: [String]) {
         
-        self.id = id
+        self.sourceId = sourceId
         self.title = title
         self.url = url
         self.details = details
@@ -38,7 +38,7 @@ final class LegalSource {
 
 //runtime DTO for decoding JSON
 struct LegalSourceDTO: Decodable {
-    let id: String
+    let sourceId: String
     let title: String
     let url: String
     let description: String
@@ -54,7 +54,7 @@ func loadLegalSources(from data: Data) throws -> [LegalSourceDTO] {
 
 extension LegalSource {
     convenience init(dto: LegalSourceDTO) {
-        self.init( id: dto.id,
+        self.init( sourceId: dto.sourceId,
                    title: dto.title,
                    url: dto.url,
                    details: dto.description,

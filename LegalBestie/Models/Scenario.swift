@@ -3,7 +3,7 @@ import SwiftData
 
 @Model
 final class Scenario {
-    var scenarioId: String
+    @Attribute(.unique) var scenarioId: String
     var scenarioTitle: String
     var categoryIds: [String] // FK to LegalCategory
     var scenarioDescription: String?

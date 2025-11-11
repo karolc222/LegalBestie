@@ -8,7 +8,7 @@ import Foundation
 import SwiftData
 
 @Model final class User {
-    var userId: String
+    @Attribute(.unique) var userId: String
     var firstName: String
     var lastName: String
     var fullName: String { "\(firstName) \(lastName)".capitalized }
@@ -83,7 +83,7 @@ extension User {
     //generate the report for scenario
     func generateReport(for scenario: Scenario ) -> Report {
         return Report(
-            reportID: UUID().uuidString,
+            reportId: UUID().uuidString,
             reportType: "Scenario Summary",
             reportTitle: "Report  for \(scenario.scenarioTitle)",
             reportStatus: "draft",
@@ -106,7 +106,7 @@ extension User {
             savedAt: nil,
             tags: [],
             resourceReferences: [],
-            queryNotes: nil
+            //queryNotes: nil
         )
     }
     
@@ -172,7 +172,7 @@ extension User {
         
         // Build and return a draft Report
         return Report(
-            reportID: UUID().uuidString,
+            reportId: UUID().uuidString,
             reportType: "SavedItems",
             reportTitle: reportTitle,
             reportStatus: "draft",

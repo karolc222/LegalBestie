@@ -2,13 +2,12 @@
 //  LegalBuddy
 //
 //  Created by Carolina LC on 08/10/2025.
-
 import Foundation
 import SwiftData
 
 @Model
 final class UserSavedItem {
-    var savedItemId: String
+    @Attribute(.unique) var savedItemId: String
     var userId: String
     var itemTitle: String
     var itemType: String       //"article", "note", "query"
@@ -40,7 +39,6 @@ final class UserSavedItem {
         self.savedAt = savedAt
     }
 
-    // MARK: - Methods
     func displayInfo() -> String {
         return "\(itemType.capitalized): \(itemTitle)"
     }

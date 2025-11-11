@@ -11,7 +11,6 @@ import SwiftData
 struct LegalBestieApp: App {
     init() {
         FirebaseApp.configure()
-        
     }
     
     var body: some Scene {
@@ -28,8 +27,11 @@ struct LegalBestieApp: App {
             Scenario.self,
             UserSavedItem.self,
             ChatQuery.self,
+            QueryNote.self,
             LegalArticle.self,
             LegalCategory.self,
+            LegalSource.self,
+            ScenarioChoiceModel.self
         ])
     }
 }

@@ -7,8 +7,7 @@ import Foundation
 import SwiftData
 
 @Model final class Report{
-    @Attribute(.unique)
-    var reportID: String
+    @Attribute(.unique) var reportId: String
     var reportType: String
     var reportTitle: String
     var reportStatus: String
@@ -22,7 +21,7 @@ import SwiftData
     var legalArticles: [LegalArticle] = []
     
     init(
-         reportID: String,
+         reportId: String,
          reportType: String,
          reportTitle: String,
          reportStatus: String,
@@ -35,7 +34,7 @@ import SwiftData
          legalArticles: [LegalArticle] = []
     ){
         
-        self.reportID = reportID
+        self.reportId = reportId
         self.reportType = reportType
         self.reportTitle = reportTitle
         self.reportStatus = reportStatus
