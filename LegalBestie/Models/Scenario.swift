@@ -10,7 +10,7 @@ final class Scenario {
     var scenarioStartNode: String
     var legalSummaryText: String
     var legalSources: [LegalSource] // persisted sources
-    var updatedAt: Date?
+    var scenarioUpdatedAt: Date?
     
     //not to be saved in the db
     @Transient var currentNodeKey: String?
@@ -32,7 +32,7 @@ final class Scenario {
         self.scenarioStartNode = scenarioStartNode
         self.legalSummaryText = legalSummaryText
         self.legalSources = legalSources
-        self.updatedAt = updatedAt
+        self.scenarioUpdatedAt = scenarioUpdatedAt
     }
 }
 

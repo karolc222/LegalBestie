@@ -50,6 +50,36 @@
             endingLineNumber = "5"
             landmarkName = "unknown"
             landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - cd5b5430f52bbd6f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
+                  moduleName = "LegalBestie.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-f09662.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "5"
+                  endingLineNumber = "5">
+               </Location>
+               <Location
+                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - de607ffb878b9e5b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
+                  moduleName = "LegalBestie.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-28231a.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "5"
+                  endingLineNumber = "5">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
