@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E9961D5B2EAA7FB200306136 /* LegalBestie */ = {
+		E93B87F02EC7F4DF00A005D9 /* LegalBestie */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = LegalBestie;
 			sourceTree = "<group>";
@@ -39,7 +39,7 @@
 		E92C613E2E57747F00BD7D61 = {
 			isa = PBXGroup;
 			children = (
-				E9961D5B2EAA7FB200306136 /* LegalBestie */,
+				E93B87F02EC7F4DF00A005D9 /* LegalBestie */,
 				E92C61482E57747F00BD7D61 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,7 +68,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E9961D5B2EAA7FB200306136 /* LegalBestie */,
+				E93B87F02EC7F4DF00A005D9 /* LegalBestie */,
 			);
 			name = LegalBestie;
 			packageProductDependencies = (

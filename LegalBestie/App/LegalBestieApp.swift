@@ -15,9 +15,11 @@ struct LegalBestieApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ScenarioPlayerView(category: "Civil rights", name: "stopped_by_police")
-            //AuthGate()
-            //ScenarioListView()
+            NavigationStack {
+                //ScenarioPlayerView(category: "Civil rights", name: "stopped_by_police")
+                //AuthGate()
+                ScenarioListView(categoryName: "civil_rights")
+            }
         }
         
         //SwiftData container

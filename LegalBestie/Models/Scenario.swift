@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 
+//not used for JSON decoding
 @Model
 final class Scenario {
     @Attribute(.unique) var scenarioId: String
@@ -32,19 +33,19 @@ final class Scenario {
         self.scenarioStartNode = scenarioStartNode
         self.legalSummaryText = legalSummaryText
         self.legalSources = legalSources
-        self.scenarioUpdatedAt = scenarioUpdatedAt
+        self.scenarioUpdatedAt = updatedAt
     }
 }
 
 struct ScenarioNode: Codable {
     let stepId: String
-    let question: String?
-    let choiceOptions: [Choice]?
+    let question: String
+    let choices: [Choice]
     let type: String? // "question", "outcome", etc.
     let stepOutcome: String?
     let nextStepID: String?
     let isRequired: Bool
-    let updated_at: Date
+    let updatedAt: Date
 }
 
 struct Choice: Codable {
