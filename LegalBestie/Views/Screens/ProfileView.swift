@@ -1,9 +1,7 @@
-//
 //  ProfileView.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 23/10/2025.
-//
 
 import Foundation
 import FirebaseAuth

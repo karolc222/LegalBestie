@@ -51,6 +51,6 @@ final class LegalArticle {
         }
         
         func linkToCategory(_ category: LegalCategory) -> String {
-            return "Linked to category: \(category.name)"
+            return "Linked to category: \(category.categoryName)"
         }
     }

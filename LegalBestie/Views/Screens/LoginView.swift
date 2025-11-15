@@ -1,9 +1,8 @@
-//
 //  LoginView.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 23/10/2025.
-//
+
 import SwiftUI
 import FirebaseAuth
 

@@ -9,7 +9,7 @@ import SwiftData
 @Model
 final class LegalCategory {
     @Attribute(.unique) var categoryId: String
-    var name: String
+    var categoryName: String
     var categoryDescription: String
     var createdAt: Date
     var updatedAt: Date
@@ -19,9 +19,14 @@ final class LegalCategory {
     var sources: [LegalSource] = []
     var articles: [LegalArticle] = []
     
-    init(categoryId: String, name: String, categoryDescription: String, createdAt: Date, updatedAt: Date, sources: [LegalSource] = [], articles: [LegalArticle] = []) {
+    init(categoryId: String, categoryName: String, categoryDescription: String, createdAt: Date,
+        updatedAt: Date,
+        sources: [LegalSource] = [],
+        articles: [LegalArticle] = [])
+    
+    {
         self.categoryId = categoryId
-        self.name = name
+        self.categoryName = categoryName
         self.categoryDescription = categoryDescription
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -39,6 +44,6 @@ final class LegalCategory {
     }
     
     func categorySummary() -> String {
-        return "Category: \(name) — \(categoryDescription)"
+        return "Category: \(categoryName) — \(categoryDescription)"
     }
 }

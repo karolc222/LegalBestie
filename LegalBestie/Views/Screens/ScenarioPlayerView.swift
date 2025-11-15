@@ -4,19 +4,18 @@
 //  JSON decoder + player (parametric)
 
 import SwiftUI
-import Foundation
 
-// Runtime Codable structs
+// Runtime Codable structs to decode JSON into memory
 private struct ScenarioTemplate: Codable {
     let scenarioId: String
-    let title: String
-    let categoryId: String
-    let description: String
+    let scenarioTitle: String
+    let categoryName: String
+    let scenarioDescription: String
     let startNode: String
     let nodes: [String: Node]
     let legalSummaryText: String
     let legalSources: [ScenarioSourceDTO]?
-    let updatedAt: Date?
+    let scenarioUpdatedAt: Date?
 }
 
 private struct Node: Codable {
@@ -31,8 +30,8 @@ private struct ScenarioChoiceDTO: Codable, Hashable {
 
 private struct ScenarioSourceDTO: Codable, Hashable {
     let sourceId: String
-    let title: String
-    let link: URL
+    let scenarioTitle: String
+    let scenarioLink: URL
 }
 
 // Decoder and loader
@@ -52,6 +51,7 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
     guard let url = Bundle.main.url(
         forResource: name,
         withExtension: "json",
+        subdirectory: "JSON/\(category)"
     ) else {
         throw NSError(
             domain: "ScenarioPlayer",
@@ -63,7 +63,7 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
     return try makeScenarioDecoder().decode(ScenarioTemplate.self, from: data)
 }
 
-// Scenario Player View
+//View state + initializer
 struct ScenarioPlayerView: View {
     let category: String
     let name: String
@@ -77,7 +77,8 @@ struct ScenarioPlayerView: View {
             Group {
                 if let template, let node = template.nodes[currentKey] {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text(template.title).font(.title2).bold()
+                        Text(template.scenarioTitle).font(.title2).bold()
+                        
                         Text(node.question).font(.headline)
 
                         if let choices = node.choices, !choices.isEmpty {
@@ -99,7 +100,7 @@ struct ScenarioPlayerView: View {
                         HStack {
                             Text("Last updated")
                             Text(
-                                (template.updatedAt ?? .now).formatted(date: .abbreviated, time: .shortened)
+                                (template.scenarioUpdatedAt ?? .now).formatted(date: .abbreviated, time: .shortened)
                             )
                             .environment(\.locale, Locale(identifier: "en_GB"))
                         }

@@ -55,7 +55,7 @@ extension Report {
         return "Report for Scenario: \(scenario.scenarioTitle)"
     }
     
-    /// Adds relevant articles or saved items to the report content.
+    //Adds relevant articles or saved items to the report content.
     func collectData(from items: [UserSavedItem]) -> [String] {
         var collectedInfo: [String] = []
         for item in items {
