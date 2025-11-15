@@ -37,18 +37,4 @@ The app presents interactive legal scenarios, step-by-step decision trees, and v
     •    Easy to extend with new scenarios or categories
     •    JSON format is clean and human-editable
 
-LegalBestie/
-│
-├── App/
-├── Data/
-├── Features/
-├── Models/
-├── Resources/
-│   └── JSON/
-│       ├── civil_rights/
-│       │   └── stopped_by_police.json
-│       ├── immigrants/
-│       └── renters/
-├── Services/
-├── ViewModels/
-└── Views/
+
