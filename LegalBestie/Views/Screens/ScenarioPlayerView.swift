@@ -51,7 +51,7 @@ private func loadTemplate(category: String, name: String) throws -> ScenarioTemp
     guard let url = Bundle.main.url(
         forResource: name,
         withExtension: "json",
-        subdirectory: "JSON/\(category)"
+        subdirectory: nil
     ) else {
         throw NSError(
             domain: "ScenarioPlayer",
