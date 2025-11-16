@@ -1,124 +1,135 @@
 [
     {
-        "title": "Police powers to stop and search: your rights",
-        "url": "https://www.gov.uk/police-powers-to-stop-and-search-your-rights",
-        "description": "Explains what powers police have to stop and search, and how to complain.",
-        "organization": "UK Government",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Police powers to stop and search: your rights",
+        "sourceUrl": "https://www.gov.uk/police-powers-to-stop-and-search-your-rights",
+        "sourceDescription": "Explains what powers police have to stop and search, and how to complain.",
+        "sourceOrganization": "UK Government",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "stop and search",
             "police rights",
             "complaint"
         ],
+        "topics": ["police_stop", "stop_and_search", "civil_rights"]
+        
     },
     {
-        "title": "Liberty",
-        "url": "https://www.libertyhumanrights.org.uk/",
-        "description": "Independent organization challenging injustice and defending civil liberties in the UK.",
-        "organization": "Liberty",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Liberty",
+        "sourceUrl": "https://www.libertyhumanrights.org.uk/",
+        "sourceDescription": "Independent organization challenging injustice and defending civil liberties in the UK.",
+        "sourceOrganization": "Liberty",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "civil liberties",
             "human rights organization",
             "justice"
-        ]
+        ],
+        "topics": ["civil_rights", "advocacy", "human_rights"]
     },
     {
-        "title": "Stop and Search (Liberty)",
-        "url": "https://www.libertyhumanrights.org.uk/advice_information/stop-and-search/",
-        "description": "Details your rights during stop-and-search and how the Public Order Act 2023 affects them.",
-        "organization": "Liberty",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Stop and Search (Liberty)",
+        "sourceUrl": "https://www.libertyhumanrights.org.uk/advice_information/stop-and-search/",
+        "sourceDescription": "Details your rights during stop-and-search and how the Public Order Act 2023 affects them.",
+        "sourceOrganization": "Liberty",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "stop and search",
             "public order",
             "protest"
-        ]
+        ],
+        "topics": ["stop_and_search", "public_order", "protest", "civil_rights"]
     },
     {
-        "title": "British Institute of Human Rights (BIHR)",
-        "url": "https://www.bihr.org.uk/",
-        "description": "Charity helping people understand and use their rights under the Human Rights Act in public services.",
-        "organization": "BIHR",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "British Institute of Human Rights (BIHR)",
+        "sourceUrl": "https://www.bihr.org.uk/",
+        "sourceDescription": "Charity helping people understand and use their rights under the Human Rights Act in public services.",
+        "sourceOrganization": "BIHR",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "Human Rights Act",
             "public services",
             "health",
             "migration"
-        ]
+        ],
+        "topics": ["human_rights", "public_services", "migration", "civil_rights"]
     },
     {
-        "title": "JUSTICE",
-        "url": "https://www.justice.org.uk/",
-        "description": "Law reform charity working to protect fair legal systems and uphold human rights in the UK.",
-        "organization": "JUSTICE",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "JUSTICE",
+        "sourceUrl": "https://www.justice.org.uk/",
+        "sourceDescription": "Law reform charity working to protect fair legal systems and uphold human rights in the UK.",
+        "sourceOrganization": "JUSTICE",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "legal reform",
             "human rights",
             "fair trials"
-        ]
+        ],
+        "topics": ["legal_reform", "fair_trials", "human_rights"]
     },
     {
-        "title": "Open Rights Group",
-        "url": "https://www.openrightsgroup.org/",
-        "description": "Defends digital rights and campaigns for privacy, free speech, and data protection in the UK.",
-        "organization": "Open Rights Group",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Open Rights Group",
+        "sourceUrl": "https://www.openrightsgroup.org/",
+        "sourceDescription": "Defends digital rights and campaigns for privacy, free speech, and data protection in the UK.",
+        "sourceOrganization": "Open Rights Group",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "privacy",
             "free speech",
             "digital rights"
-        ]
+        ],
+        "topics": ["digital_rights", "privacy", "free_speech"]
     },
     {
-        "title": "Police powers & protests (Commons Briefing)",
-        "url": "https://commonslibrary.parliament.uk/research-briefings/sn05013/",
-        "description": "Parliamentary research on police powers during protests, public order laws, and legal debates.",
-        "organization": "UK Parliament \u2013 House of Commons Library",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Police powers & protests (Commons Briefing)",
+        "sourceUrl": "https://commonslibrary.parliament.uk/research-briefings/sn05013/",
+        "sourceDescription": "Parliamentary research on police powers during protests, public order laws, and legal debates.",
+        "sourceOrganization": "UK Parliament – House of Commons Library",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "protests",
             "police powers",
             "public order",
             "legal briefings"
-        ]
+        ],
+        "topics": ["police_powers", "protest", "public_order"]
     },
     {
-        "title": "Stop and Search Data (Commons Briefing)",
-        "url": "https://commonslibrary.parliament.uk/research-briefings/cdp-2025-0057/",
-        "description": "Statistical briefing on stop and search use in England & Wales, including racial disproportionality.",
-        "organization": "UK Parliament \u2013 House of Commons Library",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Stop and Search Data (Commons Briefing)",
+        "sourceUrl": "https://commonslibrary.parliament.uk/research-briefings/cdp-2025-0057/",
+        "sourceDescription": "Statistical briefing on stop and search use in England & Wales, including racial disproportionality.",
+        "sourceOrganization": "UK Parliament – House of Commons Library",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "stop and search",
             "police data",
             "race disparity"
-        ]
+        ],
+        "topics": ["stop_and_search", "police_data", "race_disparity"]
     },
     {
-        "title": "Human Rights Watch \u2013 UK",
-        "url": "https://www.hrw.org/about/get-local/london",
-        "description": "UK branch of international NGO monitoring rights violations and advocating for human rights protections.",
-        "organization": "Human Rights Watch",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Human Rights Watch – UK",
+        "sourceUrl": "https://www.hrw.org/about/get-local/london",
+        "sourceDescription": "UK branch of international NGO monitoring rights violations and advocating for human rights protections.",
+        "sourceOrganization": "Human Rights Watch",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "human rights",
             "international law",
             "advocacy"
-        ]
+        ],
+        "topics": ["human_rights", "international_law"]
     },
     {
-        "title": "Know Your Human Rights \u2013 Liberty Resource Hub",
-        "url": "https://knowyourhumanrights.co.uk/help-resources/useful-links/",
-        "description": "A directory of practical guides, links, and help resources related to civil rights and freedoms.",
-        "organization": "Liberty",
-        "status": "\u2705 Verified",
-        "keywords": [
+        "sourceTitle": "Know Your Human Rights – Liberty Resource Hub",
+        "sourceUrl": "https://knowyourhumanrights.co.uk/help-resources/useful-links/",
+        "sourceDescription": "A directory of practical guides, links, and help resources related to civil rights and freedoms.",
+        "sourceOrganization": "Liberty",
+        "sourceStatus": "Verified",
+        "sourceKeywords": [
             "human rights",
             "legal resources",
             "UK civil liberties"
-        ]
+        ],
+        "topics": ["civil_rights", "legal_resources", "human_rights"]
     }
 ]

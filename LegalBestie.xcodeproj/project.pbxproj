@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E93B88102EC8AF6600A005D9 /* README 2.md in Sources */ = {isa = PBXBuildFile; fileRef = E93B880E2EC8AF4D00A005D9 /* README 2.md */; };
 		E9961D792EAA85E800306136 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9961D782EAA85E800306136 /* FirebaseAuth */; };
 		E9961D7B2EAA85E800306136 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = E9961D7A2EAA85E800306136 /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E92C61472E57747F00BD7D61 /* LegalBestie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegalBestie.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E93B880E2EC8AF4D00A005D9 /* README 2.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README 2.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -41,7 +39,6 @@
 		E92C613E2E57747F00BD7D61 = {
 			isa = PBXGroup;
 			children = (
-				E93B880E2EC8AF4D00A005D9 /* README 2.md */,
 				E93B87F02EC7F4DF00A005D9 /* LegalBestie */,
 				E92C61482E57747F00BD7D61 /* Products */,
 			);
@@ -134,7 +131,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E93B88102EC8AF6600A005D9 /* README 2.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

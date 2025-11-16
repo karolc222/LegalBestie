@@ -3,18 +3,70 @@ import SwiftUI
 struct ScenarioOutcomeView: View {
     let title: String
     let description: String
-    //let legalSummary: LegalSummary?
+    let legalSummary: String?
+    
+    @StateObject private var legalSourceViewModel = LegalSourceViewModel()
     
     var body: some View {
         ScrollView {
-            LegalSummaryView(
-                title: "PACE – Stop and Search",
-                explanation: "Under UK law, police must provide a legal reason when stopping someone. Failure to do so may be unlawful.",
-                law: "Police and Criminal Evidence Act 1984",
-                section: "Section 2: Information to be given before search",
-                concept: "Protects individuals from arbitrary stop-and-search actions by requiring legal justification.",
-                link: "https://www.legislation.gov.uk/ukpga/1984/60"
-            )
+            VStack(alignment: .leading, spacing: 16) {
+                
+                Text(title)
+                    .font(.title2.bold())
+                
+                Text(description)
+                    .font(.body)
+                
+                if let summary = legalSummary {
+                    Divider()
+                    Text("Legal summary")
+                        .font(.headline)
+                    
+                    Text(summary)
+                        .font(.body)
+                }
+                
+                // legal sources from JSON
+                if !legalSourceViewModel.sources.isEmpty {
+                    Divider()
+                    Text("Related Legal Sources")
+                        .font(.headline)
+                    
+                    ForEach(legalSourceViewModel.sources) { src in
+                        VStack(alignment: .leading, spacing: 6) {
+                            
+                            Text(src.sourceTitle)
+                                .font(.subheadline.bold())
+                            
+                            if let url = src.urlValue {
+                                Link("Open Source", destination: url)
+                                    .font(.caption)
+                            }
+                            
+                            if !src.sourceOrganization.isEmpty {
+                                Text(src.sourceOrganization)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            if !src.sourceStatus.isEmpty {
+                                Text(src.sourceStatus)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                                
+                            }
+                        }
+                        
+                        .padding(.vertical, 4)
+                    }
+                }
+            }
+            .padding()
+        }
+            navigationTitle("Outcome")
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
-}
+
+
+

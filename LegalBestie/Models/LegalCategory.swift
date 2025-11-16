@@ -36,7 +36,7 @@ final class LegalCategory {
     
     
     func listSources() -> [String] {
-        return sources.map { $0.title }
+        return sources.map { $0.sourceTitle }
     }
     
     func listArticles() -> [String] {
