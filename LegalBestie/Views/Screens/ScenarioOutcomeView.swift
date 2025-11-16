@@ -4,6 +4,7 @@ struct ScenarioOutcomeView: View {
     let title: String
     let description: String
     let legalSummary: String?
+    let topics: [String]
     
     @StateObject private var legalSourceViewModel = LegalSourceViewModel()
     
@@ -27,12 +28,14 @@ struct ScenarioOutcomeView: View {
                 }
                 
                 // legal sources from JSON
-                if !legalSourceViewModel.sources.isEmpty {
+                let filteredSources = legalSourceViewModel.sources.filter { src in !Set(src.sourceTopics).isDisjoint(with:topics)}
+                if !filteredSources.isEmpty {
+                                                                                                                      
                     Divider()
                     Text("Related Legal Sources")
                         .font(.headline)
                     
-                    ForEach(legalSourceViewModel.sources) { src in
+                    ForEach(filteredSources) { src in
                         VStack(alignment: .leading, spacing: 6) {
                             
                             Text(src.sourceTitle)
