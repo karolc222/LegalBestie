@@ -16,6 +16,7 @@ private struct ScenarioTemplate: Codable {
     let legalSummaryText: String
     let legalSources: [ScenarioSourceDTO]?
     let scenarioUpdatedAt: Date?
+    let topics: [String]
 }
 
 private struct Node: Codable {
@@ -142,7 +143,8 @@ struct ScenarioPlayerView: View {
                     ScenarioOutcomeView(
                         title: template.scenarioTitle,
                         description: template.scenarioDescription,
-                        legalSummary: template.legalSummaryText
+                        legalSummary: template.legalSummaryText,
+                        topics: template.topics
                     )
                 } else {
                     Text("No scenario data")
