@@ -7,59 +7,51 @@ import SwiftData
 @Model
 final class LegalSource {
     @Attribute(.unique) var sourceId: String
-    var title: String
-    var url: String
-    var details: String
-    var organization: String
-    var status: String
-    var keywords: [String]
+    var sourceTitle: String
+    var sourceUrl: String
+    var sourceDescription: String
+    var sourceOrganization: String
+    var sourceStatus: String
+    var sourceKeywords: [String]
+    var sourceTopics: [String]
     
     @Transient var urlValue: URL? {
-        URL(string: url)
+        URL(string: sourceUrl)
     }
     
     init(sourceId: String = UUID().uuidString,
-         title: String,
-         url: String,
-         details: String,
-         organization: String,
-         status: String,
-         keywords: [String]) {
+         sourceTitle: String,
+         sourceUrl: String,
+         sourceDescription: String,
+         sourceOrganization: String,
+         sourceStatus: String,
+         sourceKeywords: [String],
+         sourceTopics: [String])
+    {
         
         self.sourceId = sourceId
-        self.title = title
-        self.url = url
-        self.details = details
-        self.organization = organization
-        self.status = status
-        self.keywords = keywords
+        self.sourceTitle = sourceTitle
+        self.sourceUrl = sourceUrl
+        self.sourceDescription = sourceDescription
+        self.sourceOrganization = sourceOrganization
+        self.sourceStatus = sourceStatus
+        self.sourceKeywords = sourceKeywords
+        self.sourceTopics = sourceTopics
     }
 }
-
-//runtime DTO for decoding JSON
-struct LegalSourceDTO: Decodable {
-    let sourceId: String
-    let title: String
-    let url: String
-    let description: String
-    let organization: String
-    let status: String
-    let keywords: [String]
-}
-
-func loadLegalSources(from data: Data) throws -> [LegalSourceDTO] {
-    try
-    JSONDecoder().decode([LegalSourceDTO].self, from: data)
-}
-
-extension LegalSource {
-    convenience init(dto: LegalSourceDTO) {
-        self.init( sourceId: dto.sourceId,
-                   title: dto.title,
-                   url: dto.url,
-                   details: dto.description,
-                   organization: dto.organization,
-                   status: dto.status,
-                   keywords: dto.keywords)
+    
+    extension LegalSource {
+        convenience init(dto: LegalSourceDTO) {
+            self.init(
+                sourceId: UUID().uuidString,
+                sourceTitle: dto.sourceTitle,
+                sourceUrl:dto.sourceUrl.absoluteString,
+                sourceDescription: dto.sourceDescription,
+                sourceOrganization: dto.sourceOrganization ?? "",
+                sourceStatus: dto.sourceStatus ?? "",
+                sourceKeywords: dto.sourceKeywords ?? [],
+                sourceTopics: dto.topics ?? []
+            )
+        }
     }
-}
+

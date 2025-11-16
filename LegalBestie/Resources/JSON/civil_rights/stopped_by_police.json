@@ -2,6 +2,7 @@
   "scenarioId": "journalist_stopped_by_police",
   "scenarioTitle": "Stopped by Police While Reporting",
   "categoryName": "civil_rights",
+  "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"],
   "scenarioDescription": "You are a journalist covering a protest...",
   "startNode": "q1",
   "nodes": {

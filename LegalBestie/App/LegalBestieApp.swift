@@ -18,7 +18,8 @@ struct LegalBestieApp: App {
             NavigationStack {
                 //ScenarioPlayerView(category: "Civil rights", name: "stopped_by_police")
                 //AuthGate()
-                ScenarioListView(categoryName: "civil_rights")
+                //ScenarioListView(categoryName: "civil_rights")
+                MainTabView()
             }
         }
         

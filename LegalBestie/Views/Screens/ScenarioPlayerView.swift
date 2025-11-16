@@ -71,28 +71,43 @@ struct ScenarioPlayerView: View {
     @State private var template: ScenarioTemplate?
     @State private var currentKey: String = ""
     @State private var errorText: String?
+    @State private var showOutcome = false
 
     var body: some View {
         NavigationStack {
             Group {
                 if let template, let node = template.nodes[currentKey] {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text(template.scenarioTitle).font(.title2).bold()
+                        Text(template.scenarioTitle)
+                            .font(.title2.bold())
                         
-                        Text(node.question).font(.headline)
-
                         if let choices = node.choices, !choices.isEmpty {
-                            ForEach(choices, id: \.self) { c in
-                                Button(c.label) { currentKey = c.nextNode }
+                            // Question + choices UI
+                                Text(node.question)
+                                .font(.headline)
+                            
+                                ForEach(choices, id: \.self) { c in
+                                    Button(c.label) {
+                                        currentKey = c.nextNode
+                                    }
                                     .buttonStyle(.borderedProminent)
-                            }
+                                }
+                            
                         } else {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Outcome reached").font(.subheadline)
+                            //outcome reached UI
+                            VStack(spacing: 12) {
+                                Text("Outcome reached")
+                                    .font(.headline)
+                                
                                 Text(template.legalSummaryText)
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
+                                    .font(.body)
+                                
+                                Button("View detailed summary") {
+                                    showOutcome = true
+                                }
+                                .buttonStyle(.borderedProminent)
                             }
+                            .padding()
                         }
 
                         Spacer(minLength: 0)
@@ -100,7 +115,8 @@ struct ScenarioPlayerView: View {
                         HStack {
                             Text("Last updated")
                             Text(
-                                (template.scenarioUpdatedAt ?? .now).formatted(date: .abbreviated, time: .shortened)
+                                (template.scenarioUpdatedAt ?? .now)
+                                    .formatted(date: .abbreviated, time: .shortened)
                             )
                             .environment(\.locale, Locale(identifier: "en_GB"))
                         }
@@ -121,6 +137,17 @@ struct ScenarioPlayerView: View {
             }
             .task { load() }
             .navigationTitle("Scenario")
+            .navigationDestination(isPresented: $showOutcome) {
+                if let template {
+                    ScenarioOutcomeView(
+                        title: template.scenarioTitle,
+                        description: template.scenarioDescription,
+                        legalSummary: template.legalSummaryText
+                    )
+                } else {
+                    Text("No scenario data")
+                }
+            }
         }
     }
 

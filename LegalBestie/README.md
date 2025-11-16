@@ -1,4 +1,4 @@
-//  README.md.swift
+//  README.md
 //  LegalBestie
 //
 //  Created by Carolina LC on 15/11/2025.
@@ -11,7 +11,7 @@ The app presents interactive legal scenarios, step-by-step decision trees, and v
 
 ⸻
 
-🚀 Core Features
+Core Features
 
 1. Interactive Legal Scenarios
     •    Stored as .json files inside the app bundle
@@ -37,4 +37,18 @@ The app presents interactive legal scenarios, step-by-step decision trees, and v
     •    Easy to extend with new scenarios or categories
     •    JSON format is clean and human-editable
 
-
+LegalBestie/
+│
+├── App/
+├── Data/
+├── Features/
+├── Models/
+├── Resources/
+│   └── JSON/
+│       ├── civil_rights/
+│       │   └── stopped_by_police.json
+│       ├── immigrants/
+│       └── renters/
+├── Services/
+├── ViewModels/
+└── Views/

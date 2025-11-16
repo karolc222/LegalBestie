@@ -47,7 +47,7 @@ final class LegalArticle {
     }
     
     func fetchSourceMetadata() -> String {
-        return "Source: \(source.title)"
+        return "Source: \(source.sourceTitle)"
         }
         
         func linkToCategory(_ category: LegalCategory) -> String {
