@@ -29,10 +29,13 @@ private struct ScenarioChoiceDTO: Codable, Hashable {
     let nextNode: String
 }
 
-private struct ScenarioSourceDTO: Codable, Hashable {
+struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     let sourceId: String
     let scenarioTitle: String
     let scenarioLink: URL
+    
+    var id: String { sourceId }
+
 }
 
 // Decoder and loader
@@ -144,7 +147,8 @@ struct ScenarioPlayerView: View {
                         scenarioTitle: template.scenarioTitle,
                         scenarioDescription: template.scenarioDescription,
                         legalSummary: template.legalSummaryText,
-                        topics: template.topics
+                        topics: template.topics,
+                        scenarioSources: template.legalSources ?? []
                     )
                 } else {
                     Text("No scenario data")

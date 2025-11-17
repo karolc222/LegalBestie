@@ -15,9 +15,33 @@
 		E92C61472E57747F00BD7D61 /* LegalBestie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegalBestie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E93B88742ECB9AC100A005D9 /* Exceptions for "LegalBestie" folder in "LegalBestie" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/JSON/scenario_format.json,
+			);
+			target = E92C61462E57747F00BD7D61 /* LegalBestie */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E93B88752ECB9AC100A005D9 /* Exceptions for "LegalBestie" folder in "Compile Sources" phase from "LegalBestie" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E92C61432E57747F00BD7D61 /* Sources */;
+			membershipExceptions = (
+				Resources/JSON/scenario_format.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E93B87F02EC7F4DF00A005D9 /* LegalBestie */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E93B88742ECB9AC100A005D9 /* Exceptions for "LegalBestie" folder in "LegalBestie" target */,
+				E93B88752ECB9AC100A005D9 /* Exceptions for "LegalBestie" folder in "Compile Sources" phase from "LegalBestie" target */,
+			);
 			path = LegalBestie;
 			sourceTree = "<group>";
 		};

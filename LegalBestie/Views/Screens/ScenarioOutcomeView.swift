@@ -5,6 +5,7 @@ struct ScenarioOutcomeView: View {
     let scenarioDescription: String
     let legalSummary: String?
     let topics: [String]
+    let scenarioSources: [ScenarioSourceDTO]
     
     @StateObject private var legalSourceViewModel = LegalSourceViewModel()
     
