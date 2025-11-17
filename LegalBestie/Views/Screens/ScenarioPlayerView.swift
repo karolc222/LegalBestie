@@ -16,7 +16,7 @@ private struct ScenarioTemplate: Codable {
     let legalSummaryText: String
     let legalSources: [ScenarioSourceDTO]?
     let scenarioUpdatedAt: Date?
-    let topics: [String]
+    let scenarioTopics: [String]
 }
 
 private struct Node: Codable {
@@ -31,8 +31,12 @@ private struct ScenarioChoiceDTO: Codable, Hashable {
 
 struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     let sourceId: String
-    let scenarioTitle: String
-    let scenarioLink: URL
+    let sourceTitle: String
+    let sourceLink: URL
+    let sourceDescription: String
+    let sourceOrganization: String
+    let sourceStatus: String
+    let scenarioTopics: [String]
     
     var id: String { sourceId }
 
@@ -147,7 +151,7 @@ struct ScenarioPlayerView: View {
                         scenarioTitle: template.scenarioTitle,
                         scenarioDescription: template.scenarioDescription,
                         legalSummary: template.legalSummaryText,
-                        topics: template.topics,
+                        topics: template.scenarioTopics,
                         scenarioSources: template.legalSources ?? []
                     )
                 } else {
