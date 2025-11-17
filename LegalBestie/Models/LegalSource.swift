@@ -50,7 +50,7 @@ final class LegalSource {
                 sourceOrganization: dto.sourceOrganization ?? "",
                 sourceStatus: dto.sourceStatus ?? "",
                 sourceKeywords: dto.sourceKeywords ?? [],
-                sourceTopics: dto.topics ?? []
+                sourceTopics: dto.sourceTopics ?? []
             )
         }
     }

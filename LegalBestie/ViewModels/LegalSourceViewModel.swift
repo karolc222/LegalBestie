@@ -3,7 +3,7 @@
 //
 //  Created by Carolina LC on 15/09/2025.
 
-//data model + adapter
+// data model + adapter
 
 import SwiftData
 import Foundation
@@ -15,7 +15,7 @@ struct LegalSourceDTO: Decodable {
     let sourceOrganization: String?
     let sourceStatus: String?
     let sourceKeywords: [String]?
-    let topics: [String]?
+    let sourceTopics: [String]?
 }
 
 class LegalSourceViewModel: ObservableObject {
@@ -26,15 +26,41 @@ class LegalSourceViewModel: ObservableObject {
     }
     
     func loadSources() {
-        guard let url = Bundle.main.url(forResource: "civil_rights_links", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let decodedSources = try? JSONDecoder().decode([LegalSourceDTO].self, from: data) else {
-            print("⚠️ Failed to load civil_rights_links.json")
+        // 1. Locate JSON
+        guard let url = Bundle.main.url(
+            forResource: "civil_rights_links",
+            withExtension: "json"
+        ) else {
+            print("⚠️ civil_rights_links.json not found in bundle")
             return
         }
         
-        self.sources = decodedSources.map {
-            LegalSource(dto: $0)
+        do {
+            // 2. Read file
+            let data = try Data(contentsOf: url)
+            
+            // 3. Decode DTOs
+            let decodedSources = try JSONDecoder().decode([LegalSourceDTO].self, from: data)
+            print("Loaded sources from JSON:", decodedSources.count)
+            
+            // 4. Map DTOs → LegalSource model
+            self.sources = decodedSources.map { dto in
+                LegalSource(
+                    sourceId: UUID().uuidString,
+                    sourceTitle: dto.sourceTitle,
+                    sourceUrl: dto.sourceUrl.absoluteString,
+                    sourceDescription: dto.sourceDescription,
+                    sourceOrganization: dto.sourceOrganization ?? "",
+                    sourceStatus: dto.sourceStatus ?? "",
+                    sourceKeywords: dto.sourceKeywords ?? [],
+                    sourceTopics: dto.sourceTopics ?? []
+                )
+            }
+        } catch {
+            print("⚠️ Failed to decode civil_rights_links.json:", error)
+            self.sources = []
         }
     }
-}
+    }
+
+     
