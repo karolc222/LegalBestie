@@ -1,0 +1,66 @@
+{
+  "scenarioId": "HR001",
+  "scenarioTitle": "Deposit Not Returned by Landlord",
+  "categoryName": "housing_rights",
+  "topics": ["housing_rights", "tenancy_deposit", "renting"],
+  "scenarioDescription": "Your tenancy has ended and your landlord has refused to return your deposit.",
+  "startNode": "q1",
+  "nodes": {
+    "q1": {
+      "question": "Did your landlord refuse to return your deposit?",
+      "choices": [
+        { "label": "Yes", "nextNode": "q2" },
+        { "label": "No", "nextNode": "outcome_no_issue" }
+      ]
+    },
+    "q2": {
+      "question": "Did the landlord provide a written explanation or evidence for keeping the deposit?",
+      "choices": [
+        { "label": "Yes", "nextNode": "q3" },
+        { "label": "No", "nextNode": "q4" }
+      ]
+    },
+    "q3": {
+      "question": "Does the evidence show damage that was already present before your tenancy?",
+      "choices": [
+        { "label": "Yes", "nextNode": "q5" },
+        { "label": "No", "nextNode": "q5" }
+      ]
+    },
+    "q4": {
+      "question": "Did the landlord send any photos or evidence at all?",
+      "choices": [
+        { "label": "Yes", "nextNode": "q3" },
+        { "label": "No", "nextNode": "q5" }
+      ]
+    },
+    "q5": {
+      "question": "Was your deposit protected in a government‑approved scheme?",
+      "choices": [
+        { "label": "Yes", "nextNode": "outcome" },
+        { "label": "No", "nextNode": "outcome" }
+      ]
+    },
+    "outcome": {
+      "question": "Thank you. Your answers allow us to generate a tailored report.",
+      "choices": []
+    },
+    "outcome_no_issue": {
+      "question": "Your landlord returned your deposit. There is no dispute to report.",
+      "choices": []
+    }
+  },
+  "legalSummaryText": "Tenancy deposits must be protected in a government‑approved scheme. Landlords may make deductions only with clear evidence. Tenants can dispute deductions through the protection scheme.",
+  "legalSources": [
+    {
+      "sourceId": "src_housing_001",
+      "sourceTitle": "Tenancy Deposit Protection",
+      "sourceLink": "https://www.gov.uk/tenancy-deposit-protection",
+      "sourceDescription": "Explains legal requirements for deposit protection and how to challenge unfair deductions.",
+      "sourceOrganization": "UK Government",
+      "sourceStatus": "Verified",
+      "topics": ["housing_rights", "tenancy_deposit", "renting"]
+    }
+  ],
+  "scenarioUpdatedAt": "10-10-2025"
+}

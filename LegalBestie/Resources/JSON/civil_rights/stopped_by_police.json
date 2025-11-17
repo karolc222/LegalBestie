@@ -1,38 +1,58 @@
 {
   "scenarioId": "CR001",
-  "scenarioTitle": "Stopped by Police While Reporting",
+  "scenarioTitle": "Stopped by Police While Filming",
   "categoryName": "civil_rights",
   "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"],
-  "scenarioDescription": "You are a journalist covering a protest...",
+  "scenarioDescription": "You were filming or reporting in a public place and had an encounter with the police.",
   "startNode": "q1",
   "nodes": {
     "q1": {
-      "question": "Police ask for ID.",
+      "question": "Did the police stop you while you were filming?",
       "choices": [
-        { "label": "Provide ID", "nextNode": "q2" },
-        { "label": "Refuse", "nextNode": "outcome" }
+        { "label": "Yes", "nextNode": "q2" },
+        { "label": "No", "nextNode": "outcome_no_issue" }
       ]
     },
     "q2": {
-      "question": "Police ask to delete footage.",
+      "question": "Did the police ask you for identification?",
       "choices": [
-        { "label": "Comply and delete footage", "nextNode": "outcome" },
-        { "label": "Refuse to delete footage", "nextNode": "outcome" }
+        { "label": "Yes", "nextNode": "q3" },
+        { "label": "No", "nextNode": "q3" }
+      ]
+    },
+    "q3": {
+      "question": "Did the police request or pressure you to delete your footage?",
+      "choices": [
+        { "label": "Yes", "nextNode": "q4" },
+        { "label": "No", "nextNode": "q4" }
+      ]
+    },
+    "q4": {
+      "question": "Did the police attempt to seize your camera, phone, or equipment?",
+      "choices": [
+        { "label": "Yes", "nextNode": "outcome" },
+        { "label": "No", "nextNode": "outcome" }
       ]
     },
     "outcome": {
-      "question": "The interaction ends.",
-      "choices": [
-        { "label": "Restart scenario", "nextNode": "q1" }
-      ]
+      "question": "Thank you. Your answers will allow us to generate a detailed legal summary of your encounter.",
+      "choices": []
+    },
+    "outcome_no_issue": {
+      "question": "The police did not stop you or interfere with your filming. There is no incident to report.",
+      "choices": []
     }
   },
-  "legalSummaryText": "Under UK law, journalists have the right to film in public and police cannot seize equipment without a court order.",
+  "legalSummaryText": "Journalists and the public have the right to film in public. Police cannot delete footage, request deletion without legal grounds, or seize equipment without lawful authority.",
   "legalSources": [
     {
-      "sourceId": "src001",
-      "scenarioTitle": "Police and Criminal Evidence Act 1984",
-      "scenarioLink": "https://www.legislation.gov.uk/ukpga/1984/60"
+      "sourceId": "src_police_001",
+      "sourceTitle": "Police and Criminal Evidence Act 1984",
+      "sourceLink": "https://www.legislation.gov.uk/ukpga/1984/60",
+      "sourceDescription": "Defines police powers including seizure, stop and search, and the rights of individuals during police encounters.",
+      "sourceOrganization": "UK Government",
+      "sourceStatus": "Verified",
+      "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"]
     }
   ],
   "scenarioUpdatedAt": "01-01-2025"
