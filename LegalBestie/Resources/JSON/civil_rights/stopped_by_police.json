@@ -1,5 +1,5 @@
 {
-  "scenarioId": "journalist_stopped_by_police",
+  "scenarioId": "CR001",
   "scenarioTitle": "Stopped by Police While Reporting",
   "categoryName": "civil_rights",
   "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"],

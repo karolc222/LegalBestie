@@ -141,8 +141,8 @@ struct ScenarioPlayerView: View {
             .navigationDestination(isPresented: $showOutcome) {
                 if let template {
                     ScenarioOutcomeView(
-                        title: template.scenarioTitle,
-                        description: template.scenarioDescription,
+                        scenarioTitle: template.scenarioTitle,
+                        scenarioDescription: template.scenarioDescription,
                         legalSummary: template.legalSummaryText,
                         topics: template.topics
                     )

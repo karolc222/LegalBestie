@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct ScenarioOutcomeView: View {
-    let title: String
-    let description: String
+    let scenarioTitle: String
+    let scenarioDescription: String
     let legalSummary: String?
     let topics: [String]
     
@@ -12,10 +12,10 @@ struct ScenarioOutcomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 
-                Text(title)
+                Text(scenarioTitle)
                     .font(.title2.bold())
                 
-                Text(description)
+                Text(scenarioDescription)
                     .font(.body)
                 
                 if let summary = legalSummary {
@@ -66,9 +66,14 @@ struct ScenarioOutcomeView: View {
             }
             .padding()
         }
-            navigationTitle("Outcome")
-                .navigationBarTitleDisplayMode(.inline)
-        }
+        .navigationTitle("Outcome")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear{
+            print("ScenarioOutcomeView topics:", topics)
+            print("Loaded sources in VM:", legalSourceViewModel.sources.count)
+            print("All source topics:", legalSourceViewModel.sources.map(\.sourceTopics))
+            
+        }}
     }
 
 
