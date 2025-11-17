@@ -2,7 +2,7 @@
   "scenarioId": "HR001",
   "scenarioTitle": "Deposit Not Returned by Landlord",
   "categoryName": "housing_rights",
-  "topics": ["housing_rights", "tenancy_deposit", "renting"],
+  "scenarioTopics": ["housing_rights", "tenancy_deposit", "renting"],
   "scenarioDescription": "Your tenancy has ended and your landlord has refused to return your deposit.",
   "startNode": "q1",
   "nodes": {
@@ -59,7 +59,7 @@
       "sourceDescription": "Explains legal requirements for deposit protection and how to challenge unfair deductions.",
       "sourceOrganization": "UK Government",
       "sourceStatus": "Verified",
-      "topics": ["housing_rights", "tenancy_deposit", "renting"]
+      "scenarioTopics": ["housing_rights", "tenancy_deposit", "renting"]
     }
   ],
   "scenarioUpdatedAt": "10-10-2025"

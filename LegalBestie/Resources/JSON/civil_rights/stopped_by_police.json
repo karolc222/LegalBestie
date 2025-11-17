@@ -2,7 +2,7 @@
   "scenarioId": "CR001",
   "scenarioTitle": "Stopped by Police While Filming",
   "categoryName": "civil_rights",
-  "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"],
+  "scenarioTopics": ["police_stop", "stop_and_search", "journalism", "civil_rights"],
   "scenarioDescription": "You were filming or reporting in a public place and had an encounter with the police.",
   "startNode": "q1",
   "nodes": {
@@ -52,7 +52,7 @@
       "sourceDescription": "Defines police powers including seizure, stop and search, and the rights of individuals during police encounters.",
       "sourceOrganization": "UK Government",
       "sourceStatus": "Verified",
-      "topics": ["police_stop", "stop_and_search", "journalism", "civil_rights"]
+      "scenarioTopics": ["police_stop", "stop_and_search", "journalism", "civil_rights"]
     }
   ],
   "scenarioUpdatedAt": "01-01-2025"
