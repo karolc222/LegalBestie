@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ScenarioOutcomeView: View {
+    // from ScenarioPlayerView
     let scenarioTitle: String
     let scenarioDescription: String
     let legalSummary: String?
@@ -9,7 +10,7 @@ struct ScenarioOutcomeView: View {
     
     @StateObject private var legalSourceViewModel = LegalSourceViewModel()
     
-    // Computed property for filtered sources
+    // Computed property: calculates a value every time it is processed
     private var filteredSources: [LegalSource] {
         legalSourceViewModel.sources.filter { src in
             !Set(src.sourceTopics).isDisjoint(with: topics)
