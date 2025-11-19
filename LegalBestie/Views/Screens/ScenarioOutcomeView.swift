@@ -7,8 +7,14 @@ struct ScenarioOutcomeView: View {
     let legalSummary: String?
     let topics: [String]
     let scenarioSources: [ScenarioSourceDTO]
+    let report: ScenarioReport
+    
     
     @StateObject private var legalSourceViewModel = LegalSourceViewModel()
+    
+    @State private var exportedURL: URL?
+    @State private var isShowingShareSheet = false
+    
     
     // Computed property: calculates a value every time it is processed
     private var filteredSources: [LegalSource] {
@@ -110,9 +116,47 @@ struct ScenarioOutcomeView: View {
                         .cornerRadius(12)
                     }
                 }
+                
+                Divider()
+                
+                Button {
+                    Task {
+                        guard let report else {
+                            print("No report available yet")
+                            return
+                        }
+                        do {
+                            //convert
+                            let exportable = ExportableReport(from: report)
+                            
+                            //temporary file location
+                            let filename = report.scenarioTitle
+                                .replacingOccurrences(of: " ", with: "_")
+                            + "_report.pdf"
+                            
+                            let tmpURL = FileManager.default
+                                .temporaryDirectory
+                                .appendingPathComponent(filename)
+                            
+                            //generate pdf
+                            try ReportGeneratorService.generatePDF(from: exportable, to: tmpURL)
+                            
+                            //store URL + share sheet
+                            exportedURL = tmpURL
+                            isShowingShareSheet = true
+                        } catch {
+                            print("Report export failed: ", error.localizedDescription)
+                        }
+                    }
+                } label: {
+                    Text("Download report")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .padding()
         }
+        .padding()
+    
         .navigationTitle("Outcome")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -120,5 +164,11 @@ struct ScenarioOutcomeView: View {
             print("Loaded sources in VM:", legalSourceViewModel.sources.count)
             print("All source topics:", legalSourceViewModel.sources.map(\.sourceTopics))
         }
-    }
+    
+        .sheet(isPresented: $isShowingShareSheet) {
+            if let url = exportedURL {
+                ShareLink(item: url)
+            }
+        }
 }
+
