@@ -9,6 +9,7 @@ import SwiftData
 @Model
 final class ScenarioReport {
     @Attribute(.unique) var id: String
+    var userName: String
     var scenarioId: String
     var scenarioTitle: String
     var createdAt: Date?
@@ -27,6 +28,7 @@ final class ScenarioReport {
     
     init(
         id: String = UUID().uuidString,
+        userName: String,
         scenarioId: String,
         scenarioTitle: String,
         createdAt: Date? = nil,
@@ -39,6 +41,7 @@ final class ScenarioReport {
         evidence: [EvidenceItem]? = nil
     ) {
         self.id = id
+        self.userName = userName
         self.scenarioId = scenarioId
         self.scenarioTitle = scenarioTitle
         self.createdAt = createdAt

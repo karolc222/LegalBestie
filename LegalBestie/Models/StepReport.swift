@@ -17,9 +17,10 @@ final class StepReport {
     init(
         stepId: String = UUID().uuidString,
         scenarioId: String,
-        questionId: String,
+        question: String,
         userAnswer: String,
         statement: String
+        
     ){
         self.stepId = stepId
         self.scenarioId = scenarioId

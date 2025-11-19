@@ -31,8 +31,8 @@ private struct ScenarioChoiceDTO: Codable, Hashable {
 
 struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     let sourceId: String
-    let sourceTitle: String
-    let sourceLink: URL
+    let scenarioTitle: String
+    let scenarioLink: URL
     let sourceDescription: String
     let sourceOrganization: String
     let sourceStatus: String
@@ -151,8 +151,8 @@ struct ScenarioPlayerView: View {
                         scenarioTitle: template.scenarioTitle,
                         scenarioDescription: template.scenarioDescription,
                         legalSummary: template.legalSummaryText,
-                        topics: template.scenarioTopics,
-                        scenarioSources: template.legalSources ?? []
+                        scenarioSources: template.legalSources ?? [],
+                        report: showOutcome = true
                     )
                 } else {
                     Text("No scenario data")

@@ -50,52 +50,6 @@
             endingLineNumber = "5"
             landmarkName = "unknown"
             landmarkType = "0">
-            <Locations>
-               <Location
-                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - 5314757bf7f47536"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
-                  moduleName = "LegalBestie.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-ddf21e.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "5"
-                  endingLineNumber = "5">
-               </Location>
-               <Location
-                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - 5c18af0b5f204e16"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
-                  moduleName = "LegalBestie.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-fc797f.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "5"
-                  endingLineNumber = "5">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8078B3F0-22D2-4537-891A-3E17D6147E38"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LegalBestie/Views/Screens/ScenarioPlayerView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "Node"
-            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -112,6 +66,22 @@
             endingLineNumber = "3"
             landmarkName = "unknown"
             landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A57CD6B5-2B22-40E8-988C-E4D9ACB9C89D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LegalBestie/Models/LegalSource.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "init(sourceId:sourceTitle:sourceUrl:sourceDescription:sourceOrganization:sourceStatus:sourceKeywords:sourceTopics:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
