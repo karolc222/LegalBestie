@@ -121,42 +121,41 @@ struct ScenarioOutcomeView: View {
                 
                 Button {
                     Task {
-                        guard let report else {
-                            print("No report available yet")
-                            return
-                        }
                         do {
-                            //convert
+                            // Convert to exportable format
                             let exportable = ExportableReport(from: report)
                             
-                            //temporary file location
+                            // Create filename
                             let filename = report.scenarioTitle
                                 .replacingOccurrences(of: " ", with: "_")
                             + "_report.pdf"
                             
+                            // Temporary file location
                             let tmpURL = FileManager.default
                                 .temporaryDirectory
                                 .appendingPathComponent(filename)
                             
-                            //generate pdf
+                            // Generate PDF
                             try ReportGeneratorService.generatePDF(from: exportable, to: tmpURL)
                             
-                            //store URL + share sheet
+                            // Store URL for share sheet
                             exportedURL = tmpURL
                             isShowingShareSheet = true
+                            
+                            print("✅ Report exported to: \(tmpURL.path)")
                         } catch {
-                            print("Report export failed: ", error.localizedDescription)
+                            print("❌ Report export failed: ", error.localizedDescription)
                         }
                     }
                 } label: {
-                    Text("Download report")
+                    Label("Download Report (PDF)", systemImage: "arrow.down.doc")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
             }
         }
         .padding()
-    
+        
         .navigationTitle("Outcome")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -164,11 +163,12 @@ struct ScenarioOutcomeView: View {
             print("Loaded sources in VM:", legalSourceViewModel.sources.count)
             print("All source topics:", legalSourceViewModel.sources.map(\.sourceTopics))
         }
-    
+        
         .sheet(isPresented: $isShowingShareSheet) {
             if let url = exportedURL {
                 ShareLink(item: url)
             }
         }
+    }
+    
 }
-

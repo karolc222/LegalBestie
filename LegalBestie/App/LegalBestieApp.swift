@@ -34,8 +34,10 @@ struct LegalBestieApp: App {
             LegalArticle.self,
             LegalCategory.self,
             LegalSource.self,
-            ScenarioChoiceModel.self
-            
+            ScenarioChoiceModel.self,
+            ScenarioReport.self,
+            StepReport.self,
+            EvidenceItem.self
         ])
     }
 }

@@ -1,9 +1,8 @@
-//
 //  ReportViewModel.swift
 //  LegalBestie
 //
 //  Created by Carolina LC on 02/11/2025.
-//
+
 
 import Foundation
 import SwiftUI
