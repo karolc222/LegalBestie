@@ -5,13 +5,6 @@
 
 import SwiftUI
  
-// minimal shape to read list metadata from each JSON
-private struct ScenarioHeader: Decodable {
-    let scenarioId: String
-    let scenarioTitle: String
-    let scenarioDescription: String
-    let scenarioUpdatedAt: Date
-}
 
 // UI item (one row) in the list
 private struct ScenarioListItem: Identifiable {
@@ -24,21 +17,21 @@ private struct ScenarioListItem: Identifiable {
 
 struct ScenarioListView: View {
     let categoryName: String
-    // category passed from previous screen
-    // loaded scenarios to display
-    @State private var items: [ScenarioListItem] = []
-    // message if loading fails
-    @State private var errorText: String?
-    // loading state
-    @State private var isLoading = false
     
-    // main UI rendering based on loading, error, or items
+    @State private var items: [ScenarioListItem] = []   // loaded scenarios to display
+    @State private var errorText: String?               // message if loading fails
+    @State private var isLoading = false                // loading state
+
+    
+    
+    // main UI flow based on items, loading or error
     var body: some View {
         Group {
             if !items.isEmpty {
                 List(items) { item in
                     NavigationLink {
                         ScenarioPlayerView(
+                            //values used inside SPV when loading JSON
                             category: categoryName,
                             name: item.fileName
                         )
@@ -84,6 +77,7 @@ struct ScenarioListView: View {
                     .buttonStyle(.bordered)
                 }
                 .padding()
+                
             } else {
                 VStack(spacing: 12) {
                     Text("No scenarios found")
@@ -106,7 +100,7 @@ struct ScenarioListView: View {
         }
     }
     
-    // convert "civil_rights" to "Civil Rights"
+    // convert civil_rights to Civil Rights
     private func formatCategoryName(_ name: String) -> String {
         name.replacingOccurrences(of: "_", with: " ")
             .capitalized
@@ -126,6 +120,7 @@ struct ScenarioListView: View {
     
     // fetch and decode all scenario JSON files
     private func load() async {
+        //main thread to update UI state
         await MainActor.run {
             isLoading = true
             errorText = nil
@@ -135,8 +130,7 @@ struct ScenarioListView: View {
         // list all .json files in bundle root
         let urls = Bundle.main.urls(
             forResourcesWithExtension: "json",
-            subdirectory: nil
-        ) ?? []
+            subdirectory: nil) ?? []
         
         if urls.isEmpty {
             await MainActor.run {
@@ -147,12 +141,12 @@ struct ScenarioListView: View {
         }
         
         let decoder = makeDecoder()
-        var result: [ScenarioListItem] = []
+        var result: [ScenarioListItem] = []     //empty list to store one row per sco
         // try decoding each JSON into a ScenarioHeader
         for url in urls {
             guard
                 let data = try? Data(contentsOf: url),
-                let header = try? decoder.decode(ScenarioHeader.self, from: data)
+                let header = try? decoder.decode(ScenarioTemplate.self, from: data)
             else {
                 continue
             }
@@ -164,7 +158,7 @@ struct ScenarioListView: View {
                     fileName: fileName,
                     scenarioTitle: header.scenarioTitle,
                     scenarioDescription: header.scenarioDescription,
-                    scenarioUpdatedAt: header.scenarioUpdatedAt
+                    scenarioUpdatedAt: header.scenarioUpdatedAt ?? Date()
                 )
             )
         }
@@ -187,11 +181,5 @@ struct ScenarioListView: View {
             items = sorted
             isLoading = false
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        ScenarioListView(categoryName: "civil_rights")
     }
 }

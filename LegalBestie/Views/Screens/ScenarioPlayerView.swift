@@ -7,7 +7,7 @@ import SwiftUI
 import SwiftData
 
 // Runtime Codable structs to decode JSON into memory
-private struct ScenarioTemplate: Codable {
+struct ScenarioTemplate: Codable {
     let scenarioId: String
     let scenarioTitle: String
     let categoryName: String
@@ -20,20 +20,20 @@ private struct ScenarioTemplate: Codable {
     let scenarioTopics: [String]
 }
 
-private struct Node: Codable {
+struct Node: Codable {
     let question: String
     let choices: [ScenarioChoiceDTO]?
 }
 
-private struct ScenarioChoiceDTO: Codable, Hashable {
+struct ScenarioChoiceDTO: Codable, Hashable {
     let label: String
     let nextNode: String
 }
 
 struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     let sourceId: String
-    let sourceTitle: String  // ✅ FIXED
-    let sourceLink: URL      // ✅ FIXED
+    let sourceTitle: String
+    let sourceLink: URL      
     let sourceDescription: String
     let sourceOrganization: String
     let sourceStatus: String
