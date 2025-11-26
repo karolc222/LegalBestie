@@ -11,7 +11,6 @@ class ChatService {
     private let apiKey: String
     
     init() {
-        // Gets API key from environment variable you set in Xcode
         self.apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
         
         if apiKey.isEmpty {
@@ -21,18 +20,16 @@ class ChatService {
     
     func ask(question: String, sources: [LegalSource]) async throws -> String {
         
-        // Check if API key exists
         guard !apiKey.isEmpty else {
             return "Error: OpenAI API key not set."
         }
         
-        // Build context from legal sources
-        let context = sources.isEmpty ?
-            "Answer based on general UK law knowledge." :
-            sources.map { "Source: \($0.sourceTitle)\n\($0.sourceDescription)" }
-                   .joined(separator: "\n\n")
+        let context = sources.isEmpty
+            ? "Answer based on general UK law knowledge."
+            : sources
+                .map { "Source: \($0.sourceTitle)\n\($0.sourceDescription)" }
+                .joined(separator: "\n\n")
         
-        // Create prompt for OpenAI
         let prompt = """
         You are a helpful UK legal assistant. Answer this question clearly and simply:
         
@@ -43,7 +40,6 @@ class ChatService {
         Keep your answer to 2-3 short sentences. Be helpful and clear.
         """
         
-        // Call OpenAI API
         let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -61,19 +57,17 @@ class ChatService {
         
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
         
-        // Make the request
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        // Check response
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NSError(domain: "ChatService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw NSError(
+                domain: "ChatService",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "API request failed"]
+            )
         }
         
-        guard httpResponse.statusCode == 200 else {
-            throw NSError(domain: "ChatService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "API request failed with status \(httpResponse.statusCode)"])
-        }
-        
-        // Parse JSON response
         let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
         let choices = json["choices"] as! [[String: Any]]
         let message = choices[0]["message"] as! [String: Any]

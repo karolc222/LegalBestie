@@ -34,13 +34,13 @@ struct ExportableReport {
 
 final class ReportGeneratorService {
     
-    //   url: Destination file URL where the PDF should be written
+    //   Destination file URL
     static func generatePDF(
         from report: ExportableReport,
         to url: URL
     ) throws {
         
-        // Basic PDF metadata (shows up in document properties)
+        // PDF metadata
         let pdfMetaData: [CFString: Any] = [
             kCGPDFContextCreator: "LegalBestie",
             kCGPDFContextAuthor: report.ownerName ?? "LegalBestie User",
@@ -50,7 +50,7 @@ final class ReportGeneratorService {
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = pdfMetaData as [String: Any]
         
-        // A4 size in points (approx.)
+        // A4 size
         let pageRect = CGRect(x: 0, y: 0, width: 595, height: 842)
         let renderer = UIGraphicsPDFRenderer(bounds: pageRect, format: format)
         
