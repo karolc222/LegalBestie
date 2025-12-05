@@ -52,28 +52,28 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - 194587d1bcffe745"
+                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - cdb6d15b71c3e8f5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
                   moduleName = "LegalBestie.debug.dylib"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-4aa90d.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
+                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-9c8708.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "5"
                   endingLineNumber = "5">
                </Location>
                <Location
-                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - 98be5945a7f7a893"
+                  uuid = "BABFD6DB-74FC-441E-914E-90E9824E3B9E - d6cd7627f622d0f4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "LegalBestie.Report.legalArticles.init : Swift.Array&lt;LegalBestie.LegalArticle&gt;"
                   moduleName = "LegalBestie.debug.dylib"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-434ce6.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
+                  urlString = "file:///var/folders/5k/m5h8_k2n21xgvvlk6hm3krbm0000gn/T/-827210.@__swiftmacro_11LegalBestie6ReportC13legalArticles18_PersistedPropertyfMa_.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "5"
