@@ -1,10 +1,16 @@
-xcuserdata/
-*.xcuserstate
-*.xcscheme
-*.xcbkptlist
+# macOS
 .DS_Store
 
-# Xcode user data
+# Xcode
+DerivedData/
+*.xcuserstate
 **/xcuserdata/
 **/*.xcuserstate
 **/xcdebugger/
+*.xcbkptlist
+*.xccheckout
+*.xcscmblueprint
+
+# SwiftPM
+.build/
+Package.resolved
