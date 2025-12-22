@@ -140,34 +140,6 @@ extension User {
             df.dateStyle = .medium
             df.timeStyle = .short
             
-            //add details to each saved item
-            for item in items {
-                summary += "• \(item.itemType.capitalized): \(item.itemTitle)\n" //main header for item
-                summary += "Saved: \(df.string(from: item.savedAt))\n" //saved date + time
-                
-                //add text or note if it exists
-                let text  = item.itemContent.trimmingCharacters(in: .whitespacesAndNewlines)
-                if !text.isEmpty {
-                    summary += "  Note: \(text)\n"
-                }
-                
-                //transcript if present
-                if let tr = item.transcription, !tr.isEmpty {
-                    summary +=  " Transcript: \(tr)\n"
-                }
-                
-                // media type if present
-                if let mt = item.mediaType, !mt.isEmpty {
-                    summary += "  Media: \(mt)\n"
-                }
-                
-                //tags
-                if let tags = item.itemTags, !tags.isEmpty {
-                    summary += "  Tags: \(tags.joined(separator: ", "))\n"
-                }
-                
-                summary += "\n" //blank line between items
-            }
         }
         
         // Build and return a draft Report

@@ -1,14 +1,14 @@
-//
 //  HomePageView.swift
 //  LegalBestie
 //
 //  Created by Carolina LC on 15/11/2025.
-//
 
-import Foundation
 import SwiftUI
 
 struct HomePageView: View {
+    let user: AuthService.AppUser
+    let onSignOut: () -> Void
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -21,7 +21,6 @@ struct HomePageView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
-                    // Quick actions
                     VStack(spacing: 12) {
                         NavigationLink {
                             ScenarioListView(categoryName: "all")
@@ -36,38 +35,34 @@ struct HomePageView: View {
                             LegalAssistantView()
                         } label: {
                             HomeCard(
-                                title: "Legal Assistant",
-                                subtitle: "Ask questions in plain language"
-                            )
-                        }
-
-                        // Placeholder for future screens
-                        NavigationLink {
-                            Text("Rights browser coming soon")
-                                .padding()
-                        } label: {
-                            HomeCard(
-                                title: "Know Your Rights",
-                                subtitle: "Browse rights by topic"
+                                title: "AI Legal Assistant",
+                                subtitle: "Ask questions and get source-based answers"
                             )
                         }
 
                         NavigationLink {
-                            Text("Incident log coming soon")
-                                .padding()
+                            SavedReportsView()
                         } label: {
                             HomeCard(
-                                title: "Incident Log",
-                                subtitle: "Record events and generate reports"
+                                title: "Saved Library",
+                                subtitle: "View saved scenario reports and assistant answers"
+                            )
+                        }
+
+                        NavigationLink {
+                            ProfileView(user: user, onSignOut: onSignOut)
+                        } label: {
+                            HomeCard(
+                                title: "My Profile",
+                                subtitle: "Personal info and saved content"
                             )
                         }
                     }
 
-                    // Placeholder for recent activity
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Recent activity")
+                        Text("Saved Library")
                             .font(.headline)
-                        Text("Your recent scenarios and notes will appear here.")
+                        Text("Your saved scenario reports and assistant answers will appear here.")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -95,5 +90,19 @@ struct HomeCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.thinMaterial)
         .cornerRadius(16)
+    }
+}
+
+// Temporary placeholder until the dedicated SavedReportsView screen is integrated in the target.
+struct SavedReportsView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Saved Library")
+                .font(.title2.bold())
+            Text("Saved scenario reports and assistant answers will appear here.")
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .navigationTitle("Saved")
     }
 }
