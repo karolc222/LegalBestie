@@ -14,3 +14,12 @@ DerivedData/
 # SwiftPM
 .build/
 Package.resolved
+
+# macOS
+.DS_Store
+
+# Xcode user data
+**/xcuserdata/
+**/*.xcuserstate
+**/xcdebugger/
+*.xcbkptlist
