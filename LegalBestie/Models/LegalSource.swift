@@ -4,6 +4,17 @@
 import Foundation
 import SwiftData
 
+//DTO for decoding JSON
+struct LegalSourceDTO: Decodable {
+    let sourceTitle: String
+    let sourceUrl: URL
+    let sourceDescription: String
+    let sourceOrganization: String?
+    let sourceStatus: String?
+    let sourceKeywords: [String]?
+    let sourceTopics: [String]?
+}
+
 @Model
 final class LegalSource {
     @Attribute(.unique) var sourceId: String

@@ -36,29 +36,43 @@ final class SourcesProvider {
 
     private func localSources(matching q: String) -> [SourcePair] {
         if localSourcesVM.sources.isEmpty { localSourcesVM.loadSources() }
-
+        
+        let queryLower = q.lowercased()
+        
+        // Try exact phrase match first
+        let exactMatches = localSourcesVM.sources.filter { src in
+            src.sourceTitle.lowercased().contains(queryLower) ||
+            src.sourceDescription.lowercased().contains(queryLower)
+        }
+        
+        if !exactMatches.isEmpty {
+            return exactMatches.prefix(6).map {
+                let url = $0.sourceUrl.isEmpty ? "" : "\nURL: \($0.sourceUrl)"
+                return ($0.sourceTitle, $0.sourceDescription + url)
+            }
+        }
+        
+        // Fall back to keyword matching
         let tokens = Set(q.split { !($0.isLetter || $0.isNumber) }
             .map { String($0).lowercased() }
             .filter { $0.count >= 3 })
-
+        
         guard !tokens.isEmpty else { return [] }
-
+        
         let matches = localSourcesVM.sources.filter { src in
-            let keywordTokens = src.sourceKeywords
-                .flatMap { $0.split { !($0.isLetter || $0.isNumber) }.map { String($0).lowercased() } }
-            let topicTokens = src.sourceTopics.map { $0.lowercased() }
-
-            return keywordTokens.contains(where: tokens.contains) || topicTokens.contains(where: tokens.contains)
+            let allKeywords = (src.sourceKeywords + src.sourceTopics).map { $0.lowercased() }
+            return allKeywords.contains { keyword in
+                tokens.contains(keyword) || keyword.contains(where: { tokens.contains(String($0)) })
+            }
         }
-
+        
         guard !matches.isEmpty else { return [] }
-
+        
         return matches.prefix(6).map {
             let url = $0.sourceUrl.isEmpty ? "" : "\nURL: \($0.sourceUrl)"
             return ($0.sourceTitle, $0.sourceDescription + url)
         }
     }
-
     private func govUKPairs(query: String) async throws -> [SourcePair] {
         let key = query.lowercased()
         if let (time, value) = cache[key], Date().timeIntervalSince(time) < ttl {

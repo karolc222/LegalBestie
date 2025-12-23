@@ -7,16 +7,6 @@
 
 import SwiftData
 import Foundation
-
-struct LegalSourceDTO: Decodable {
-    let sourceTitle: String
-    let sourceUrl: URL
-    let sourceDescription: String
-    let sourceOrganization: String?
-    let sourceStatus: String?
-    let sourceKeywords: [String]?
-    let sourceTopics: [String]?
-}
     
     class LegalSourceViewModel: ObservableObject {
         @Published var sources: [LegalSource] = []

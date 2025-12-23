@@ -1,4 +1,3 @@
-//
 //  LegalAssistantViewModel.swift
 //  LegalBestie
 //
