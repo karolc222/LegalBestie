@@ -18,7 +18,10 @@ class ChatService {
         }
     }
     
-    func ask(question: String, sources: [LegalSource]) async throws -> String {
+    func askQuestion(
+        question: String,
+        sources: [(sourceTitle: String, sourceDescription: String)]
+        ) async throws -> String {
         
         guard !apiKey.isEmpty else {
             return "Error: OpenAI API key not set."

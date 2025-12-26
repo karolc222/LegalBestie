@@ -24,7 +24,6 @@ final class ScenarioReport {
     
     //optional
     var userNotes: String?
-    var evidence: [EvidenceItem]?
     
     init(
         id: String = UUID().uuidString,
@@ -38,7 +37,6 @@ final class ScenarioReport {
         legalSummary: String,
         legalSources: [LegalSource],
         userNotes: String? = nil,
-        evidence: [EvidenceItem]? = nil
     ) {
         self.id = id
         self.userName = userName
@@ -51,6 +49,5 @@ final class ScenarioReport {
         self.legalSummary = legalSummary
         self.legalSources = legalSources
         self.userNotes = userNotes
-        self.evidence = evidence
     }
 }

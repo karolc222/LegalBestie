@@ -1,4 +1,4 @@
-//  Choice.swift
+//  ScenarioChoice.swift
 //  LegalBestie
 //
 //  Created by Carolina LC on 16/10/2025.

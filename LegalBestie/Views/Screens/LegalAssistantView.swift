@@ -68,9 +68,11 @@ struct LegalAssistantView: View {
                 let relevant = findRelevantSources(for: question)
                 
                 // Call your ChatService with the current question and legal sources
-                let answer = try await ChatService.shared.ask(
+                let answer = try await ChatService.shared.askQuestion(
                     question: question,
-                    sources: Array(relevant.prefix(3))
+                    sources: Array(relevant.prefix(3)).map {
+                        (sourceTitle: $0.sourceTitle, sourceDescription: $0.sourceDescription + "\nURL: \($0.sourceUrl)")
+                    }
                 )
                 
                 messages.append(Message(text: answer, isUser: false))

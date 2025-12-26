@@ -2,7 +2,7 @@
 //  LegalBestie
 //
 //  Created by Carolina LC on 11/09/2025.
-//useles atm
+
 
 import Foundation
 

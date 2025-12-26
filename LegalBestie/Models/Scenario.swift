@@ -2,6 +2,7 @@ import Foundation
 import SwiftData
 
 //not used for JSON decoding
+
 @Model
 final class Scenario {
     @Attribute(.unique) var scenarioId: String
