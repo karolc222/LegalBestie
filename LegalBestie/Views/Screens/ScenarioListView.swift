@@ -4,182 +4,52 @@
 //  Created by Carolina LC on 07/11/2025.
 
 import SwiftUI
- 
-
-// UI item (one row) in the list
-private struct ScenarioListItem: Identifiable {
-    let id = UUID()
-    let fileName: String
-    let scenarioTitle: String
-    let scenarioDescription: String
-    let scenarioUpdatedAt: Date
-}
 
 struct ScenarioListView: View {
     let categoryName: String
     
-    @State private var items: [ScenarioListItem] = []   // loaded scenarios to display
-    @State private var errorText: String?               // message if loading fails
-    @State private var isLoading = false                // loading state
-
+    @StateObject private var viewModel = ScenarioListViewModel()
     
-    
-    // main UI flow based on items, loading or error
     var body: some View {
         Group {
-            if !items.isEmpty {
-                List(items) { item in
-                    NavigationLink {
-                        ScenarioPlayerView(
-                            //values used inside SPV when loading JSON
-                            category: categoryName,
-                            name: item.fileName
-                        )
-                    } label: {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(item.scenarioTitle).font(.headline)
-                                Spacer()
-                                Text(item.scenarioUpdatedAt.formatted(date: .abbreviated, time: .omitted))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .environment(\.locale, Locale(identifier: "en_GB"))
-                            }
-                            Text(item.scenarioDescription)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(2)
-                                .padding(.vertical, 4)
-                        }
-                    }
-                }
-                .navigationTitle(formatCategoryName(categoryName))
+            if viewModel.isLoading {
+                ProgressView("Loading...")
                 
-            } else if isLoading {
+            } else if let error = viewModel.errorMessage {
                 VStack(spacing: 12) {
-                    ProgressView("Loading scenarios...")
-                    Text("Category: \(categoryName)")
-                        .font(.caption)
+                    Text("Failed to load")
+                        .font(.headline)
+                    Text(error)
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
-                }
-            } else if let msg = errorText {
-                VStack(spacing: 12) {
-                    Text("Failed to load").font(.headline)
-                    Text(msg)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    
                     Button("Retry") {
-                        Task { await load() }
+                        Task { await viewModel.loadScenarios() }
                     }
                     .buttonStyle(.bordered)
                 }
                 .padding()
                 
             } else {
-                VStack(spacing: 12) {
-                    Text("No scenarios found")
-                        .font(.headline)
-                    Text("Category: \(categoryName)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Button("Retry") {
-                        Task { await load() }
+                List(viewModel.scenarios) { scenario in
+                    NavigationLink {
+                        ScenarioPlayerView(category: categoryName, name: scenario.fileName)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(scenario.title)
+                                .font(.headline)
+                            Text(scenario.description)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                        }
+                        .padding(.vertical, 4)
                     }
-                    .buttonStyle(.bordered)
                 }
-                .padding()
             }
         }
+        .navigationTitle(categoryName.replacingOccurrences(of: "_", with: " ").capitalized)
         .task {
-            if items.isEmpty && errorText == nil && !isLoading {
-                await load()
-            }
-        }
-    }
-    
-    // convert civil_rights to Civil Rights
-    private func formatCategoryName(_ name: String) -> String {
-        name.replacingOccurrences(of: "_", with: " ")
-            .capitalized
-    }
-    
-    // JSON decoder using UK date format
-    private func makeDecoder() -> JSONDecoder {
-        let decoder = JSONDecoder()
-        let df = DateFormatter()
-        df.calendar = .init(identifier: .iso8601)
-        df.locale = .init(identifier: "en_GB")
-        df.timeZone = .init(secondsFromGMT: 0)
-        df.dateFormat = "dd-MM-yyyy"
-        decoder.dateDecodingStrategy = .formatted(df)
-        return decoder
-    }
-    
-    // fetch and decode all scenario JSON files
-    private func load() async {
-        //main thread to update UI state
-        await MainActor.run {
-            isLoading = true
-            errorText = nil
-            items = []
-        }
-        
-        // list all .json files in bundle root
-        let urls = Bundle.main.urls(
-            forResourcesWithExtension: "json",
-            subdirectory: nil) ?? []
-        
-        if urls.isEmpty {
-            await MainActor.run {
-                errorText = "No JSON files found."
-                isLoading = false
-            }
-            return
-        }
-        
-        let decoder = makeDecoder()
-        var result: [ScenarioListItem] = []     //empty list to store one row per sco
-        // try decoding each JSON into a ScenarioHeader
-        for url in urls {
-            guard
-                let data = try? Data(contentsOf: url),
-                let header = try? decoder.decode(ScenarioTemplate.self, from: data)
-            else {
-                continue
-            }
-            
-            let fileName = url.deletingPathExtension().lastPathComponent
-            
-            result.append(
-                ScenarioListItem(
-                    fileName: fileName,
-                    scenarioTitle: header.scenarioTitle,
-                    scenarioDescription: header.scenarioDescription,
-                    scenarioUpdatedAt: header.scenarioUpdatedAt ?? Date()
-                )
-            )
-        }
-        
-        if result.isEmpty {
-            await MainActor.run {
-                errorText = "Scenario files could not be decoded."
-                isLoading = false
-            }
-            return
-        }
-        
-        // sort scenarios alphabetically
-        let sorted = result.sorted {
-            $0.scenarioTitle.localizedCaseInsensitiveCompare($1.scenarioTitle) == .orderedAscending
-        }
-        
-        // update UI with results
-        await MainActor.run {
-            items = sorted
-            isLoading = false
+            await viewModel.loadScenarios()
         }
     }
 }

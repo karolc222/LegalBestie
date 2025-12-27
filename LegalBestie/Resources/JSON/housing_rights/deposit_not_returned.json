@@ -7,47 +7,89 @@
   "startNode": "q1",
   "nodes": {
     "q1": {
+      "stepId": "q1",
       "question": "Did your landlord refuse to return your deposit?",
       "choices": [
         { "label": "Yes", "nextNode": "q2" },
         { "label": "No", "nextNode": "outcome_no_issue" }
-      ]
+      ],
+      "type": "question",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": true,
+      "updatedAt": "10-10-2025"
     },
     "q2": {
+      "stepId": "q2",
       "question": "Did the landlord provide a written explanation or evidence for keeping the deposit?",
       "choices": [
         { "label": "Yes", "nextNode": "q3" },
         { "label": "No", "nextNode": "q4" }
-      ]
+      ],
+      "type": "question",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": true,
+      "updatedAt": "10-10-2025"
     },
     "q3": {
+      "stepId": "q3",
       "question": "Does the evidence show damage that was already present before your tenancy?",
       "choices": [
         { "label": "Yes", "nextNode": "q5" },
         { "label": "No", "nextNode": "q5" }
-      ]
+      ],
+      "type": "question",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": true,
+      "updatedAt": "10-10-2025"
     },
     "q4": {
+      "stepId": "q4",
       "question": "Did the landlord send any photos or evidence at all?",
       "choices": [
         { "label": "Yes", "nextNode": "q3" },
         { "label": "No", "nextNode": "q5" }
-      ]
+      ],
+      "type": "question",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": true,
+      "updatedAt": "10-10-2025"
     },
     "q5": {
+      "stepId": "q5",
       "question": "Was your deposit protected in a government‑approved scheme?",
       "choices": [
         { "label": "Yes", "nextNode": "outcome" },
         { "label": "No", "nextNode": "outcome" }
-      ]
+      ],
+      "type": "question",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": true,
+      "updatedAt": "10-10-2025"
     },
     "outcome": {
+      "stepId": "outcome",
       "question": "Thank you. Your answers allow us to generate a tailored report.",
-      "choices": []
+      "choices": [],
+      "type": "outcome",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": false,
+      "updatedAt": "10-10-2025"
     },
     "outcome_no_issue": {
+      "stepId": "outcome_no_issue",
       "question": "Your landlord returned your deposit. There is no dispute to report.",
-      "choices": []
+      "choices": [],
+      "type": "outcome",
+      "stepOutcome": null,
+      "nextStepID": null,
+      "isRequired": false,
+      "updatedAt": "10-10-2025"
     }
   },
   "legalSummaryText": "Tenancy deposits must be protected in a government‑approved scheme. Landlords may make deductions only with clear evidence. Tenants can dispute deductions through the protection scheme.",

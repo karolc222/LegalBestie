@@ -93,3 +93,12 @@ struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     var id: String { sourceId }
 }
 
+struct ScenarioListItem: Identifiable {
+    let id = UUID()
+    let fileName: String
+    let title: String
+    let description: String
+    let updatedAt: Date
+}
+
+

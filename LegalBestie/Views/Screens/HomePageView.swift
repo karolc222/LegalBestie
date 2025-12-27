@@ -25,6 +25,7 @@ struct HomePageView: View {
                             if let email = user.email {
                                 Text(email)
                                     .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }
@@ -38,19 +39,20 @@ struct HomePageView: View {
                     NavigationLink {
                         ScenarioListView(categoryName: "all")
                     } label: {
-                        Label(
+                        HomeLabel(
                             title: "Interactive Scenarios",
-                            subtitle: "Practice real-life situations step by step", systemImage: "list.bullet.rectangle"
-                            )
+                            subtitle: "Practice real-life situations step by step",
+                            systemImage: "list.bullet.rectangle"
+                        )
                     }
                     
                     NavigationLink {
                         LegalAssistantView()
                     } label: {
-                        Label(
-                            title: "bubble.left.and.bubble.right",
-                            subtitle: "AI Legal Assistant",
-                            systemImage: "Ask questions and get source-based answers."
+                        HomeLabel(
+                            title: "AI Legal Assistant",
+                            subtitle: "Ask questions and get source-based answers.",
+                            systemImage: "bubble.left.and.bubble.right"
                         )
                     }
                     
@@ -58,28 +60,32 @@ struct HomePageView: View {
                         Button {
                             onSignOut()
                         } label: {
-                            Label(
+                            HomeLabel(
                                 title:"Register",
-                                subtitle: "Create an account to save your work.", systemImage: "person.badge.plus")
+                                subtitle: "Create an account to save your work.",
+                                systemImage: "person.badge.plus")
                         }
                         
                     } else {
                         NavigationLink {
                             SavedReportsView()
                         } label: {
-                            Label(
+                            HomeLabel(
                                 title: "Saved Library",
-                                subtitle: "View saved scenario reports and assistant answers", systemImage: "folder"
+                                subtitle: "View saved scenario reports and assistant answers",
+                                systemImage: "folder"
                             )
                         }
                     }
                 }
+            }
+        
                 .navigationTitle("Home")
             }
         }
     }
     
-    struct Label: View {
+    struct HomeLabel: View {
         let title: String
         let subtitle: String
         let systemImage: String
@@ -100,7 +106,8 @@ struct HomePageView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+            .padding(.vertical, 4)
             
         }
         }
-    }
+    
