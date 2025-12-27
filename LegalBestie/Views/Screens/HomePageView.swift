@@ -7,102 +7,100 @@ import SwiftUI
 
 struct HomePageView: View {
     let user: AuthService.AppUser
+    let isGuest: Bool
     let onSignOut: () -> Void
-
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-
-                    Text("Welcome to LegalBestie")
-                        .font(.title.bold())
-
-                    Text("Choose what you want to do today:")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-
-                    VStack(spacing: 12) {
-                        NavigationLink {
-                            ScenarioListView(categoryName: "all")
-                        } label: {
-                            HomeCard(
-                                title: "Interactive Scenarios",
-                                subtitle: "Practice real-life situations step by step"
-                            )
+            List {
+                Section {
+                    VStack(alignment: .leading, spacing: 4) {
+                        if isGuest {
+                            Text("Welcome")
+                                .font(.title.bold())
+                        } else {
+                            Text("Welcome Back")
+                                .font(.title.bold())
+                            
+                            if let email = user.email {
+                                Text(email)
+                                    .font(.caption)
+                            }
                         }
-
-                        NavigationLink {
-                            LegalAssistantView()
-                        } label: {
-                            HomeCard(
-                                title: "AI Legal Assistant",
-                                subtitle: "Ask questions and get source-based answers"
+                    }
+                    .padding(.vertical, 8)
+                }
+                .listRowBackground(Color.clear)
+                
+                
+                // Main cards
+                Section {
+                    NavigationLink {
+                        ScenarioListView(categoryName: "all")
+                    } label: {
+                        Label(
+                            title: "Interactive Scenarios",
+                            subtitle: "Practice real-life situations step by step", systemImage: "list.bullet.rectangle"
                             )
+                    }
+                    
+                    NavigationLink {
+                        LegalAssistantView()
+                    } label: {
+                        Label(
+                            title: "bubble.left.and.bubble.right",
+                            subtitle: "AI Legal Assistant",
+                            systemImage: "Ask questions and get source-based answers."
+                        )
+                    }
+                    
+                    if isGuest {
+                        Button {
+                            onSignOut()
+                        } label: {
+                            Label(
+                                title:"Register",
+                                subtitle: "Create an account to save your work.", systemImage: "person.badge.plus")
                         }
-
+                        
+                    } else {
                         NavigationLink {
                             SavedReportsView()
                         } label: {
-                            HomeCard(
+                            Label(
                                 title: "Saved Library",
-                                subtitle: "View saved scenario reports and assistant answers"
+                                subtitle: "View saved scenario reports and assistant answers", systemImage: "folder"
                             )
                         }
-
-                        NavigationLink {
-                            ProfileView(user: user, onSignOut: onSignOut)
-                        } label: {
-                            HomeCard(
-                                title: "My Profile",
-                                subtitle: "Personal info and saved content"
-                            )
-                        }
-                    }
-
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Saved Library")
-                            .font(.headline)
-                        Text("Your saved scenario reports and assistant answers will appear here.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
                     }
                 }
-                .padding()
+                .navigationTitle("Home")
             }
-            .navigationTitle("Home")
         }
     }
-}
-
-struct HomeCard: View {
-    let title: String
-    let subtitle: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.headline)
-            Text(subtitle)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+    
+    struct Label: View {
+        let title: String
+        let subtitle: String
+        let systemImage: String
+        
+        var body: some View {
+            HStack(spacing: 12) {
+                Image(systemName: systemImage)
+                    .font(.title2)
+                    .foregroundStyle(.pink)
+                    .frame(width: 32)
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.headline)
+                    
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.thinMaterial)
-        .cornerRadius(16)
-    }
-}
-
-// Temporary placeholder until the dedicated SavedReportsView screen is integrated in the target.
-struct SavedReportsView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Saved Library")
-                .font(.title2.bold())
-            Text("Saved scenario reports and assistant answers will appear here.")
-                .foregroundStyle(.secondary)
         }
-        .padding()
-        .navigationTitle("Saved")
     }
-}

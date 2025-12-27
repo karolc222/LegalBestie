@@ -8,6 +8,8 @@ import FirebaseAuth
 
 struct LoginView: View {
     @EnvironmentObject var auth: AuthService
+    var onContinueAsGuest: (() -> Void)? = nil
+    
     @State private var email = ""
     @State private var password = ""
     @State private var message = ""
@@ -36,11 +38,10 @@ struct LoginView: View {
                     }
                     .disabled(isLoading || email.isEmpty || password.isEmpty)
                 }
-                    
+                
                 Section("New here?") {
                     Button(isLoading ? "Creating..." : "Create account") {
                         focused = nil
-                        print ("create account tapped with email=\(email)")
                         Task { await run { try await auth.signUp(email: email, password: password)
                             message = "Verification email sent."
                         }}
@@ -60,15 +61,35 @@ struct LoginView: View {
                     .disabled(isLoading || email.isEmpty)
                 }
                 
+                // guest mode
+                if let guestAction = onContinueAsGuest {
+                    Section {
+                        Button {
+                            guestAction()
+                        } label: {
+                            HStack {
+                                Image(systemName: "person.fill.questionmark")
+                                Text("Continue as Guest")
+                            }
+                        }
+                        
+                    } header: {
+                        Text("Browse without creating an account.")
+                    } footer: {
+                        Text("This option allows you to explore the app without creating an account. You will be able to view all content, but you won't be able to save information or reports to your profile.")
+                    }
+                }
+                
                 if !message.isEmpty {
                     Text(message)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
             }
-            .navigationTitle("Welcome!")
+            .navigationTitle(Text("Welcome"))
         }
     }
+    
     
     @MainActor
     private func run(_ action: @escaping () async throws -> Void) async {

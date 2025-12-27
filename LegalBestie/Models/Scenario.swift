@@ -49,7 +49,7 @@ struct ScenarioNode: Codable {
     let updatedAt: Date
 }
 
-struct Choice: Codable {
+struct Choice: Codable, Hashable {
     let label: String
     let nextNode: String
 }

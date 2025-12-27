@@ -70,13 +70,13 @@ struct ScenarioPlayerView: View {
                             .padding(.vertical, 4)
                         }
                         
-                        if let choices = node.choices, !choices.isEmpty {
+                        if !node.choices.isEmpty {
                             // Question + choices UI
                             Text(node.question)
                                 .font(.headline)
                                 .padding(.vertical, 8)
                             
-                            ForEach(choices, id: \.self) { choice in
+                            ForEach(node.choices, id: \.self) { choice in
                                 Button(choice.label) {
                                     // Record the answer
                                     recordAnswer(question: node.question, answer: choice.label)
