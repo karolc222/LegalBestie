@@ -6,42 +6,6 @@
 import SwiftUI
 import SwiftData
 
-// Runtime Codable structs to decode JSON into memory
-struct ScenarioTemplate: Codable {
-    let scenarioId: String
-    let scenarioTitle: String
-    let categoryName: String
-    let scenarioDescription: String
-    let startNode: String
-    let nodes: [String: Node]
-    let legalSummaryText: String
-    let legalSources: [ScenarioSourceDTO]?
-    let scenarioUpdatedAt: Date?
-    let scenarioTopics: [String]
-}
-
-struct Node: Codable {
-    let question: String
-    let choices: [ScenarioChoiceDTO]?
-}
-
-struct ScenarioChoiceDTO: Codable, Hashable {
-    let label: String
-    let nextNode: String
-}
-
-struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
-    let sourceId: String
-    let sourceTitle: String
-    let sourceLink: URL      
-    let sourceDescription: String
-    let sourceOrganization: String
-    let sourceStatus: String
-    let scenarioTopics: [String]
-    
-    var id: String { sourceId }
-}
-
 // Decoder and loader
 private func makeScenarioDecoder() -> JSONDecoder {
     let dec = JSONDecoder()
@@ -307,7 +271,3 @@ struct ScenarioPlayerView: View {
     }
 }
 
-#Preview {
-    ScenarioPlayerView(category: "Civil rights", name: "stopped_by_police")
-        .modelContainer(for: [ScenarioReport.self, StepReport.self, EvidenceItem.self])
-}

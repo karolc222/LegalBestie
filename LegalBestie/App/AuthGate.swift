@@ -9,13 +9,11 @@ struct AuthGate: View {
     @StateObject private var auth = AuthService()
     
     var body: some View {
-        Group {
+        
             if let u = auth.user {
                 ProfileView(user: u) { try? auth.signOut() }
             } else {
                 LoginView().environmentObject(auth)
-                
             }
-        }
     }
 }

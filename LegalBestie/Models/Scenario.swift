@@ -53,3 +53,43 @@ struct Choice: Codable {
     let label: String
     let nextNode: String
 }
+
+// legal source reference in the scenario
+struct ChoiceDTO: Codable, Hashable, Identifiable {
+    let sourceId: String
+        let sourceTitle: String
+        let sourceLink: URL
+        let sourceDescription: String
+        let sourceOrganization: String
+        let sourceStatus: String
+        let scenarioTopics: [String]
+        
+        var id: String { sourceId }
+}
+
+// Runtime Codable structs to decode JSON into memory
+struct ScenarioTemplate: Codable {
+    let scenarioId: String
+    let scenarioTitle: String
+    let categoryName: String
+    let scenarioDescription: String
+    let startNode: String
+    let nodes: [String: ScenarioNode]
+    let legalSummaryText: String
+    let legalSources: [ScenarioSourceDTO]?
+    let scenarioUpdatedAt: Date?
+    let scenarioTopics: [String]
+}
+
+struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
+    let sourceId: String
+    let sourceTitle: String
+    let sourceLink: URL
+    let sourceDescription: String
+    let sourceOrganization: String
+    let sourceStatus: String
+    let scenarioTopics: [String]
+    
+    var id: String { sourceId }
+}
+
