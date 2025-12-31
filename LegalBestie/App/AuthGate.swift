@@ -4,7 +4,6 @@
 //  Created by Carolina LC on 23/10/2025.
 
 import SwiftUI
-import Combine
 
 struct AuthGate: View {
     @StateObject private var auth = AuthService()

@@ -19,7 +19,16 @@ final class QueryNote {
     var chatQuery: ChatQuery?
     
     
-    init(noteId: String = UUID().uuidString, chatQuery: ChatQuery? = nil, noteType: String, content: String, linkedArticleID: String? = nil, linkedSourceID: String? = nil, createdAt: Date) {
+    init(
+        noteId: String = UUID().uuidString,
+        chatQuery: ChatQuery? = nil,
+        noteType: String,
+        content: String,
+        linkedArticleID: String? = nil,
+        linkedSourceID: String? = nil,
+        createdAt: Date
+    ) {
+        
         self.noteId = noteId
         self.chatQuery = chatQuery
         self.noteType = noteType

@@ -41,7 +41,7 @@ final class ChatQuery {
         self.savedAt = savedAt
         self.tags = tags
         self.resourceReferences = resourceReferences
-        //self.queryNotes = queryNotes
+        //self.queryNotes = [QueryNote]
     }
 
     func savedQuery() {

@@ -3,6 +3,7 @@
 //
 //  Created by Carolina LC on 23/10/2025.
 
+
 import SwiftUI
 import FirebaseAuth
 
@@ -15,98 +16,122 @@ struct LoginView: View {
     @State private var message = ""
     @State private var isLoading = false
     
-    @FocusState private var focused: Field?
-    private enum Field { case email, password}
+    @FocusState private var focused: Bool
     
     var body: some View {
         NavigationView {
-            Form{
-                Section("Sign in") {
+            Form {
+                // Sign In
+                Section("SIGN IN") {
                     TextField("Email", text: $email)
                         .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
                         .keyboardType(.emailAddress)
+                        .focused($focused)
                     
-                    SecureField("Password (min 7)", text: $password)
-                        .focused($focused, equals : .password)
-                    
+                    SecureField("Enter password", text: $password)
+                        .focused($focused)
                     
                     Button(isLoading ? "Signing in..." : "Sign in") {
-                        focused = nil
-                        print("Sign in tapped")
-                        Task { await run { try await auth.signIn(email: email, password: password) }}
+                        focused = false
+                        Task { await signIn() }
                     }
                     .disabled(isLoading || email.isEmpty || password.isEmpty)
                 }
                 
-                Section("New here?") {
+                // Register
+                Section("NEW HERE?") {
                     Button(isLoading ? "Creating..." : "Create account") {
-                        focused = nil
-                        Task { await run { try await auth.signUp(email: email, password: password)
-                            message = "Verification email sent."
-                        }}
+                        focused = false
+                        Task { await signUp() }
                     }
                     .disabled(isLoading || email.isEmpty || password.count < 7)
                     
                     Button("Forgot password?") {
-                        focused = nil
-                        print("reset password ")
-                        Task {
-                            await run {
-                                try await auth.sendPasswordReset(email: email)
-                                message = "Password reset email sent."
-                            }
-                        }
+                        focused = false
+                        Task { await resetPassword() }
                     }
                     .disabled(isLoading || email.isEmpty)
                 }
                 
-                // guest mode
+                // Guest
                 if let guestAction = onContinueAsGuest {
                     Section {
                         Button {
+                            focused = false
                             guestAction()
                         } label: {
                             HStack {
                                 Image(systemName: "person.fill.questionmark")
                                 Text("Continue as Guest")
                             }
-                        }
-                        
-                    } header: {
-                        Text("Browse without creating an account.")
-                    } footer: {
-                        Text("This option allows you to explore the app without creating an account. You will be able to view all content, but you won't be able to save information or reports to your profile.")
+                            
+                        }  } header: {
+                            Text("BROWSE WITHOUT AN ACCOUNT")
+                        } footer: {
+                        Text("You can explore the app but won't be able to save reports.")
                     }
                 }
                 
+                // Message
                 if !message.isEmpty {
-                    Text(message)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                    Section {
+                        Text(message)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
-            .navigationTitle(Text("Welcome"))
+            .navigationTitle("Welcome")
         }
     }
     
+    // MARK: - Actions
     
-    @MainActor
-    private func run(_ action: @escaping () async throws -> Void) async {
+    private func signIn() async {
         isLoading = true
-        defer { isLoading = false }
-        do { try await action() }
-        catch {
-            let ns = error as NSError
-            switch ns.code {
-            case AuthErrorCode.emailAlreadyInUse.rawValue: message = "This email is already registered."
-            case AuthErrorCode.invalidEmail.rawValue: message = "Please enter a valid email address."
-            case AuthErrorCode.weakPassword.rawValue: message = "Password must be at least 7 characters long."
-            case AuthErrorCode.wrongPassword.rawValue: message = "Incorrect email or password."
-            case AuthErrorCode.userNotFound.rawValue: message = "User not found."
-            default: message = "An unknown error occurred."
-            }
-            print(" Authentication error (\ns.code)): \(ns.localizedDescription)")
+        do {
+            try await auth.signIn(email: email, password: password)
+        } catch {
+            handleError(error)
+        }
+        isLoading = false
+    }
+    
+    private func signUp() async {
+        isLoading = true
+        do {
+            try await auth.signUp(email: email, password: password)
+            message = "Verification email sent."
+        } catch {
+            handleError(error)
+        }
+        isLoading = false
+    }
+    
+    private func resetPassword() async {
+        isLoading = true
+        do {
+            try await auth.sendPasswordReset(email: email)
+            message = "Password reset email sent."
+        } catch {
+            handleError(error)
+        }
+        isLoading = false
+    }
+    
+    private func handleError(_ error: Error) {
+        let code = (error as NSError).code
+        switch code {
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            message = "Email already registered."
+        case AuthErrorCode.invalidEmail.rawValue:
+            message = "Invalid email address."
+        case AuthErrorCode.weakPassword.rawValue:
+            message = "Password must be 7+ characters."
+        case AuthErrorCode.wrongPassword.rawValue, AuthErrorCode.userNotFound.rawValue:
+            message = "Incorrect email or password."
+        default:
+            message = "An error occurred."
         }
     }
 }
