@@ -3,7 +3,10 @@
 //
 //  Created by Carolina LC on 15/11/2025.
 
+
 import SwiftUI
+
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct HomePageView: View {
     let user: AuthService.AppUser
@@ -12,29 +15,30 @@ struct HomePageView: View {
     
     var body: some View {
         NavigationStack {
-            List {
+            ZStack {
+                LinearGradient(
+                    colors: [brandRose.opacity(0.10), Color(.systemBackground)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                List {
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
-                        if isGuest {
-                            Text("Welcome")
-                                .font(.title.bold())
-                        } else {
-                            Text("Welcome Back")
-                                .font(.title.bold())
-                            
-                            if let email = user.email {
-                                Text(email)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
+                        Text(isGuest ? "Welcome" : "Welcome back")
+                            .font(.title.weight(.semibold))
+
+                        if !isGuest, let email = user.email {
+                            Text(email)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 6)
                 }
                 .listRowBackground(Color.clear)
-                
-                
-                // Main cards
+
                 Section {
                     NavigationLink {
                         ScenarioListView(categoryName: "all")
@@ -45,7 +49,7 @@ struct HomePageView: View {
                             systemImage: "list.bullet.rectangle"
                         )
                     }
-                    
+
                     NavigationLink {
                         LegalAssistantView()
                     } label: {
@@ -55,17 +59,17 @@ struct HomePageView: View {
                             systemImage: "bubble.left.and.bubble.right"
                         )
                     }
-                    
+
                     if isGuest {
                         Button {
                             onSignOut()
                         } label: {
                             HomeLabel(
-                                title:"Register",
+                                title: "Register",
                                 subtitle: "Create an account to save your work.",
-                                systemImage: "person.badge.plus")
+                                systemImage: "person.badge.plus"
+                            )
                         }
-                        
                     } else {
                         NavigationLink {
                             SavedReportsView()
@@ -79,8 +83,9 @@ struct HomePageView: View {
                     }
                 }
             }
-        
-                .navigationTitle("Home")
+            .navigationTitle("Home")
+            .scrollContentBackground(.hidden)
+            .listStyle(.insetGrouped)
             }
         }
     }
@@ -92,10 +97,15 @@ struct HomePageView: View {
         
         var body: some View {
             HStack(spacing: 12) {
-                Image(systemName: systemImage)
-                    .font(.title2)
-                    .foregroundStyle(.pink)
-                    .frame(width: 32)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(brandRose.opacity(0.15))
+                        .frame(width: 35, height: 35)
+                    
+                    Image(systemName: systemImage)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(brandRose)
+                }
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -104,10 +114,21 @@ struct HomePageView: View {
                     Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .lineLimit(2)
                 }
+                
+                Spacer()
             }
-            .padding(.vertical, 4)
-            
+            .padding(.vertical, 15)
+            .padding(.horizontal, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color(.secondarySystemBackground))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .stroke(brandRose.opacity(0.18), lineWidth: 1))
         }
-        }
+    }
     
+}

@@ -3,6 +3,9 @@
 
 import SwiftUI
 
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
+
+
 struct MainTabView: View {
     let user: AuthService.AppUser
     let isGuest: Bool
@@ -10,26 +13,21 @@ struct MainTabView: View {
 
     var body: some View {
         TabView {
-            
-            //Home tab
             HomePageView(user: user, isGuest: isGuest, onSignOut: onSignOut)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
 
-            // Scenarios Tab
             ScenarioListView(categoryName: "civil_rights")
                 .tabItem {
                     Label("Scenarios", systemImage: "list.bullet.rectangle")
                 }
 
-            // Assistant Tab
             LegalAssistantView()
                 .tabItem {
                     Label("Assistant", systemImage: "bubble.left.and.bubble.right")
                 }
 
-            // Profile Tab
             if isGuest {
                 GuestProfileView(onSignIn: onSignOut)
                     .tabItem {
@@ -42,5 +40,6 @@ struct MainTabView: View {
                     }
             }
         }
+        .tint(brandRose)
     }
 }

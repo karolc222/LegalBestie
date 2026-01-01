@@ -42,11 +42,11 @@ struct ScenarioNode: Codable {
     let stepId: String
     let question: String
     let choices: [Choice]
-    let type: String? // "question", "outcome", etc.
+    let type: String? // "question" or "outcome"
     let stepOutcome: String?
     let nextStepID: String?
     let isRequired: Bool
-    let updatedAt: Date
+    let updatedAt: Date?
 }
 
 struct Choice: Codable, Hashable {

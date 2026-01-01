@@ -6,6 +6,8 @@
 import SwiftUI
 import SwiftData
 
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+
 struct ScenarioOutcomeView: View {
     let scenarioTitle: String
     let scenarioDescription: String
@@ -34,80 +36,116 @@ struct ScenarioOutcomeView: View {
 
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(scenarioTitle)
-                    .font(.title2.bold())
+        ZStack {
+            LinearGradient(
+                colors: [brandRose.opacity(0.10), Color(.systemBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                Text(scenarioDescription)
-                    .font(.body)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(scenarioTitle)
+                            .font(.title.weight(.semibold))
 
-                if let summary = legalSummary {
-                    Divider()
-                    Text("Legal Summary")
-                        .font(.headline)
-                    Text(summary)
-                        .font(.body)
-                }
-
-                if !scenarioSources.isEmpty {
-                    Divider()
-                    Text("Legal Sources")
-                        .font(.headline)
-                    ForEach(scenarioSources) { source in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(source.sourceTitle).bold()
-                            Link("Open Source", destination: source.sourceLink)
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-
-                if !report.steps.isEmpty {
-                    Divider()
-                    Text("Your Incident Summary")
-                        .font(.headline)
-
-                    ForEach(report.steps) { step in
-                        Text("• \(step.statement)")
+                        Text(scenarioDescription)
                             .font(.body)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(.secondary)
                     }
-                }
 
-                Divider()
+                    if let summary = legalSummary {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Legal Summary")
+                                .font(.headline)
 
-                // Action buttons
-                VStack(spacing: 12) {
-                    Button {
-                        Task {
-                            await generateAndSharePDF()
+                            Text(summary)
+                                .font(.body)
                         }
-                    } label: {
-                        Label("Download Report (PDF)", systemImage: "arrow.down.doc")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    Button {
-                        saveReportToProfile()
-                    } label: {
-                        Label(
-                            hasBeenSaved ? "Saved to Profile" : "Save to Profile",
-                            systemImage: hasBeenSaved ? "checkmark.circle.fill" : "person.crop.circle.badge.plus"
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color.white)
                         )
-                        .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(hasBeenSaved)
-                    .alert("Saved", isPresented: $showSaveConfirmation) {
-                        Button("OK", role: .cancel) {}
-                    } message: {
-                        Text("Report saved to your profile for easy access.")
+
+                    if !scenarioSources.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Legal Sources")
+                                .font(.headline)
+
+                            ForEach(scenarioSources) { source in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(source.sourceTitle)
+                                        .font(.subheadline.weight(.medium))
+
+                                    Link("Open source", destination: source.sourceLink)
+                                        .font(.caption)
+                                        .foregroundStyle(brandRose)
+                                }
+                                .padding(.vertical, 6)
+                            }
+                        }
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color.white)
+                        )
+                    }
+
+                    if !report.steps.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Your Incident Summary")
+                                .font(.headline)
+
+                            ForEach(report.steps) { step in
+                                Text("• \(step.statement)")
+                                    .font(.body)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color.white)
+                        )
+                    }
+
+                    // Action buttons
+                    VStack(spacing: 14) {
+                        Button {
+                            Task {
+                                await generateAndSharePDF()
+                            }
+                        } label: {
+                            Label("Download Report (PDF)", systemImage: "arrow.down.doc")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(brandRose)
+                        
+                        Button {
+                            saveReportToProfile()
+                        } label: {
+                            Label(
+                                hasBeenSaved ? "Saved to Profile" : "Save to Profile",
+                                systemImage: hasBeenSaved ? "checkmark.circle.fill" : "person.crop.circle.badge.plus"
+                            )
+                            .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(brandRose)
+                        .disabled(hasBeenSaved)
+                        .alert("Saved", isPresented: $showSaveConfirmation) {
+                            Button("OK", role: .cancel) {}
+                        } message: {
+                            Text("Report saved to your profile for easy access.")
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle("Outcome")
         .navigationBarTitleDisplayMode(.inline)

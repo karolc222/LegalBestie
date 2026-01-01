@@ -3,58 +3,96 @@
 //
 //  Created by Carolina LC on 27/12/2025.
 
-import Foundation
 import SwiftUI
+
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
 
 struct GuestProfileView: View {
     let onSignIn: () -> Void
     
     var body: some View {
         NavigationStack {
-            List {
-                // Guest Status
-                Section {
-                    HStack {
-                        Image(systemName: "person.crop.circle")
-                            .font(.largeTitle)
-                            .foregroundStyle(.secondary)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Guest User")
-                                .font(.headline)
-                            Text("Not signed in")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .padding(.vertical, 8)
-                }
-                
-                // Sign In/Register
-                Section {
-                    Button {
-                        onSignIn()
-                    } label: {
-                        HStack {
-                            Label("Sign In or Register", systemImage: "person.badge.plus")
+            ZStack {
+                LinearGradient(
+                    colors: [brandRose.opacity(0.10), Color(.systemBackground)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                List {
+                    // Guest Status
+                    Section {
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(brandRose.opacity(0.14))
+                                    .frame(width: 48, height: 48)
+
+                                Image(systemName: "person.crop.circle.fill")
+                                    .font(.system(size: 24))
+                                    .foregroundStyle(brandRose)
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Guest User")
+                                    .font(.title3.weight(.semibold))
+
+                                Text("You’re browsing as a guest")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+
                             Spacer()
-                            Image(systemName: "arrow.right")
-                                .foregroundStyle(.secondary)
                         }
+                        .padding(.vertical, 6)
                     }
-                } footer: {
-                    Text("Create an account to save your scenario reports and access them across devices.")
+                    .listRowBackground(Color.clear)
+                    
+                    // Sign In/Register
+                    Section {
+                        Button {
+                            onSignIn()
+                        } label: {
+                            HStack {
+                                Label("Sign In or Register", systemImage: "person.badge.plus")
+                                    .font(.headline)
+
+                                Spacer()
+
+                                Image(systemName: "arrow.right.circle.fill")
+                                    .foregroundStyle(brandRose)
+                            }
+                            .padding(.vertical, 6)
+                        }
+                        .buttonStyle(.plain)
+                    } footer: {
+                        Text("Create an account to save your scenario reports and access them across devices.")
+                    }
+                    
+                    // What they're missing
+                    Section {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("With an account you can:")
+                                .font(.headline)
+
+                            Label("Save scenario reports", systemImage: "checkmark.circle.fill")
+                            Label("Access saved content", systemImage: "checkmark.circle.fill")
+                            Label("Sync across devices", systemImage: "checkmark.circle.fill")
+                        }
+                        .foregroundStyle(.secondary)
+                        .padding(12)
+                    }
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(Color(.secondarySystemBackground))
+                    )
                 }
-                
-                // What they're missing
-                Section("With an account you can:") {
-                    Label("Save scenario reports", systemImage: "checkmark.circle")
-                    Label("Access saved content", systemImage: "checkmark.circle")
-                    Label("Sync across devices", systemImage: "checkmark.circle")
-                }
-                .foregroundStyle(.secondary)
+                .scrollContentBackground(.hidden)
+                .listStyle(.insetGrouped)
             }
             .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

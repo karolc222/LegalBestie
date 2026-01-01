@@ -4,106 +4,109 @@
 //  Created by Carolina LC on 15/11/2025.
 
 import SwiftUI
-import SwiftData
 
-struct Message: Identifiable {
-    let id = UUID()
-    let text: String
-    let isUser: Bool
-}
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
 
 struct LegalAssistantView: View {
-    @Query private var legalSources: [LegalSource]
-    @State private var messages: [Message] = []
+    @StateObject private var viewModel = LegalAssistantViewModel()
     @State private var input = ""
-    @State private var isLoading = false
-    
+
     var body: some View {
-        VStack {
-            //message bubbles
-            ScrollView {
-                ForEach(messages) { message in
-                    HStack {
-                        if message.isUser { Spacer()}
-                        Text(message.text)
-                            .padding()
-                            .background(message.isUser ? Color.pink : Color.gray)
-                            .foregroundStyle(.white)
-                            .cornerRadius(12)
-                        if !message.isUser { Spacer()}
+        ZStack {
+            LinearGradient(
+                colors: [brandRose.opacity(0.10), Color(.systemBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+
+                // Messages
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(viewModel.items) { item in
+                            HStack {
+                                if item.role == .user { Spacer(minLength: 24) }
+
+                                Text(item.text)
+                                    .font(.callout)
+                                    .foregroundStyle(item.role == .user ? .white : .primary)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .fill(item.role == .user ? brandRose : Color.white)
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .stroke(item.role == .user ? Color.clear : brandRose.opacity(0.18), lineWidth: 1)
+                                    )
+                                    .frame(maxWidth: 260, alignment: item.role == .user ? .trailing : .leading)
+
+                                if item.role == .assistant { Spacer(minLength: 24) }
+                            }
+                            .padding(.horizontal, 16)
+                        }
+
+                        if viewModel.isLoading {
+                            HStack {
+                                ProgressView()
+                                Text("Thinking…")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 4)
+                        }
                     }
-                    .padding(.horizontal)
+                    .padding(.vertical, 14)
                 }
-                
-                if isLoading {
-                    ProgressView()
-                }
-            }
-            
-            //user input
-            HStack {
-                TextField("What's up Bestie?", text: $input)
-                    .textFieldStyle(.roundedBorder)
-                
-                Button("send") {
-                    send()
-                }
-                .disabled(input.isEmpty || isLoading)
-            }
-            .padding()
-        }
-        .navigationTitle("Legal Bestie Assistant")
-    }
-    
-    func send() {
-        let question = input
-        
-        // Append user message
-        messages.append(Message(text: question, isUser: true))
-        input = ""
-        isLoading = true
-        
-        Task {
-            do {
-                let relevant = findRelevantSources(for: question)
-                
-                // Call your ChatService with the current question and legal sources
-                let answer = try await ChatService.shared.askQuestion(
-                    question: question,
-                    sources: Array(relevant.prefix(3)).map {
-                        (sourceTitle: $0.sourceTitle, sourceDescription: $0.sourceDescription + "\nURL: \($0.sourceUrl)")
+
+                // Input bar
+                VStack(spacing: 10) {
+                    Divider().opacity(0.15)
+
+                    HStack(spacing: 10) {
+                        TextField("Ask me a legal question!", text: $input)
+                            .textFieldStyle(.plain)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(Color.white)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .stroke(brandRose.opacity(0.18), lineWidth: 1)
+                            )
+
+                        
+                        Button {
+                            let q = input
+                            input = ""
+                            
+                            Task { await viewModel.send(question: q) }
+                            
+                        } label: {
+                            Image(systemName: "arrow.up")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .frame(width: 40, height: 40)
+                                .background(
+                                    Circle().fill(brandRose)
+                                )
+                        }
+                        .disabled(input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.isLoading)
+                        .opacity((input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.isLoading) ? 0.5 : 1.0)
                     }
-                )
-                
-                messages.append(Message(text: answer, isUser: false))
-                isLoading = false
-                
-            } catch {
-                messages.append(
-                    Message(
-                        text: "Sorry, something went wrong: \(error.localizedDescription)", isUser: false))
-                isLoading = false
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 10)
+                }
             }
         }
-    }
-    
-    func findRelevantSources(for question: String) -> [LegalSource] {
-        let q = question .lowercased()
-        
-        return legalSources.filter { source in
-            // Police
-            (q.contains("police") || q.contains("stop") || q.contains("search")) &&
-            (source.sourceTopics.contains("police_stop") ||
-             source.sourceTopics.contains("stop_and_search")) ||
-            
-            // Housing
-            (q.contains("landlord") || q.contains("rent") || q.contains("deposit") || q.contains("housing")) &&
-            (source.sourceTopics.contains("housing_rights") ||
-             source.sourceTopics.contains("tenancy_deposit")) ||
-            
-            // Civil rights
-            (q.contains("rights") || q.contains("legal")) &&
-            source.sourceTopics.contains("civil_rights")
-        }
+        .navigationTitle("Assistant")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

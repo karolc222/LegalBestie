@@ -15,7 +15,7 @@ struct LegalBestieApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AuthGate()
                 .environmentObject(authService)
         }
         .modelContainer(for: [
