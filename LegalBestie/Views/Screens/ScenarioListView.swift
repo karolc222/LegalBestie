@@ -9,6 +9,7 @@ struct ScenarioListView: View {
     let categoryName: String
     
     @StateObject private var viewModel = ScenarioListViewModel()
+    @EnvironmentObject var auth: AuthService
     
     var body: some View {
         Group {
@@ -33,6 +34,7 @@ struct ScenarioListView: View {
                 List(viewModel.scenarios) { scenario in
                     NavigationLink {
                         ScenarioPlayerView(category: categoryName, name: scenario.fileName)
+                        
                     } label: {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(scenario.title)

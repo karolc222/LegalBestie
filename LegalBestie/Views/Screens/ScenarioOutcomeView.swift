@@ -4,6 +4,7 @@
 //  With report preview before download
 
 import SwiftUI
+import SwiftData
 
 struct ScenarioOutcomeView: View {
     let scenarioTitle: String
@@ -13,8 +14,24 @@ struct ScenarioOutcomeView: View {
     let scenarioSources: [ScenarioSourceDTO]
     let report: ScenarioReport
     
+    @EnvironmentObject var auth: AuthService
+    @Environment(\.modelContext) private var modelContext
+    
     @State private var exportedURL: URL?
     @State private var isShowingShareSheet = false
+    @State private var showSaveConfirmation = false
+    @State private var hasBeenSaved = false
+    
+    private var effectiveUserLabel: String {
+        if let email = auth.user?.email, !email.isEmpty {
+            return email
+        }
+        if let uid = auth.user?.id, !uid.isEmpty {
+            return uid
+        }
+        return "User"
+    }
+
     
     var body: some View {
         ScrollView {
@@ -71,6 +88,23 @@ struct ScenarioOutcomeView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)
+                    
+                    Button {
+                        saveReportToProfile()
+                    } label: {
+                        Label(
+                            hasBeenSaved ? "Saved to Profile" : "Save to Profile",
+                            systemImage: hasBeenSaved ? "checkmark.circle.fill" : "person.crop.circle.badge.plus"
+                        )
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(hasBeenSaved)
+                    .alert("Saved", isPresented: $showSaveConfirmation) {
+                        Button("OK", role: .cancel) {}
+                    } message: {
+                        Text("Report saved to your profile for easy access.")
+                    }
                 }
             }
             .padding()
@@ -81,6 +115,7 @@ struct ScenarioOutcomeView: View {
             print("ScenarioOutcomeView loaded")
             print("Topics:", topics)
             print("Steps:", report.steps.count)
+            print("Auth user label:", effectiveUserLabel)
         }
         .sheet(isPresented: $isShowingShareSheet) {
             if let url = exportedURL {
@@ -88,7 +123,22 @@ struct ScenarioOutcomeView: View {
             }
         }
     }
-    
+
+    private func saveReportToProfile() {
+        // Stamp report with user label (email/uid) for now.
+        report.userName = effectiveUserLabel
+
+        modelContext.insert(report)
+        do {
+            try modelContext.save()
+            hasBeenSaved = true
+            showSaveConfirmation = true
+            print("Report saved to profile for:", effectiveUserLabel)
+        } catch {
+            print("Failed to save report:", error.localizedDescription)
+        }
+    }
+
     private func generateAndSharePDF() async {
         do {
             // Convert to exportable format

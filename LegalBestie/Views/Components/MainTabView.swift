@@ -13,9 +13,9 @@ struct MainTabView: View {
             
             //Home tab
             HomePageView(user: user, isGuest: isGuest, onSignOut: onSignOut)
-            .tabItem {
-                Label("Home", systemImage: "house")
-            }
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
 
             // Scenarios Tab
             ScenarioListView(categoryName: "civil_rights")

@@ -1,5 +1,5 @@
 //  UserSavedReport.swift
-//  LegalBuddy
+//  LegalBestie
 //
 //  Created by Carolina LC on 08/10/2025.
 
@@ -8,33 +8,36 @@ import SwiftData
 
 @Model
 final class UserSavedReport {
-
     @Attribute(.unique) var id: String
-    var userId: String
+    var userid: String
     var reportTitle: String
-    var sourcesText: String?
+    var scenarioCategory: String
+    var outcome: String
+    var sources: [String]  // Array of source titles
     var savedAt: Date
 
     init(
         id: String = UUID().uuidString,
-        userId: String,
+        userid: String,
         reportTitle: String,
-        sourcesText: String? = nil,
+        scenarioCategory: String,
+        outcome: String,
+        sources: [String] = [],
         savedAt: Date = Date()
     ) {
         self.id = id
-        self.userId = userId
+        self.userid = userid
         self.reportTitle = reportTitle
-        self.sourcesText = sourcesText
+        self.scenarioCategory = scenarioCategory
+        self.outcome = outcome
+        self.sources = sources
         self.savedAt = savedAt
     }
     
-    var formattedDate : String {
+    var formattedDate: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: savedAt)
     }
 }
-
-

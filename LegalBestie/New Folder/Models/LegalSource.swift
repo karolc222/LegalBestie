@@ -36,9 +36,9 @@ final class LegalSource {
          sourceDescription: String,
          sourceOrganization: String,
          sourceStatus: String,
-         sourceKeywords: [String],
-         sourceTopics: [String])
-    {
+         sourceKeywords: [String] = [],
+         sourceTopics: [String] = []
+    ) {
         
         self.sourceId = sourceId
         self.sourceTitle = sourceTitle
@@ -56,7 +56,7 @@ final class LegalSource {
             self.init(
                 sourceId: UUID().uuidString,
                 sourceTitle: dto.sourceTitle,
-                sourceUrl:dto.sourceUrl.absoluteString,
+                sourceUrl: dto.sourceUrl.absoluteString,
                 sourceDescription: dto.sourceDescription,
                 sourceOrganization: dto.sourceOrganization ?? "",
                 sourceStatus: dto.sourceStatus ?? "",
