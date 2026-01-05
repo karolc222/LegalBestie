@@ -164,7 +164,7 @@ struct ScenarioOutcomeView: View {
 
     private func saveReportToProfile() {
         // Stamp report with user label (email/uid) for now.
-        report.userName = effectiveUserLabel
+        report.userId = effectiveUserLabel
 
         modelContext.insert(report)
         do {

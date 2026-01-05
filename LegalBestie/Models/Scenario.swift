@@ -1,7 +1,13 @@
+//  Scenario.swift
+//  LegalBestie
+//
+//  Created by Carolina LC on 18/11/2025.
+
 import Foundation
 import SwiftData
 
 //not used for JSON decoding
+// represents original legal scenario from JSON files
 
 @Model
 final class Scenario {
@@ -11,7 +17,7 @@ final class Scenario {
     var scenarioDescription: String?
     var scenarioStartNode: String
     var legalSummaryText: String
-    var legalSources: [LegalSource] // persisted sources
+    var legalSources: [LegalSource]
     var scenarioUpdatedAt: Date?
     
     //not to be saved in the db

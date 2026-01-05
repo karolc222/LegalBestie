@@ -9,7 +9,7 @@ import SwiftUI
 private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct ProfileView: View {
-    let user: AuthService.AppUser
+    let user: User?
     let onSignOut: () -> Void
     
     var body: some View {
@@ -38,16 +38,16 @@ struct ProfileView: View {
                                 Text("My Profile")
                                     .font(.title3.weight(.semibold))
 
-                                Text(user.email ?? "Guest")
+                                Text(user?.email ?? "Guest")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
 
                             Spacer()
 
-                            Text(user.isVerified ? "Verified" : "Unverified")
+                            Text((user?.email != nil) ? "Verified" : "Guest")
                                 .font(.caption.weight(.semibold))
-                                .foregroundStyle(user.isVerified ? .green : brandRose)
+                                .foregroundStyle(user?.email != nil ? .green : brandRose)
                                 .padding(.vertical, 6)
                                 .padding(.horizontal, 10)
                                 .background(
@@ -59,12 +59,12 @@ struct ProfileView: View {
                     .listRowBackground(Color.clear)
 
                     Section("Account Info") {
-                        LabeledContent("User ID", value: user.id)
-                        LabeledContent("Email", value: user.email ?? "-")
-                        LabeledContent("Email verified", value: user.isVerified ? "Yes" : "No")
+                        LabeledContent("User ID", value: user?.userId ?? "-")
+                        LabeledContent("Email", value: user?.email ?? "-")
+                        LabeledContent("Account type", value: user == nil ? "Guest" : "Registered")
                     }
 
-                    if !user.isVerified {
+                    if user != nil {
                         Section {
                             Button("Resend verification email") {
                                 Task {

@@ -213,7 +213,7 @@ extension ExportableReport {
         self = ExportableReport(
             title: scenarioReport.scenarioTitle,
             createdAt: scenarioReport.createdAt ?? Date(),
-            ownerName: scenarioReport.userName,
+            ownerName: scenarioReport.userId,
             summary: nil,                        // or a shorter one if you generate it
             sections: [summarySection, responsesSection],
             sources: sources

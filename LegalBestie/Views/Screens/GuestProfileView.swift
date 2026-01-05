@@ -20,6 +20,7 @@ struct GuestProfileView: View {
                 )
                 .ignoresSafeArea()
 
+                
                 List {
                     // Guest Status
                     Section {

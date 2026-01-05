@@ -68,16 +68,14 @@ final class ScenarioPlayerViewModel: ObservableObject {
         
         // Create report
         report = ScenarioReport(
-            userName: "User",
+            userId: "guest",
             scenarioId: template.scenarioId,
             scenarioTitle: template.scenarioTitle,
             createdAt: Date(),
             updatedAt: Date(),
-            status: "completed",
             steps: steps,
             legalSummary: template.legalSummaryText,
             legalSources: [],
-            userNotes: nil
         )
         
         print("Report created successfully")

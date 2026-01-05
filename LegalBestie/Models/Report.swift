@@ -6,11 +6,9 @@
 import Foundation
 import SwiftData
 
-@Model final class Report{
+@Model final class Report {
     @Attribute(.unique) var reportId: String
-    var reportType: String
     var reportTitle: String
-    var reportStatus: String
     var reportDescription: String
     var contentSummary: String
     var storagePath: String
@@ -22,9 +20,7 @@ import SwiftData
     
     init(
          reportId: String,
-         reportType: String,
          reportTitle: String,
-         reportStatus: String,
          reportDescription: String,
          contentSummary: String,
          storagePath: String,
@@ -35,21 +31,18 @@ import SwiftData
     ){
         
         self.reportId = reportId
-        self.reportType = reportType
         self.reportTitle = reportTitle
-        self.reportStatus = reportStatus
-        self.reportDescription = reportDescription
         self.contentSummary = contentSummary
         self.storagePath = storagePath
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.user = user
         self.legalArticles = legalArticles
+        self.reportDescription = reportDescription
     }
 }
 
 
-// Generates a report summary based on user data and scenario.
 extension Report {
     func generateFromScenario(scenario: Scenario) -> String {
         return "Report for Scenario: \(scenario.scenarioTitle)"
