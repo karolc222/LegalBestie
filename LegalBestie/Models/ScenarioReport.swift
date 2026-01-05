@@ -6,15 +6,16 @@
 import Foundation
 import SwiftData
 
+// report based on user's answers and contains the legal summary
+
 @Model
 final class ScenarioReport {
     @Attribute(.unique) var id: String
-    var userName: String
+    var userId: String
     var scenarioId: String
     var scenarioTitle: String
     var createdAt: Date?
     var updatedAt: Date?
-    var status: String //draft/completed
     
     //user transcript of answers
     var steps: [StepReport]
@@ -22,32 +23,29 @@ final class ScenarioReport {
     var legalSummary: String
     var legalSources: [LegalSource]
     
-    //optional
-    var userNotes: String?
+
     
     init(
         id: String = UUID().uuidString,
-        userName: String,
+        userId: String,
         scenarioId: String,
         scenarioTitle: String,
         createdAt: Date? = nil,
         updatedAt: Date? = nil,
-        status: String,
+        
         steps: [StepReport],
         legalSummary: String,
-        legalSources: [LegalSource],
-        userNotes: String? = nil,
+        legalSources: [LegalSource]
     ) {
+        
         self.id = id
-        self.userName = userName
+        self.userId = userId
         self.scenarioId = scenarioId
         self.scenarioTitle = scenarioTitle
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.status = status
         self.steps = steps
         self.legalSummary = legalSummary
         self.legalSources = legalSources
-        self.userNotes = userNotes
     }
 }

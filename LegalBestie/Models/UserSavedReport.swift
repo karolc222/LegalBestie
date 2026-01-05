@@ -9,16 +9,16 @@ import SwiftData
 @Model
 final class UserSavedReport {
     @Attribute(.unique) var id: String
-    var userid: String
+    var userId: String
     var reportTitle: String
     var scenarioCategory: String
     var outcome: String
-    var sources: [String]  // Array of source titles
+    var sources: [String]  
     var savedAt: Date
 
     init(
         id: String = UUID().uuidString,
-        userid: String,
+        userId: String,
         reportTitle: String,
         scenarioCategory: String,
         outcome: String,
@@ -26,7 +26,7 @@ final class UserSavedReport {
         savedAt: Date = Date()
     ) {
         self.id = id
-        self.userid = userid
+        self.userId = userId
         self.reportTitle = reportTitle
         self.scenarioCategory = scenarioCategory
         self.outcome = outcome

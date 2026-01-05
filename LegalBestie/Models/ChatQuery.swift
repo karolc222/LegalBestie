@@ -18,8 +18,6 @@ final class ChatQuery {
     var tags: [String]?
     var resourceReferences: [String]?
 
-    @Relationship(deleteRule: .cascade)
-    var queryNotes: [QueryNote] = []
     
     init(
         queryId: String = UUID().uuidString,
@@ -30,7 +28,6 @@ final class ChatQuery {
         savedAt: Date? = nil,
         tags: [String]? = nil,
         resourceReferences: [String]? = nil,
-        queryNotes: [QueryNote]? = nil
     )
     {
         self.queryId = queryId

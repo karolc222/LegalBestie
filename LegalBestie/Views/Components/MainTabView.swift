@@ -7,7 +7,7 @@ private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 
 struct MainTabView: View {
-    let user: AuthService.AppUser
+    let user: User?
     let isGuest: Bool
     let onSignOut: () -> Void
 

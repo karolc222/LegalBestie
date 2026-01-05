@@ -47,7 +47,7 @@ class ScenarioViewModel: ObservableObject {
             decoder.dateDecodingStrategy = .formatted(df)
             
             if (try? decoder.decode(ScenarioTemplateDTO.self, from: data)) != nil {
-                // Scenario parsing placeholder (not wired to UI model yet)
+             
             } else {
                 print("Decoding failed for \(name)")
             }

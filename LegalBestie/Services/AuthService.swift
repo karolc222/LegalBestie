@@ -7,12 +7,7 @@ import Foundation
 import FirebaseAuth
 
 final class AuthService: ObservableObject {
-    struct AppUser: Identifiable, Equatable {
-        let id: String
-        let email: String?
-        let isVerified: Bool
-    }
-    
+
     @Published private(set) var user: AppUser?
     
     //stores the listener reference Firebase gives 

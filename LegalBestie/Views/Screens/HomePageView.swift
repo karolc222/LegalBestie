@@ -9,7 +9,7 @@ import SwiftUI
 private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct HomePageView: View {
-    let user: AuthService.AppUser
+    let user: User?
     let isGuest: Bool
     let onSignOut: () -> Void
     
@@ -29,7 +29,7 @@ struct HomePageView: View {
                         Text(isGuest ? "Welcome" : "Welcome back")
                             .font(.title.weight(.semibold))
 
-                        if !isGuest, let email = user.email {
+                        if !isGuest, let email = user?.email {
                             Text(email)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
