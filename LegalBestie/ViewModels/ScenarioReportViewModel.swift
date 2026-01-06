@@ -16,7 +16,6 @@ final class ScenarioReportViewModel: ObservableObject {
     @Published var exportError: String?
     @Published var showExportSuccess = false
     
-    // Dependencies
     private let modelContext: ModelContext
     private let authService: AuthService
     
@@ -25,7 +24,6 @@ final class ScenarioReportViewModel: ObservableObject {
         self.authService = authService
     }
     
-    // Report Management
 
     func loadUserReports() {
         reports = []
@@ -42,6 +40,8 @@ final class ScenarioReportViewModel: ObservableObject {
             reportTitle: report.scenarioTitle,
             scenarioCategory: report.scenarioId,
             outcome: report.legalSummary,
+            legalSummary: report.legalSummary,
+            incidentSteps: report.steps.map { $0.statement },
             sources: report.legalSources.map { $0.sourceTitle },
             savedAt: Date()
         )
@@ -58,7 +58,6 @@ final class ScenarioReportViewModel: ObservableObject {
     }
     
     
-    // Export report
     
     func exportToPDF(report: ScenarioReport) async -> URL? {
         isExporting = true

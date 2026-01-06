@@ -17,9 +17,11 @@ struct SavedReportsView: View {
     
     // Filter reports for current user
     private var userReports: [UserSavedReport] {
-        allReports.sorted {
-            $0.savedAt > $1.savedAt
-        }
+        guard let userId = auth.user?.id else { return [] }
+
+        return allReports
+            .filter { $0.userId == userId }
+            .sorted { $0.savedAt > $1.savedAt }
     }
 
     var body: some View {
@@ -31,35 +33,33 @@ struct SavedReportsView: View {
                     endPoint: .bottom
                 )
 
-                Group {
-                    if userReports.isEmpty {
-                        VStack(spacing: 16) {
-                            Image(systemName: "doc.text")
-                                .font(.system(size: 48))
-                                .foregroundStyle(brandRose.opacity(0.6))
+                if userReports.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: 48))
+                            .foregroundStyle(brandRose.opacity(0.6))
 
-                            Text("No saved reports yet")
-                                .font(.title3.weight(.semibold))
+                        Text("No saved reports yet")
+                            .font(.title3.weight(.semibold))
 
-                            Text("Complete scenarios and save reports to see them here.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
-                        }
-                        .padding(25)
-                    } else {
-                        List {
-                            ForEach(userReports) { report in
-                                NavigationLink {
-                                    ReportDetailView(report: report)
-                                } label: {
-                                    reportRow(report)
-                                }
+                        Text("Complete scenarios and save reports to see them here.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(25)
+                } else {
+                    List {
+                        ForEach(userReports, id: \.id) { report in
+                            NavigationLink {
+                                ReportDetailView(report: report)
+                            } label: {
+                                reportRow(report)
                             }
                         }
-                        .scrollContentBackground(.hidden)
-                        .listStyle(.insetGrouped)
                     }
+                    .scrollContentBackground(.hidden)
+                    .listStyle(.insetGrouped)
                 }
             }
             .navigationTitle("Saved Reports")
@@ -82,6 +82,13 @@ private extension SavedReportsView {
             Text(report.outcome)
                 .font(.caption2)
                 .foregroundStyle(.secondary)
+                .lineLimit(2)
+            
+            HStack {
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(14)
         .background(

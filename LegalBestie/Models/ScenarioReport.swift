@@ -17,9 +17,8 @@ final class ScenarioReport {
     var createdAt: Date?
     var updatedAt: Date?
     
-    //user transcript of answers
+    // transcript of answers
     var steps: [StepReport]
-    
     var legalSummary: String
     var legalSources: [LegalSource]
     

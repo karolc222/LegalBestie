@@ -13,6 +13,8 @@ final class UserSavedReport {
     var reportTitle: String
     var scenarioCategory: String
     var outcome: String
+    var legalSummary: String?
+    var incidentSteps: [String]
     var sources: [String]  
     var savedAt: Date
 
@@ -22,6 +24,8 @@ final class UserSavedReport {
         reportTitle: String,
         scenarioCategory: String,
         outcome: String,
+        legalSummary: String?,
+        incidentSteps: [String],
         sources: [String] = [],
         savedAt: Date = Date()
     ) {
@@ -30,6 +34,8 @@ final class UserSavedReport {
         self.reportTitle = reportTitle
         self.scenarioCategory = scenarioCategory
         self.outcome = outcome
+        self.legalSummary = legalSummary
+        self.incidentSteps = incidentSteps
         self.sources = sources
         self.savedAt = savedAt
     }

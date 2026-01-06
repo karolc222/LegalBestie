@@ -5,117 +5,106 @@
 
 import Foundation
 
-class ChatService {
+@MainActor
+final class ChatService {
+
     static let shared = ChatService()
 
-    private let session: URLSession = {
+    private let session: URLSession
+    private let apiKey: String
+
+    private init() {
         let config = URLSessionConfiguration.ephemeral
         config.waitsForConnectivity = true
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 30
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
-        return URLSession(configuration: config)
-    }()
+        self.session = URLSession(configuration: config)
 
-    private let apiKey: String
-
-    init() {
         self.apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
-
         if apiKey.isEmpty {
-            print("OPENAI_API_KEY is NOT set for this run.")
-        } else {
-            print("OPENAI_API_KEY loaded. Prefix: \(apiKey.prefix(7))…")
+            print("OPENAI_API_KEY missing.")
         }
     }
-    
+
     func askQuestion(
         question: String,
         sources: [(sourceTitle: String, sourceDescription: String)]
-        ) async throws -> String {
         
+    ) async throws -> String {
+
         guard !apiKey.isEmpty else {
-            return "AI is unavailable (missing API key)."
+            return "AI is unavailable or its missing."
         }
-        
+
         let context = sources.isEmpty
             ? "Answer based on general UK law knowledge."
-            : sources
-                .map { "Source: \($0.sourceTitle)\n\($0.sourceDescription)" }
-                .joined(separator: "\n\n")
-        
+            : sources.map {
+                "Source: \($0.sourceTitle)\n\($0.sourceDescription)"
+              }.joined(separator: "\n\n")
+
         let prompt = """
-        You are a helpful UK legal assistant. Answer this question clearly and simply:
-        
+        You are a helpful UK legal assistant.
+
         \(context)
-        
+
         Question: \(question)
-        
-        Keep your answer to 2-3 short sentences. Be helpful and clear.
+
+        Answer clearly in 2–3 short sentences.
         """
-        
-        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
-        var request = URLRequest(url: url)
+
+        var request = URLRequest(
+            url: URL(string: "https://api.openai.com/v1/chat/completions")!
+        )
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-        
-        let body: [String: Any] = [
+
+        request.httpBody = try JSONSerialization.data(withJSONObject: [
             "model": "gpt-3.5-turbo",
             "messages": [
                 ["role": "user", "content": prompt]
             ],
             "max_tokens": 200,
             "temperature": 0.7
-        ]
-        
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        ])
 
         let (data, response) = try await session.data(for: request)
-
         guard let http = response as? HTTPURLResponse else {
-            print("OpenAI: non-HTTP response")
-            throw NSError(domain: "ChatService", code: 1,
-                          userInfo: [NSLocalizedDescriptionKey: "Network error (non-HTTP response)."])
+            throw ChatError.network
         }
 
-        // Helpful debug output
-        let raw = String(data: data, encoding: .utf8) ?? "<no body>"
-        if !(200...299).contains(http.statusCode) {
-            print("OpenAI HTTP \(http.statusCode). Body: \(raw)")
-
-            // Return a readable message based on common failures
-            let message: String
-            switch http.statusCode {
-            case 401:
-                message = "OpenAI request failed (401). Check API key / billing."
-            case 403:
-                message = "OpenAI request blocked (403)."
-            case 404:
-                message = "OpenAI endpoint/model not found (404)."
-            case 429:
-                message = "OpenAI rate limit reached (429). Try again."
-            default:
-                message = "OpenAI request failed (\(http.statusCode))."
-            }
-
-            throw NSError(domain: "ChatService", code: http.statusCode,
-                          userInfo: [NSLocalizedDescriptionKey: message])
+        guard (200...299).contains(http.statusCode) else {
+            throw ChatError.http(http.statusCode)
         }
-        
+
         guard
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-            let choices = json["choices"] as? [[String: Any]],
-            let firstChoice = choices.first,
-            let message = firstChoice["message"] as? [String: Any],
-            let answer = message["content"] as? String
+            let choice = (json["choices"] as? [[String: Any]])?.first,
+            let message = choice["message"] as? [String: Any],
+            let content = message["content"] as? String
         else {
-            let raw = String(data: data, encoding: .utf8) ?? "<no body>"
-            print("OpenAI decode/shape mismatch. Raw: \(raw)")
-            return "OpenAI response could not be parsed."
+            throw ChatError.decode
         }
 
-        return answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        return content.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+// error handling
+enum ChatError: LocalizedError {
+    case network
+    case decode
+    case http(Int)
+
+    var errorDescription: String? {
+        switch self {
+        case .network:
+            return "Network error."
+        case .decode:
+            return "AI response could not be parsed."
+        case .http(let code):
+            return "AI request failed (\(code))."
+        }
     }
 }

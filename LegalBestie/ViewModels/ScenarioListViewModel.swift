@@ -24,20 +24,17 @@ final class ScenarioListViewModel: ObservableObject {
             return
         }
     
-        //  date formatter
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         dateFormatter.locale = Locale(identifier: "en_GB")
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
-        // Load scenarios
         var loaded: [ScenarioListItem] = []
         
         for url in urls {
             let fileName = url.deletingPathExtension().lastPathComponent
             
-            // ignore non-scenario files
             if fileName == "scenario_format" || fileName == "civil_rights_links" {
                 continue
             }

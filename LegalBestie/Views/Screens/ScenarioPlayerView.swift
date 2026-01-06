@@ -4,7 +4,7 @@
 import SwiftUI
 import SwiftData
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) 
 
 struct ScenarioPlayerView: View {
     let category: String
@@ -162,6 +162,7 @@ struct ScenarioPlayerView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(isPresented: $viewModel.showOutcome) {
                     if let template = viewModel.template,
+                       
                        let report = viewModel.report {
                         ScenarioOutcomeView(
                             scenarioTitle: template.scenarioTitle,
@@ -169,7 +170,8 @@ struct ScenarioPlayerView: View {
                             legalSummary: template.legalSummaryText,
                             topics: template.scenarioTopics,
                             scenarioSources: template.legalSources ?? [],
-                            report: report
+                            report: report,
+                            scenarioCategory: category
                         )
                     } else {
                         Text("No scenario data")

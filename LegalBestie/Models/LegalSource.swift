@@ -1,6 +1,3 @@
-//  LegalSource.swift
-//  LegalBestie
-
 import Foundation
 import SwiftData
 
@@ -51,18 +48,17 @@ final class LegalSource {
     }
 }
     
-    extension LegalSource {
-        convenience init(dto: LegalSourceDTO) {
-            self.init(
-                sourceId: UUID().uuidString,
-                sourceTitle: dto.sourceTitle,
-                sourceUrl: dto.sourceUrl.absoluteString,
-                sourceDescription: dto.sourceDescription,
-                sourceOrganization: dto.sourceOrganization ?? "",
-                sourceStatus: dto.sourceStatus ?? "",
-                sourceKeywords: dto.sourceKeywords ?? [],
-                sourceTopics: dto.sourceTopics ?? []
-            )
-        }
+extension LegalSource {
+    convenience init(dto: LegalSourceDTO) {
+        self.init(
+            sourceId: UUID().uuidString,
+            sourceTitle: dto.sourceTitle,
+            sourceUrl: dto.sourceUrl.absoluteString,
+            sourceDescription: dto.sourceDescription,
+            sourceOrganization: dto.sourceOrganization ?? "",
+            sourceStatus: dto.sourceStatus ?? "",
+            sourceKeywords: dto.sourceKeywords ?? [],
+            sourceTopics: dto.sourceTopics ?? []
+        )
     }
-
+}

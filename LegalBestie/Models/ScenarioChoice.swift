@@ -30,7 +30,7 @@ final class ScenarioChoiceModel {
     }
 }
 
-//convenience mapper from DTO to model
+//  DTO to model
 extension ScenarioChoiceModel {
     convenience init (dto: ScenarioChoice) {
         self.init(text: dto.text, nextNode: dto.nextNode)

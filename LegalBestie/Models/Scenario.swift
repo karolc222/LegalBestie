@@ -20,7 +20,6 @@ final class Scenario {
     var legalSources: [LegalSource]
     var scenarioUpdatedAt: Date?
     
-    //not to be saved in the db
     @Transient var currentNodeKey: String?
     
     init(
@@ -73,7 +72,7 @@ struct ChoiceDTO: Codable, Hashable, Identifiable {
         var id: String { sourceId }
 }
 
-// Runtime Codable structs to decode JSON into memory
+// runtime Codable structs to decode JSON into memory
 struct ScenarioTemplate: Codable {
     let scenarioId: String
     let scenarioTitle: String

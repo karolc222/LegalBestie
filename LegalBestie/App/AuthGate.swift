@@ -3,7 +3,6 @@
 //
 //  Created by Carolina LC on 23/10/2025.
 
-
 import SwiftUI
 
 struct AuthGate: View {
@@ -22,7 +21,6 @@ struct AuthGate: View {
                         firstName: "",
                         lastName: "",
                         email: appUser.email ?? "",
-                        passwordHash: "",
                         createdAt: Date()
                     ),
                     
@@ -41,7 +39,6 @@ struct AuthGate: View {
 
             } else {
                 
-                //registration
                 LoginView(onContinueAsGuest: {
                     isGuest = true
                 })

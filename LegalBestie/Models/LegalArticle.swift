@@ -16,7 +16,6 @@ final class LegalArticle {
     var createdAt: Date
     var updatedAt: Date
 
-    // Relationships
     var source: LegalSource
     var categories: [LegalCategory]
     

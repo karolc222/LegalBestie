@@ -5,11 +5,11 @@
 
 import Foundation
 
+@MainActor
 final class SourcesProvider {
 
     typealias SourcePair = (sourceTitle: String, sourceDescription: String)
     
-    //loads the json file with local sources/gov.uk search service
     private let localSourcesVM = LegalSourceViewModel()
     private let govUK = GovUKSearchService()
 
@@ -20,15 +20,13 @@ final class SourcesProvider {
     private let ttl: TimeInterval = 30 * 60
 
     func sources(for question: String) async throws -> [SourcePair] {
-        let q = question.trimmingCharacters(in:
-                .whitespacesAndNewlines)
+        let q = question.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return [] }
 
-        var pairs = localSources(matching: q.lowercased())
+        var pairs = localSources(matching: q)
 
         if pairs.count < 3 {
-            let govPairs = try await govUKPairs(query: q)
-            pairs.append(contentsOf: govPairs)
+            pairs += try await govUKPairs(query: q)
         }
 
         return Array(dedupe(pairs).prefix(6))
@@ -36,41 +34,32 @@ final class SourcesProvider {
 
     private func localSources(matching q: String) -> [SourcePair] {
         if localSourcesVM.sources.isEmpty { localSourcesVM.loadSources() }
-        
-        let queryLower = q.lowercased()
-        
-        // Try exact phrase match first
-        let exactMatches = localSourcesVM.sources.filter { src in
-            src.sourceTitle.lowercased().contains(queryLower) ||
-            src.sourceDescription.lowercased().contains(queryLower)
+
+        let query = q.lowercased()
+
+        let exact = localSourcesVM.sources.filter {
+            $0.sourceTitle.lowercased().contains(query) ||
+            $0.sourceDescription.lowercased().contains(query)
         }
-        
-        if !exactMatches.isEmpty {
-            return exactMatches.prefix(6).map {
-                let url = $0.sourceUrl.isEmpty ? "" : "\nURL: \($0.sourceUrl)"
-                return ($0.sourceTitle, $0.sourceDescription + url)
+
+        if !exact.isEmpty {
+            return exact.prefix(6).map {
+                format($0.sourceTitle, $0.sourceDescription, url: $0.sourceUrl)
             }
         }
-        
-        // Fall back to keyword matching
-        let tokens = Set(q.split { !($0.isLetter || $0.isNumber) }
-            .map { String($0).lowercased() }
-            .filter { $0.count >= 3 })
-        
+
+        let tokens = tokenize(query)
         guard !tokens.isEmpty else { return [] }
-        
-        let matches = localSourcesVM.sources.filter { src in
-            let allKeywords = (src.sourceKeywords + src.sourceTopics).map { $0.lowercased() }
-            return allKeywords.contains { keyword in
-                tokens.contains(keyword) || keyword.contains(where: { tokens.contains(String($0)) })
+
+        let keywordMatches = localSourcesVM.sources.filter { src in
+            let keywords = (src.sourceKeywords + src.sourceTopics).map { $0.lowercased() }
+            return keywords.contains { kw in
+                tokens.contains(kw) || tokens.contains { kw.contains($0) }
             }
         }
-        
-        guard !matches.isEmpty else { return [] }
-        
-        return matches.prefix(6).map {
-            let url = $0.sourceUrl.isEmpty ? "" : "\nURL: \($0.sourceUrl)"
-            return ($0.sourceTitle, $0.sourceDescription + url)
+
+        return keywordMatches.prefix(6).map {
+            format($0.sourceTitle, $0.sourceDescription, url: $0.sourceUrl)
         }
     }
     private func govUKPairs(query: String) async throws -> [SourcePair] {
@@ -82,12 +71,24 @@ final class SourcesProvider {
         let results = try await govUK.search(query, count: 5)
         let pairs: [SourcePair] = results.compactMap {
             guard $0.link.hasPrefix("https://www.gov.uk/") else { return nil }
-            let desc = ($0.description ?? "") + "\nURL: \($0.link)"
-            return ("GOV.UK: \($0.title)", desc)
+            return format("GOV.UK: \($0.title)", $0.description ?? "", url: $0.link)
         }
 
         cache[key] = (Date(), pairs)
         return pairs
+    }
+
+    private func format(_ title: String, _ description: String, url: String) -> SourcePair {
+        let suffix = url.isEmpty ? "" : "\nURL: \(url)"
+        return (title, description + suffix)
+    }
+
+    private func tokenize(_ text: String) -> Set<String> {
+        Set(
+            text.split { !($0.isLetter || $0.isNumber) }
+                .map { $0.lowercased() }
+                .filter { $0.count >= 3 }
+        )
     }
 
     private func dedupe(_ pairs: [SourcePair]) -> [SourcePair] {

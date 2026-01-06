@@ -20,7 +20,6 @@ struct LegalBestieApp: App {
         }
         .modelContainer(for: [
             UserSavedReport.self,
-            ChatQuery.self,
             ScenarioReport.self,
             StepReport.self
         ])

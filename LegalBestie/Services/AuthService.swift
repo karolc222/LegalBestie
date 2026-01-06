@@ -6,44 +6,50 @@
 import Foundation
 import FirebaseAuth
 
+@MainActor
 final class AuthService: ObservableObject {
 
     @Published private(set) var user: AppUser?
-    
-    //stores the listener reference Firebase gives 
-    private var handle: AuthStateDidChangeListenerHandle?
-    
+
+    private var authHandle: AuthStateDidChangeListenerHandle?
+
     init() {
-        handle = Auth.auth().addStateDidChangeListener { [weak self] _, u in
-            if let u = u {
-                self?.user = AppUser(id: u.uid, email: u.email, isVerified: u.isEmailVerified)
+        authHandle = Auth.auth().addStateDidChangeListener { [weak self] _, firebaseUser in
+            guard let self else { return }
+
+            if let firebaseUser {
+                self.user = AppUser(
+                    id: firebaseUser.uid,
+                    email: firebaseUser.email,
+                    isVerified: firebaseUser.isEmailVerified
+                )
             } else {
-                self?.user = nil
+                self.user = nil
             }
         }
     }
-    
+
     deinit {
-        if let h = handle {
-            Auth.auth().removeStateDidChangeListener(h)
+        if let authHandle {
+            Auth.auth().removeStateDidChangeListener(authHandle)
         }
     }
-    
-    func signUp(email: String, password:String) async throws {
-        _ = try await Auth.auth().createUser(withEmail: email, password: password)
-        try await Auth.auth().currentUser?.sendEmailVerification()
+
+
+    func signUp(email: String, password: String) async throws {
+        let result = try await Auth.auth().createUser(withEmail: email, password: password)
+        try await result.user.sendEmailVerification()
     }
-    
+
     func signIn(email: String, password: String) async throws {
         _ = try await Auth.auth().signIn(withEmail: email, password: password)
     }
-    
+
     func signOut() throws {
         try Auth.auth().signOut()
     }
-    
-    func sendPasswordReset(email:String) async throws {
+
+    func sendPasswordReset(email: String) async throws {
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }
-    
 }

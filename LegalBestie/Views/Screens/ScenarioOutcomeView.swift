@@ -1,3 +1,7 @@
+struct ShareItem: Identifiable {
+    let id = UUID()
+    let url: URL
+}
 //  ScenarioOutcomeView.swift
 //  LegalBestie
 
@@ -6,7 +10,7 @@
 import SwiftUI
 import SwiftData
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) 
 
 struct ScenarioOutcomeView: View {
     let scenarioTitle: String
@@ -15,24 +19,14 @@ struct ScenarioOutcomeView: View {
     let topics: [String]
     let scenarioSources: [ScenarioSourceDTO]
     let report: ScenarioReport
+    let scenarioCategory: String
     
     @EnvironmentObject var auth: AuthService
     @Environment(\.modelContext) private var modelContext
     
-    @State private var exportedURL: URL?
-    @State private var isShowingShareSheet = false
+    @State private var shareItem: ShareItem?
     @State private var showSaveConfirmation = false
     @State private var hasBeenSaved = false
-    
-    private var effectiveUserLabel: String {
-        if let email = auth.user?.email, !email.isEmpty {
-            return email
-        }
-        if let uid = auth.user?.id, !uid.isEmpty {
-            return uid
-        }
-        return "User"
-    }
 
     
     var body: some View {
@@ -45,86 +39,52 @@ struct ScenarioOutcomeView: View {
             .ignoresSafeArea()
 
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(scenarioTitle)
-                            .font(.title.weight(.semibold))
+                VStack(alignment: .leading, spacing: 20) {
 
-                        Text(scenarioDescription)
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                    }
+                    Text(scenarioTitle)
+                        .font(.title.weight(.semibold))
+
+                    Text(scenarioDescription)
+                        .foregroundStyle(.secondary)
 
                     if let summary = legalSummary {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Legal Summary")
-                                .font(.headline)
-
+                        section(title: "Legal Summary") {
                             Text(summary)
-                                .font(.body)
                         }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.white)
-                        )
                     }
 
                     if !scenarioSources.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Legal Sources")
-                                .font(.headline)
-
+                        section(title: "Legal Sources") {
                             ForEach(scenarioSources) { source in
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(source.sourceTitle)
                                         .font(.subheadline.weight(.medium))
-
                                     Link("Open source", destination: source.sourceLink)
                                         .font(.caption)
                                         .foregroundStyle(brandRose)
                                 }
-                                .padding(.vertical, 6)
                             }
                         }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.white)
-                        )
                     }
 
                     if !report.steps.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Your Incident Summary")
-                                .font(.headline)
-
+                        section(title: "Your Incident Summary") {
                             ForEach(report.steps) { step in
                                 Text("• \(step.statement)")
-                                    .font(.body)
-                                    .fixedSize(horizontal: false, vertical: true)
                             }
                         }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.white)
-                        )
                     }
 
-                    // Action buttons
-                    VStack(spacing: 14) {
+                    VStack(spacing: 12) {
                         Button {
-                            Task {
-                                await generateAndSharePDF()
-                            }
+                            Task { await generateAndSharePDF() }
                         } label: {
                             Label("Download Report (PDF)", systemImage: "arrow.down.doc")
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.bordered)
                         .tint(brandRose)
-                        
+
                         Button {
                             saveReportToProfile()
                         } label: {
@@ -137,11 +97,6 @@ struct ScenarioOutcomeView: View {
                         .buttonStyle(.borderedProminent)
                         .tint(brandRose)
                         .disabled(hasBeenSaved)
-                        .alert("Saved", isPresented: $showSaveConfirmation) {
-                            Button("OK", role: .cancel) {}
-                        } message: {
-                            Text("Report saved to your profile for easy access.")
-                        }
                     }
                 }
                 .padding()
@@ -149,29 +104,36 @@ struct ScenarioOutcomeView: View {
         }
         .navigationTitle("Outcome")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            print("ScenarioOutcomeView loaded")
-            print("Topics:", topics)
-            print("Steps:", report.steps.count)
-            print("Auth user label:", effectiveUserLabel)
+        .sheet(item: $shareItem) { item in
+            ShareSheet(url: item.url)
         }
-        .sheet(isPresented: $isShowingShareSheet) {
-            if let url = exportedURL {
-                ShareSheet(url: url)
-            }
+        .alert("Saved to Profile", isPresented: $showSaveConfirmation) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Your report has been successfully saved and is available in your Saved Library.")
         }
     }
 
     private func saveReportToProfile() {
-        // Stamp report with user label (email/uid) for now.
-        report.userId = effectiveUserLabel
+        guard let userId = auth.user?.id else { return }
 
-        modelContext.insert(report)
+        let savedReport = UserSavedReport(
+            userId: userId,
+            reportTitle: scenarioTitle,
+            scenarioCategory: scenarioCategory,
+            outcome: scenarioDescription,
+            legalSummary: legalSummary,
+            incidentSteps: report.steps.map { $0.statement },
+            sources: scenarioSources.map { $0.sourceTitle },
+            savedAt: Date()
+        )
+
+        modelContext.insert(savedReport)
+
         do {
             try modelContext.save()
             hasBeenSaved = true
             showSaveConfirmation = true
-            print("Report saved to profile for:", effectiveUserLabel)
         } catch {
             print("Failed to save report:", error.localizedDescription)
         }
@@ -179,35 +141,33 @@ struct ScenarioOutcomeView: View {
 
     private func generateAndSharePDF() async {
         do {
-            // Convert to exportable format
             let exportable = ExportableReport(from: report)
-            
-            // Create filename
-            let filename = report.scenarioTitle
-                .replacingOccurrences(of: " ", with: "_")
-            + "_report.pdf"
-            
-            // Temporary file location
-            let tmpURL = FileManager.default
-                .temporaryDirectory
-                .appendingPathComponent(filename)
-            
-            // Generate PDF
+            let filename = report.scenarioTitle.replacingOccurrences(of: " ", with: "_") + "_report.pdf"
+            let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
             try ReportGeneratorService.generatePDF(from: exportable, to: tmpURL)
-            
-            // Store URL for share sheet
             await MainActor.run {
-                exportedURL = tmpURL
-                isShowingShareSheet = true
+                shareItem = ShareItem(url: tmpURL)
             }
-            
-            print(" Report exported to: \(tmpURL.path)")
         } catch {
             print(" Report export failed: ", error.localizedDescription)
         }
     }
 }
 
+@ViewBuilder
+func section(title: String, @ViewBuilder content: () -> some View) -> some View {
+    VStack(alignment: .leading, spacing: 12) {
+        Text(title)
+            .font(.headline)
+
+        content()
+    }
+    .padding(16)
+    .background(
+        RoundedRectangle(cornerRadius: 16)
+            .fill(Color.white)
+    )
+}
 
 // Share sheet wrapper
 struct ShareSheet: UIViewControllerRepresentable {

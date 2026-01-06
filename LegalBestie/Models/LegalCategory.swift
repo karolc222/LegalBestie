@@ -15,7 +15,6 @@ final class LegalCategory {
     var updatedAt: Date
     
     
-    // Relationships
     var sources: [LegalSource] = []
     var articles: [LegalArticle] = []
     

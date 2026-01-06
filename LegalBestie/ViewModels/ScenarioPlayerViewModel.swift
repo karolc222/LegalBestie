@@ -97,7 +97,6 @@ final class ScenarioPlayerViewModel: ObservableObject {
         currentNode?.choices.isEmpty ?? false
     }
     
-    // MARK: - Private Methods
     
     private static func loadTemplate(category: String, name: String) throws -> ScenarioTemplate {
         guard let url = Bundle.main.url(
@@ -138,6 +137,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
             .replacingOccurrences(of: "?", with: "")
             .trimmingCharacters(in: .whitespaces)
         
+        
         if choice == "yes" {
             statement = statement.replacingOccurrences(of: "Did the ", with: "The ")
             statement = statement.replacingOccurrences(of: "Did ", with: "")
@@ -147,7 +147,6 @@ final class ScenarioPlayerViewModel: ObservableObject {
             statement = statement.replacingOccurrences(of: "Was your ", with: "My ")
             statement = statement.replacingOccurrences(of: "Does the ", with: "The ")
             
-            // Convert verbs to past tense
             let verbReplacements = [
                 " ask ": " asked ",
                 " request ": " requested ",
@@ -198,7 +197,6 @@ final class ScenarioPlayerViewModel: ObservableObject {
             return "\(question): \(answer)"
         }
         
-        // Capitalize first letter
         return statement.prefix(1).uppercased() + statement.dropFirst()
     }
 }
