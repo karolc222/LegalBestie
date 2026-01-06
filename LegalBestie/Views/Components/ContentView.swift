@@ -7,7 +7,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            if let _ = viewModel.scenario {
+            if viewModel.scenario != nil {
                 Text("Scenario loaded")
             } else {
                 ProgressView("Loading scenario...")

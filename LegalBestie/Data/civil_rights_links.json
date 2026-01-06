@@ -13,6 +13,7 @@
         "topics": ["police_stop", "stop_and_search", "civil_rights"]
         
     },
+    
     {
         "sourceTitle": "Liberty",
         "sourceUrl": "https://www.libertyhumanrights.org.uk/",
@@ -26,6 +27,7 @@
         ],
         "topics": ["civil_rights", "advocacy", "human_rights"]
     },
+    
     {
         "sourceTitle": "Stop and Search (Liberty)",
         "sourceUrl": "https://www.libertyhumanrights.org.uk/advice_information/stop-and-search/",
@@ -39,6 +41,7 @@
         ],
         "topics": ["stop_and_search", "public_order", "protest", "civil_rights"]
     },
+    
     {
         "sourceTitle": "British Institute of Human Rights (BIHR)",
         "sourceUrl": "https://www.bihr.org.uk/",
@@ -53,6 +56,7 @@
         ],
         "topics": ["human_rights", "public_services", "migration", "civil_rights"]
     },
+    
     {
         "sourceTitle": "JUSTICE",
         "sourceUrl": "https://www.justice.org.uk/",
@@ -66,6 +70,7 @@
         ],
         "topics": ["legal_reform", "fair_trials", "human_rights"]
     },
+    
     {
         "sourceTitle": "Open Rights Group",
         "sourceUrl": "https://www.openrightsgroup.org/",
@@ -79,6 +84,7 @@
         ],
         "topics": ["digital_rights", "privacy", "free_speech"]
     },
+    
     {
         "sourceTitle": "Police powers & protests (Commons Briefing)",
         "sourceUrl": "https://commonslibrary.parliament.uk/research-briefings/sn05013/",
@@ -93,6 +99,7 @@
         ],
         "topics": ["police_powers", "protest", "public_order"]
     },
+    
     {
         "sourceTitle": "Stop and Search Data (Commons Briefing)",
         "sourceUrl": "https://commonslibrary.parliament.uk/research-briefings/cdp-2025-0057/",
@@ -106,6 +113,7 @@
         ],
         "topics": ["stop_and_search", "police_data", "race_disparity"]
     },
+    
     {
         "sourceTitle": "Human Rights Watch – UK",
         "sourceUrl": "https://www.hrw.org/about/get-local/london",
@@ -119,6 +127,7 @@
         ],
         "topics": ["human_rights", "international_law"]
     },
+    
     {
         "sourceTitle": "Know Your Human Rights – Liberty Resource Hub",
         "sourceUrl": "https://knowyourhumanrights.co.uk/help-resources/useful-links/",

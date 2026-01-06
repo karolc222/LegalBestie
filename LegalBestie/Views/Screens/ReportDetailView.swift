@@ -31,18 +31,46 @@ struct ReportDetailView: View {
                                 .fill(Color.white)
                         )
 
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Your Incident Summary")
-                            .font(.headline)
+                    Text(report.outcome)
+                        .font(.body)
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color.white)
+                        )
+
+                    Button {
+                        let fileURL = FileManager.default.temporaryDirectory
+                            .appendingPathComponent("\(report.reportTitle).txt")
+
+                        try? report.outcome.write(
+                            to: fileURL,
+                            atomically: true,
+                            encoding: .utf8
+                        )
+
+                        let activityVC = UIActivityViewController(
+                            activityItems: [fileURL],
+                            applicationActivities: nil
+                        )
+
+                        UIApplication.shared
+                            .connectedScenes
+                            .compactMap { $0 as? UIWindowScene }
+                            .first?
+                            .keyWindow?
+                            .rootViewController?
+                            .present(activityVC, animated: true)
+
+                    } label: {
+                        Label("Download to device", systemImage: "arrow.down.doc")
+                            .frame(maxWidth: .infinity)
                     }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(Color.white)
-                    )
+                    .buttonStyle(.borderedProminent)
+                    .tint(brandRose)
                 }
-                .padding()
             }
+            .padding()
         }
         .navigationTitle("Report")
         .navigationBarTitleDisplayMode(.inline)

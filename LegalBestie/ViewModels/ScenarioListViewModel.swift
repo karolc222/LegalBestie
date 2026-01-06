@@ -5,6 +5,21 @@
 
 import Foundation
 
+// Lightweight list item used only for displaying scenarios in the list
+struct ScenarioListItem: Identifiable {
+    let id: String
+    let title: String
+    let description: String
+    let updatedAt: Date
+}
+
+// Minimal DTO for decoding scenario JSON files
+struct ScenarioTemplateDTO: Decodable {
+    let scenarioTitle: String
+    let scenarioDescription: String
+    let scenarioUpdatedAt: Date?
+}
+
 @MainActor
 final class ScenarioListViewModel: ObservableObject {
     
@@ -43,13 +58,13 @@ final class ScenarioListViewModel: ObservableObject {
             }
                         
             guard let data = try? Data(contentsOf: url),
-                  let template = try? decoder.decode(ScenarioTemplate.self,from: data) else {
+                  let template = try? decoder.decode(ScenarioTemplateDTO.self, from: data) else {
                 continue
             }
             
             loaded.append(
                 ScenarioListItem(
-                    fileName: fileName,
+                    id: fileName,
                     title: template.scenarioTitle,
                     description: template.scenarioDescription,
                     updatedAt: template.scenarioUpdatedAt ?? Date()

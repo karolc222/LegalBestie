@@ -15,8 +15,6 @@ import SwiftData
     var passwordHash: String
     var createdAt: Date
 
-    var reports: [Report] = []
-    var scenarios: [Scenario] = []
     var savedReports: [UserSavedReport] = []
 
     
@@ -27,9 +25,6 @@ import SwiftData
         email: String,
         passwordHash: String,
         createdAt: Date = .now,
-        reports: [Report] = [],
-        scenarios: [Scenario] = [],
-        savedReports: [UserSavedReport] = []
     )
     {
         self.userId = userId
@@ -38,59 +33,8 @@ import SwiftData
         self.email = email
         self.passwordHash = passwordHash
         self.createdAt = createdAt
-        self.reports = reports
-        self.scenarios = scenarios
         self.savedReports = savedReports
     }
     
 }
-    
 
-//Core user actions
-extension User {
-    
-    func initiateScenario(title: String, description: String ) -> Scenario {
-        return Scenario(
-            scenarioId: UUID().uuidString,
-            scenarioTitle: title,
-            categoryId: "",
-            scenarioDescription: description,
-            scenarioStartNode: "",
-            legalSummaryText: "",
-            legalSources: [],
-            updatedAt: Date()
-        )
-    }
-    
-    func generateReport(for scenario: Scenario) -> Report {
-        return Report(
-            reportId: UUID().uuidString,
-            reportTitle: "Report for \(scenario.scenarioTitle)",
-            reportDescription: "",
-            contentSummary: scenario.legalSummaryText,
-            storagePath: "",
-            createdAt: Date(),
-            updatedAt: Date(),
-            user: self
-        )
-    }
-    
-    func openChat() -> ChatQuery {
-        return ChatQuery(
-            queryId: UUID().uuidString,
-            userId: self.userId,
-            queryText: "",
-            responseText: nil,
-            isSaved: false,
-            savedAt: nil,
-            tags: [],
-            resourceReferences: []
-        )
-    }
-
-    
-    func saveReport(_ report: UserSavedReport) -> [UserSavedReport] {
-        savedReports.append(report)
-        return savedReports
-    }
-}

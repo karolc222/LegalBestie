@@ -12,90 +12,89 @@ struct ScenarioListView: View {
     
     @StateObject private var viewModel = ScenarioListViewModel()
     
-    
-    
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [brandRose.opacity(0.10), Color(.systemBackground)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading {
+            VStack(spacing: 10) {
+                ProgressView()
+                Text("Loading scenarios...")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding()
 
-            
-            Group {
-                if viewModel.isLoading {
-                    VStack(spacing: 10) {
-                        ProgressView()
-                        Text("Loading scenarios...")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding()
+        } else if let error = viewModel.errorMessage {
+            VStack(spacing: 12) {
+                Text("Failed to load")
+                    .font(.headline)
 
-                } else if let error = viewModel.errorMessage {
-                    VStack(spacing: 12) {
-                        Text("Failed to load")
-                            .font(.headline)
+                Text(error)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
 
-                        Text(error)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
+                Button("Retry") {
+                    Task { await viewModel.loadScenarios() }
+                }
+                .buttonStyle(.bordered)
+                .tint(brandRose)
+            }
+            .padding()
 
-                        Button("Retry") {
-                            Task { await viewModel.loadScenarios() }
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(brandRose)
-                    }
-                    .padding()
+        } else {
+            List {
+                ForEach(viewModel.scenarios, id: \.id) { scenario in
+                    NavigationLink {
+                        ScenarioPlayerView(category: categoryName, name: scenario.fileName)
+                    } label: {
+                        HStack(alignment: .top, spacing: 0) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(scenario.title)
+                                    .font(.headline)
 
-                    
-                } else {
-                    List(viewModel.scenarios) { scenario in
-                        NavigationLink {
-                            ScenarioPlayerView(category: categoryName, name: scenario.fileName)
-                            
-                        } label: {
-                            HStack(alignment: .top, spacing: 0) {
-
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(scenario.title)
-                                        .font(.headline)
-
-                                    Text(scenario.description)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .lineLimit(2)
-                                }
-
-                                Spacer(minLength: 0)
+                                Text(scenario.description)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(2)
                             }
-                            .padding(.vertical, 14)
-                            .padding(.horizontal, 10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .stroke(brandRose.opacity(0.18), lineWidth: 1)
-                            )
+                            Spacer(minLength: 0)
                         }
-                        .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-                        .listRowBackground(Color.clear)
+                        .padding(.vertical, 14)
+                        .padding(.horizontal, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .stroke(brandRose.opacity(0.18), lineWidth: 1)
+                        )
                     }
-                    .scrollContentBackground(.hidden)
-                    .listStyle(.insetGrouped)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                    .listRowBackground(Color.clear)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .listStyle(.insetGrouped)
         }
-        
-        .navigationTitle(categoryName.replacingOccurrences(of: "_", with: " ").capitalized)
-        .task {
-            await viewModel.loadScenarios()
+    }
+    
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [brandRose.opacity(0.10), Color(.systemBackground)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                content
+            }
+            .navigationTitle(categoryName.replacingOccurrences(of: "_", with: " ").capitalized)
+            .task {
+                await viewModel.loadScenarios()
+            }
         }
     }
 }

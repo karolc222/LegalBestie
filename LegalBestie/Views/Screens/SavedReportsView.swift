@@ -13,15 +13,13 @@ private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 struct SavedReportsView: View {
     @EnvironmentObject var auth: AuthService
     
-    @Query private var allReports: [UserSavedReport]
+    @Query(sort: \UserSavedReport.savedAt, order: .reverse)
+    private var allReports: [UserSavedReport]
     
-    // Filter reports for current user
     private var userReports: [UserSavedReport] {
-        allReports.sorted {
-            $0.savedAt > $1.savedAt
-        }
+        allReports
     }
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -30,23 +28,19 @@ struct SavedReportsView: View {
                     startPoint: .top,
                     endPoint: .bottom
                 )
-
+                
                 Group {
                     if userReports.isEmpty {
                         VStack(spacing: 16) {
                             Image(systemName: "doc.text")
                                 .font(.system(size: 48))
                                 .foregroundStyle(brandRose.opacity(0.6))
-
+                            
                             Text("No saved reports yet")
                                 .font(.title3.weight(.semibold))
-
-                            Text("Complete scenarios and save reports to see them here.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
                         }
                         .padding(25)
+                        
                     } else {
                         List {
                             ForEach(userReports) { report in
@@ -65,22 +59,27 @@ struct SavedReportsView: View {
             .navigationTitle("Saved Reports")
             .navigationBarTitleDisplayMode(.inline)
         }
+        
+        .onAppear {
+            print("📦 Total reports in SwiftData:", allReports.count)
+            print("👤 Current auth email:", auth.user?.email ?? "nil")
+            
+            for report in allReports {
+                print("🧾 Stored report.userId:", report.userId)
+            }
+        }
     }
-}
-
-private extension SavedReportsView {
+    
+    
     @ViewBuilder
-    func reportRow(_ report: UserSavedReport) -> some View {
+    private func reportRow(_ report: UserSavedReport) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(report.reportTitle)
                 .font(.headline)
+                .lineLimit(2)
 
             Text(report.savedAt.formatted(date: .abbreviated, time: .omitted))
                 .font(.caption)
-                .foregroundStyle(.secondary)
-
-            Text(report.outcome)
-                .font(.caption2)
                 .foregroundStyle(.secondary)
         }
         .padding(14)
@@ -93,4 +92,5 @@ private extension SavedReportsView {
                 .stroke(brandRose.opacity(0.18), lineWidth: 1)
         )
     }
+    
 }

@@ -7,7 +7,7 @@
 import Foundation
 
 class ScenarioViewModel: ObservableObject {
-    @Published var scenario: Scenario?
+    @Published var scenario: ScenarioTemplate?
 
     init(filename: String = "journalists/stopped_by_police") {
         loadScenario(named: filename)
@@ -27,7 +27,7 @@ class ScenarioViewModel: ObservableObject {
         
         struct NodeDTO : Decodable {
             let question: String
-            let choices: [ChoiceDTO]?
+            let choices: [ScenarioChoice]
         }
         
         struct ChoiceDTO : Decodable {

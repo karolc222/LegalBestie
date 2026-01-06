@@ -6,6 +6,7 @@
 import Foundation
 import SwiftData
 
+
 // report based on user's answers and contains the legal summary
 
 @Model

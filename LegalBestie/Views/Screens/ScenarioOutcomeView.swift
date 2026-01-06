@@ -1,12 +1,10 @@
 //  ScenarioOutcomeView.swift
-//  LegalBestie
-
-//  With report preview before download
 
 import SwiftUI
 import SwiftData
+import UIKit
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct ScenarioOutcomeView: View {
     let scenarioTitle: String
@@ -14,16 +12,19 @@ struct ScenarioOutcomeView: View {
     let legalSummary: String?
     let topics: [String]
     let scenarioSources: [ScenarioSourceDTO]
-    let report: ScenarioReport
-    
+
+    @State private var report: ScenarioReport?
+
     @EnvironmentObject var auth: AuthService
     @Environment(\.modelContext) private var modelContext
-    
-    @State private var exportedURL: URL?
-    @State private var isShowingShareSheet = false
+
+    private let scenarioService = ScenarioService()
+
     @State private var showSaveConfirmation = false
     @State private var hasBeenSaved = false
-    
+    @State private var exportedURL: URL?
+    @State private var isShowingShareSheet = false
+
     private var effectiveUserLabel: String {
         if let email = auth.user?.email, !email.isEmpty {
             return email
@@ -34,7 +35,23 @@ struct ScenarioOutcomeView: View {
         return "User"
     }
 
-    
+    private var fullReportText: String {
+        """
+        \(scenarioTitle)
+
+        \(scenarioDescription)
+
+        LEGAL SUMMARY
+        \(legalSummary ?? "N/A")
+
+        LEGAL SOURCES
+        \(scenarioSources.map { "• \($0.sourceTitle)" }.joined(separator: "\n"))
+
+        INCIDENT SUMMARY
+        \((report?.steps ?? []).map { "• \($0.statement)" }.joined(separator: "\n"))
+        """
+    }
+
     var body: some View {
         ZStack {
             LinearGradient(
@@ -94,7 +111,7 @@ struct ScenarioOutcomeView: View {
                         )
                     }
 
-                    if !report.steps.isEmpty {
+                    if let report = report, !report.steps.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Your Incident Summary")
                                 .font(.headline)
@@ -115,16 +132,28 @@ struct ScenarioOutcomeView: View {
                     // Action buttons
                     VStack(spacing: 14) {
                         Button {
-                            Task {
-                                await generateAndSharePDF()
+                            let safeName = scenarioTitle
+                                .replacingOccurrences(of: "/", with: "-")
+                                .replacingOccurrences(of: ":", with: "-")
+
+                            let fileURL = FileManager.default.temporaryDirectory
+                                .appendingPathComponent("\(safeName).txt")
+
+                            do {
+                                try fullReportText.write(to: fileURL, atomically: true, encoding: .utf8)
+                                exportedURL = fileURL
+                                isShowingShareSheet = true
+                            } catch {
+                                // If writing fails, do nothing (you can add an alert later if needed)
+                                print("Export failed:", error.localizedDescription)
                             }
                         } label: {
-                            Label("Download Report (PDF)", systemImage: "arrow.down.doc")
+                            Label("Download report", systemImage: "arrow.down.doc")
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.bordered)
                         .tint(brandRose)
-                        
+
                         Button {
                             saveReportToProfile()
                         } label: {
@@ -147,14 +176,26 @@ struct ScenarioOutcomeView: View {
                 .padding()
             }
         }
+        .onAppear {
+            guard report == nil else { return }
+
+            let userId = auth.user?.email ?? "local-user"
+
+            let newReport = scenarioService.startScenario(
+                scenarioId: scenarioTitle,
+                scenarioTitle: scenarioTitle,
+                userId: userId
+            )
+            scenarioService.completeScenario(
+                report: newReport,
+                legalSummary: legalSummary ?? "",
+                legalSources: scenarioSources
+            )
+
+            report = newReport
+        }
         .navigationTitle("Outcome")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            print("ScenarioOutcomeView loaded")
-            print("Topics:", topics)
-            print("Steps:", report.steps.count)
-            print("Auth user label:", effectiveUserLabel)
-        }
         .sheet(isPresented: $isShowingShareSheet) {
             if let url = exportedURL {
                 ShareSheet(url: url)
@@ -163,48 +204,24 @@ struct ScenarioOutcomeView: View {
     }
 
     private func saveReportToProfile() {
-        // Stamp report with user label (email/uid) for now.
-        report.userId = effectiveUserLabel
+        guard let userId = auth.user?.email,
+              let report = report else { return }
 
-        modelContext.insert(report)
-        do {
-            try modelContext.save()
-            hasBeenSaved = true
-            showSaveConfirmation = true
-            print("Report saved to profile for:", effectiveUserLabel)
-        } catch {
-            print("Failed to save report:", error.localizedDescription)
-        }
-    }
+        let savedReport = UserSavedReport(
+            id: UUID().uuidString,
+            userId: userId,
+            reportTitle: scenarioTitle,
+            scenarioCategory: scenarioTitle,
+            outcome: fullReportText,
+            sources: scenarioSources.map { $0.sourceTitle },
+            savedAt: Date()
+        )
 
-    private func generateAndSharePDF() async {
-        do {
-            // Convert to exportable format
-            let exportable = ExportableReport(from: report)
-            
-            // Create filename
-            let filename = report.scenarioTitle
-                .replacingOccurrences(of: " ", with: "_")
-            + "_report.pdf"
-            
-            // Temporary file location
-            let tmpURL = FileManager.default
-                .temporaryDirectory
-                .appendingPathComponent(filename)
-            
-            // Generate PDF
-            try ReportGeneratorService.generatePDF(from: exportable, to: tmpURL)
-            
-            // Store URL for share sheet
-            await MainActor.run {
-                exportedURL = tmpURL
-                isShowingShareSheet = true
-            }
-            
-            print(" Report exported to: \(tmpURL.path)")
-        } catch {
-            print(" Report export failed: ", error.localizedDescription)
-        }
+        modelContext.insert(savedReport)
+        try? modelContext.save()
+
+        hasBeenSaved = true
+        showSaveConfirmation = true
     }
 }
 
@@ -212,10 +229,10 @@ struct ScenarioOutcomeView: View {
 // Share sheet wrapper
 struct ShareSheet: UIViewControllerRepresentable {
     let url: URL
-    
+
     func makeUIViewController(context: Context) -> UIActivityViewController {
         UIActivityViewController(activityItems: [url], applicationActivities: nil)
     }
-    
+
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

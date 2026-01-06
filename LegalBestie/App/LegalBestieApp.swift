@@ -6,10 +6,10 @@ import Firebase
 
 @main
 struct LegalBestieApp: App {
-
     @StateObject private var authService = AuthService()
 
-    init() {
+    init()
+    {
         FirebaseApp.configure()
     }
     
@@ -18,11 +18,10 @@ struct LegalBestieApp: App {
             AuthGate()
                 .environmentObject(authService)
         }
+        
         .modelContainer(for: [
             UserSavedReport.self,
-            ChatQuery.self,
             ScenarioReport.self,
-            StepReport.self
-        ])
+            StepReport.self ])
     }
 }

@@ -7,15 +7,12 @@
 import SwiftUI
 
 struct AuthGate: View {
-    @StateObject private var auth = AuthService()
     @State private var isGuest = false
-    
+    @StateObject private var auth = AuthService()
     
     var body: some View {
         NavigationStack {
             if let appUser = auth.user {
-             
-                
                 MainTabView(
                     user: User(
                         userId: appUser.id,
@@ -23,31 +20,24 @@ struct AuthGate: View {
                         lastName: "",
                         email: appUser.email ?? "",
                         passwordHash: "",
-                        createdAt: Date()
-                    ),
-                    
+                        createdAt: Date()),
                     isGuest: false
                 ) {
                     try? auth.signOut()
                 }
             } else if isGuest {
-
                 MainTabView(
                     user: nil,
                     isGuest: true
                 ) {
                     isGuest = false
                 }
-
             } else {
-                
-                //registration
                 LoginView(onContinueAsGuest: {
                     isGuest = true
                 })
                 .environmentObject(auth)
-                
-                }
+            }
             }
         }
-    }
+        }

@@ -13,7 +13,7 @@ final class UserSavedReport {
     var reportTitle: String
     var scenarioCategory: String
     var outcome: String
-    var sources: [String]  
+    var sources: [String]
     var savedAt: Date
 
     init(
