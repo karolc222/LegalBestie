@@ -1,0 +1,35 @@
+//  scenario_format.swift
+//  LegalBestie
+//
+//  Created by Carolina LC on 17/11/2025.
+
+{
+  "scenarioId": "ID_STRING",
+  "scenarioTitle": "Readable Scenario Title",
+  "categoryName": "category_identifier",
+  "topics": ["topic1", "topic2", "topic3"],
+  "scenarioDescription": "Short description of the situation.",
+  "startNode": "node_key",
+  "nodes": {
+    "node_key": {
+      "question": "The question shown to the user.",
+      "choices": [
+        { "label": "Choice text", "nextNode": "another_node_key" }
+      ]
+    }
+  },
+  "legalSummaryText": "Short text shown at the end summarizing the law.",
+  "legalSources": [
+    {
+      "sourceId": "src_xxx",
+      "sourceTitle": "Human-readable law / resource title",
+      "sourceLink": "https://the.link.goes.here",
+      "sourceDescription": "Short explanation of what the link is about.",
+      "sourceOrganization": "Name of authority",
+      "sourceStatus": "Verified or Unverified",
+      "topics": ["topic1", "topic2"]
+    }
+  ],
+  "scenarioUpdatedAt": "DD-MM-YYYY"
+}
+
