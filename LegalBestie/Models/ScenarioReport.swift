@@ -6,7 +6,6 @@
 import Foundation
 import SwiftData
 
-// report based on user's answers and contains the legal summary
 
 @Model
 final class ScenarioReport {
@@ -17,7 +16,7 @@ final class ScenarioReport {
     var createdAt: Date?
     var updatedAt: Date?
     
-    // transcript of answers
+    // transcript of the answers
     var steps: [StepReport]
     var legalSummary: String
     var legalSources: [LegalSource]

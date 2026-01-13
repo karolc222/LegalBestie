@@ -15,7 +15,7 @@ struct SavedReportsView: View {
     
     @Query private var allReports: [UserSavedReport]
     
-    // Filter reports for current user
+    //filter reports for current user
     private var userReports: [UserSavedReport] {
         guard let userId = auth.user?.id else { return [] }
 
@@ -67,6 +67,8 @@ struct SavedReportsView: View {
         }
     }
 }
+
+
 
 private extension SavedReportsView {
     @ViewBuilder

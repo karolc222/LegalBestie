@@ -3,7 +3,7 @@
 //
 //  Created by Carolina LC on 15/09/2025.
 
-// data model + adapter
+// data loader + adapter
 
 import Foundation
 
@@ -11,20 +11,22 @@ final class LegalSourceViewModel: ObservableObject {
 
     @Published private(set) var sources: [LegalSource] = []
 
-    init() {
-        loadSources()
+    init() { loadSources()
     }
 
+    
     func loadSources() {
         guard let url = Bundle.main.url(
             forResource: "civil_rights_links",
             withExtension: "json"
         ) else {
-            print("civil_rights_links.json not found in bundle")
+            print("file not found")
             sources = []
             return
         }
 
+        
+        // decode JSON
         do {
             let data = try Data(contentsOf: url)
             let decoded = try JSONDecoder().decode([LegalSourceDTO].self, from: data)
@@ -41,7 +43,7 @@ final class LegalSourceViewModel: ObservableObject {
                 )
             }
         } catch {
-            print("Failed to load civil_rights_links.json:", error)
+            print("Failed to load sources", error)
             sources = []
         }
     }

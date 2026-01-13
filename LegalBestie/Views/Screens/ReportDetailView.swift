@@ -3,7 +3,6 @@ import SwiftData
 
 private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
-// Wrapper required for .sheet(item:)
 struct ShareURL: Identifiable {
     let id = UUID()
     let url: URL

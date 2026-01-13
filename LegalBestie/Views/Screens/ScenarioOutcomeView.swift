@@ -10,7 +10,7 @@ struct ShareItem: Identifiable {
 import SwiftUI
 import SwiftData
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) 
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct ScenarioOutcomeView: View {
     let scenarioTitle: String
@@ -167,15 +167,4 @@ func section(title: String, @ViewBuilder content: () -> some View) -> some View 
         RoundedRectangle(cornerRadius: 16)
             .fill(Color.white)
     )
-}
-
-// Share sheet wrapper
-struct ShareSheet: UIViewControllerRepresentable {
-    let url: URL
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: [url], applicationActivities: nil)
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

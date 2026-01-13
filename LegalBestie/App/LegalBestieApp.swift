@@ -1,5 +1,7 @@
 //  LegalBestieApp.swift
 //  LegalBestie
+//
+//  Created by Carolina LC on 23/10/2025.
 
 import SwiftUI
 import Firebase
@@ -21,7 +23,6 @@ struct LegalBestieApp: App {
         .modelContainer(for: [
             UserSavedReport.self,
             ScenarioReport.self,
-            StepReport.self
-        ])
+            StepReport.self ])
     }
 }

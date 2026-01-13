@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct LegalAssistantView: View {
     @StateObject private var viewModel = LegalAssistantViewModel()
@@ -22,7 +22,7 @@ struct LegalAssistantView: View {
 
             VStack(spacing: 0) {
 
-                // Messages
+                //messages
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(viewModel.items) { item in
@@ -49,6 +49,7 @@ struct LegalAssistantView: View {
                             .padding(.horizontal, 16)
                         }
 
+                        
                         if viewModel.isLoading {
                             HStack {
                                 ProgressView()
@@ -64,7 +65,7 @@ struct LegalAssistantView: View {
                     .padding(.vertical, 14)
                 }
 
-                // Input bar
+                //input bar
                 VStack(spacing: 10) {
                     Divider().opacity(0.15)
 

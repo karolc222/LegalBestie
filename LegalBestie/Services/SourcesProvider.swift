@@ -3,43 +3,46 @@
 //
 //  Created by Carolina LC on 21/12/2025.
 
+// sources finder: local/AI/GOV.UK
+
 import Foundation
 
 @MainActor
 final class SourcesProvider {
-
-    typealias SourcePair = (sourceTitle: String, sourceDescription: String)
+typealias SourcePair = (sourceTitle: String, sourceDescription: String)
     
-    private let localSourcesVM = LegalSourceViewModel()
+    
     private let govUK = GovUKSearchService()
-
-    // cached value: question + date + source
+    private let localSourcesVM = LegalSourceViewModel()
     private var cache: [String: (Date, [SourcePair])] = [:]
-    
-    //how long the question will be cached = 30 mins
+    //time question spent in cache = 30 mins
     private let ttl: TimeInterval = 30 * 60
-
+    
+    
+    // called when user asks a question
     func sources(for question: String) async throws -> [SourcePair] {
         let q = question.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return [] }
-
+        
+        
+        // tries local sources first
         var pairs = localSources(matching: q)
-
-        if pairs.count < 3 {
+        if pairs.count < 2 {
             pairs += try await govUKPairs(query: q)
         }
 
         return Array(dedupe(pairs).prefix(6))
     }
 
+    
+    
+    
     private func localSources(matching q: String) -> [SourcePair] {
         if localSourcesVM.sources.isEmpty { localSourcesVM.loadSources() }
 
         let query = q.lowercased()
 
-        let exact = localSourcesVM.sources.filter {
-            $0.sourceTitle.lowercased().contains(query) ||
-            $0.sourceDescription.lowercased().contains(query)
+        let exact = localSourcesVM.sources.filter { $0.sourceTitle.lowercased().contains(query) || $0.sourceDescription.lowercased().contains(query)
         }
 
         if !exact.isEmpty {
@@ -48,9 +51,9 @@ final class SourcesProvider {
             }
         }
 
+        
         let tokens = tokenize(query)
         guard !tokens.isEmpty else { return [] }
-
         let keywordMatches = localSourcesVM.sources.filter { src in
             let keywords = (src.sourceKeywords + src.sourceTopics).map { $0.lowercased() }
             return keywords.contains { kw in
@@ -62,6 +65,9 @@ final class SourcesProvider {
             format($0.sourceTitle, $0.sourceDescription, url: $0.sourceUrl)
         }
     }
+    
+    
+    
     private func govUKPairs(query: String) async throws -> [SourcePair] {
         let key = query.lowercased()
         if let (time, value) = cache[key], Date().timeIntervalSince(time) < ttl {
@@ -78,6 +84,7 @@ final class SourcesProvider {
         return pairs
     }
 
+    
     private func format(_ title: String, _ description: String, url: String) -> SourcePair {
         let suffix = url.isEmpty ? "" : "\nURL: \(url)"
         return (title, description + suffix)

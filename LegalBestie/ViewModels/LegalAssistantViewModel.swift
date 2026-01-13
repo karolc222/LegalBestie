@@ -22,6 +22,8 @@ final class LegalAssistantViewModel: ObservableObject {
     @Published var items: [ChatItem] = []
     @Published var isLoading = false
 
+    
+    // RAG layer
     private let sourcesProvider = SourcesProvider()
 
     func send(question: String) async {
@@ -32,12 +34,18 @@ final class LegalAssistantViewModel: ObservableObject {
         isLoading = true
 
         do {
+            //get sources vis SourcesProvider
             let sources = try await sourcesProvider.sources(for: q)
+            
+            // pass sources to chatService
             let reply = try await ChatService.shared.askQuestion(
                 question: q,
                 sources: sources
             )
+            
+            // apend AI assistant's reply
             items.append(ChatItem(role: .assistant, text: reply))
+            
         } catch {
             items.append(ChatItem(role: .assistant, text: error.localizedDescription))
         }

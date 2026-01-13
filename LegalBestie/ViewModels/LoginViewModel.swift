@@ -15,6 +15,8 @@ final class LoginViewModel: ObservableObject {
     @Published var message: String = ""
     @Published var isLoading: Bool = false
 
+    
+    
     func signIn(auth: AuthService) async {
         isLoading = true
         defer { isLoading = false }
@@ -26,10 +28,11 @@ final class LoginViewModel: ObservableObject {
         }
     }
 
+    
+    
     func signUp(auth: AuthService) async {
         isLoading = true
         defer { isLoading = false }
-
         do {
             try await auth.signUp(email: email, password: password)
             message = "Verification email sent."
@@ -38,6 +41,7 @@ final class LoginViewModel: ObservableObject {
         }
     }
 
+    
     func resetPassword(auth: AuthService) async {
         isLoading = true
         defer { isLoading = false }
@@ -50,9 +54,11 @@ final class LoginViewModel: ObservableObject {
         }
     }
 
+    
     private func handleError(_ error: Error) {
         let code = (error as NSError).code
 
+        
         switch code {
         case AuthErrorCode.invalidEmail.rawValue:
             message = "Invalid email address."

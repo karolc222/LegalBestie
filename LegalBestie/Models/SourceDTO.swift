@@ -13,6 +13,7 @@ struct SourceDTO: Decodable, Identifiable {
     let sourceKeywords: [String]
     let sourceTopics: [String]
     
+    
     enum CodingKeys: String, CodingKey {
         case id
         case sourceTitle

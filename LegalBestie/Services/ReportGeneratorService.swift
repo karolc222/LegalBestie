@@ -1,7 +1,6 @@
 //  ReportGeneratorService.swift
 //  LegalBestie
 //
-//  Generic report export service (PDF)
 //  Created by Carolina LC on 18/11/2025.import Foundation
 
 import UIKit
@@ -18,7 +17,7 @@ struct ExportableReport {
         let url: String
         let description: String
         let organisation: String?
-    }
+}
 
     let title: String
     let createdAt: Date
@@ -26,7 +25,10 @@ struct ExportableReport {
     let summary: String?
     let sections: [Section]
     let sources: [Source]
+    
 }
+
+
 
 final class ReportGeneratorService {
 
@@ -39,6 +41,7 @@ final class ReportGeneratorService {
             kCGPDFContextTitle: report.title
         ] as [String: Any]
 
+        
         let page = CGRect(x: 0, y: 0, width: 595, height: 842)
         let renderer = UIGraphicsPDFRenderer(bounds: page, format: format)
 
@@ -74,7 +77,7 @@ final class ReportGeneratorService {
                 cursor += rect.height + 10
             }
 
-            // Header
+            
             draw("Incident Report", size: 22, bold: true)
             draw("Title: \(report.title)", bold: true)
             draw("Generated: \(report.createdAt.formatted(date: .abbreviated, time: .shortened))")
@@ -83,23 +86,23 @@ final class ReportGeneratorService {
                 draw("User: \(owner)")
             }
 
+            
             cursor += 10
 
-            // Optional summary
             if let summary = report.summary, !summary.isEmpty {
                 draw("Summary", size: 18, bold: true)
                 draw(summary)
                 cursor += 5
             }
 
-            // Sections
             for section in report.sections {
                 draw(section.heading, size: 18, bold: true)
                 draw(section.body)
                 cursor += 5
             }
 
-            // Sources
+
+
             if !report.sources.isEmpty {
                 draw("Legal Sources", size: 18, bold: true)
 
@@ -132,9 +135,9 @@ extension ExportableReport {
 
         let summarySection = Section(
             heading: "Scenario Summary",
-            body: scenarioReport.legalSummary
-        )
+            body: scenarioReport.legalSummary)
 
+        
         let responses = scenarioReport.steps
             .map { "• \($0.statement)" }
             .joined(separator: "\n")
@@ -144,6 +147,7 @@ extension ExportableReport {
             body: responses
         )
 
+        
         let sources = scenarioReport.legalSources.map {
             Source(
                 title: $0.sourceTitle,
@@ -153,13 +157,13 @@ extension ExportableReport {
             )
         }
 
-        self.init(
-            title: scenarioReport.scenarioTitle,
-            createdAt: scenarioReport.createdAt ?? Date(),
-            ownerName: scenarioReport.userId,
-            summary: nil,
-            sections: [summarySection, responsesSection],
-            sources: sources
-        )
+        
+    self.init(
+        title: scenarioReport.scenarioTitle,
+        createdAt: scenarioReport.createdAt ?? Date(),
+        ownerName: scenarioReport.userId,
+        summary: nil,
+        sections: [summarySection, responsesSection],
+        sources: sources)
     }
 }

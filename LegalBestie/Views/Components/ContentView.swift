@@ -1,6 +1,6 @@
 import SwiftUI
 
-// main entry view of the app, loads and displays a legal scenario.
+// loads and displays a legal scenario
 
 struct ContentView: View {
     @StateObject private var viewModel = ScenarioViewModel()

@@ -5,10 +5,13 @@
 
 import SwiftUI
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) // #f64a8a-inspired
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct GuestProfileView: View {
     let onSignIn: () -> Void
+    
+    
+    
     
     var body: some View {
         NavigationStack {
@@ -22,10 +25,11 @@ struct GuestProfileView: View {
 
                 
                 List {
-                    // Guest Status
+                    
                     Section {
                         HStack(spacing: 12) {
                             ZStack {
+                                
                                 Circle()
                                     .fill(brandRose.opacity(0.14))
                                     .frame(width: 48, height: 48)
@@ -50,7 +54,8 @@ struct GuestProfileView: View {
                     }
                     .listRowBackground(Color.clear)
                     
-                    // Sign In/Register
+                
+                    
                     Section {
                         Button {
                             onSignIn()
@@ -71,7 +76,8 @@ struct GuestProfileView: View {
                         Text("Create an account to save your scenario reports and access them across devices.")
                     }
                     
-                    // What they're missing
+        
+                    
                     Section {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("With an account you can:")

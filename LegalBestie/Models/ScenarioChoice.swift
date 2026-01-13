@@ -18,7 +18,9 @@ public struct ScenarioChoice: Codable, Hashable {
 }
 
 @Model
+// store choices in the db
 final class ScenarioChoiceModel {
+    
     @Attribute(.unique) var choiceId: String
     var text: String
     var nextNode: String
@@ -30,9 +32,4 @@ final class ScenarioChoiceModel {
     }
 }
 
-//  DTO to model
-extension ScenarioChoiceModel {
-    convenience init (dto: ScenarioChoice) {
-        self.init(text: dto.text, nextNode: dto.nextNode)
-    }
-}
+

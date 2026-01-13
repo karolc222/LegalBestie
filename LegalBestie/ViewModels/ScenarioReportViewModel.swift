@@ -3,7 +3,6 @@
 //
 //  Created by Carolina LC on 02/11/2025.
 
-
 import Foundation
 import SwiftData
 import SwiftUI
@@ -49,6 +48,7 @@ final class ScenarioReportViewModel: ObservableObject {
         modelContext.insert(savedReport)
         try modelContext.save()
     }
+    
     
     func deleteReport(_ report: ScenarioReport) throws {
         modelContext.delete(report)

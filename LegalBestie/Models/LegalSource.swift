@@ -49,6 +49,7 @@ final class LegalSource {
 }
     
 extension LegalSource {
+    //dedicated initializer that converts DTO into a persistence model
     convenience init(dto: LegalSourceDTO) {
         self.init(
             sourceId: UUID().uuidString,

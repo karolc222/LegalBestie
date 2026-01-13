@@ -4,7 +4,7 @@
 import SwiftUI
 import SwiftData
 
-private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54) 
+private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct ScenarioPlayerView: View {
     let category: String
@@ -43,7 +43,7 @@ struct ScenarioPlayerView: View {
                                     .font(.title.weight(.semibold))
                             }
                             
-                            // Progress indicator
+                            //progress indicator
                             if !viewModel.userResponses.isEmpty {
                                 Text("\(viewModel.userResponses.count) questions answered")
                                     .font(.caption.weight(.medium))
@@ -57,7 +57,7 @@ struct ScenarioPlayerView: View {
                             
                             
                             if !node.choices.isEmpty {
-                                // Question + choices UI
+                                // question + choices UI
                                 Text(node.question)
                                     .font(.headline)
                                     .foregroundStyle(.primary)

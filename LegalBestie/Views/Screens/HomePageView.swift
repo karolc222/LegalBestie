@@ -5,7 +5,6 @@
 
 
 import SwiftUI
-
 private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
 struct HomePageView: View {
@@ -39,6 +38,8 @@ struct HomePageView: View {
                 }
                 .listRowBackground(Color.clear)
 
+                    
+                    
                 Section {
                     NavigationLink {
                         ScenarioListView(categoryName: "all")
@@ -50,6 +51,8 @@ struct HomePageView: View {
                         )
                     }
 
+                    
+                    
                     NavigationLink {
                         LegalAssistantView()
                     } label: {

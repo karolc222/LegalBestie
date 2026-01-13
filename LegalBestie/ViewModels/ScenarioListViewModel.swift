@@ -16,6 +16,7 @@ final class ScenarioListViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
+        
         // loading JSON files
         guard let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil),
               !urls.isEmpty else {
@@ -24,13 +25,15 @@ final class ScenarioListViewModel: ObservableObject {
             return
         }
     
-        let decoder = JSONDecoder()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        dateFormatter.locale = Locale(identifier: "en_GB")
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
-        var loaded: [ScenarioListItem] = []
+            let decoder = JSONDecoder()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            dateFormatter.locale = Locale(identifier: "en_GB")
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            var loaded: [ScenarioListItem] = []
+        
+        
         
         for url in urls {
             let fileName = url.deletingPathExtension().lastPathComponent
@@ -53,6 +56,8 @@ final class ScenarioListViewModel: ObservableObject {
                 )
             )
         }
+        
+        
         scenarios = loaded.sorted { $0.title < $1.title }
         
         if scenarios.isEmpty {

@@ -3,8 +3,10 @@
 //
 //  Created by Carolina LC on 23/10/2025.
 
+
 import Foundation
 import FirebaseAuth
+
 
 @MainActor
 final class AuthService: ObservableObject {
@@ -13,6 +15,7 @@ final class AuthService: ObservableObject {
 
     private var authHandle: AuthStateDidChangeListenerHandle?
 
+    
     init() {
         authHandle = Auth.auth().addStateDidChangeListener { [weak self] _, firebaseUser in
             guard let self else { return }
@@ -28,6 +31,7 @@ final class AuthService: ObservableObject {
             }
         }
     }
+    
 
     deinit {
         if let authHandle {

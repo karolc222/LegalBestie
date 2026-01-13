@@ -16,6 +16,7 @@ final class GovUKSearchService {
 
     private let session: URLSession
 
+    
     init() {
         let config = URLSessionConfiguration.ephemeral
         config.waitsForConnectivity = true
@@ -29,6 +30,7 @@ final class GovUKSearchService {
         self.session = URLSession(configuration: config)
     }
 
+    
     func search(_ query: String, count: Int = 5) async throws -> [GovUKSearchResponse.Result] {
 
         var components = URLComponents(string: "https://www.gov.uk/api/search.json")!
@@ -49,6 +51,7 @@ final class GovUKSearchService {
             throw GovUKError.http(http.statusCode)
         }
 
+        
         do {
             return try JSONDecoder().decode(GovUKSearchResponse.self, from: data).results
         } catch {
@@ -56,6 +59,7 @@ final class GovUKSearchService {
         }
     }
 }
+
 
 enum GovUKError: LocalizedError {
     case network

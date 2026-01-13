@@ -13,6 +13,7 @@ final class ChatService {
     private let session: URLSession
     private let apiKey: String
 
+    
     private init() {
         let config = URLSessionConfiguration.ephemeral
         config.waitsForConnectivity = true
@@ -22,14 +23,14 @@ final class ChatService {
         self.session = URLSession(configuration: config)
 
         self.apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
-        if apiKey.isEmpty {
-            print("OPENAI_API_KEY missing.")
+        if apiKey.isEmpty { print("OPENAI_API_KEY missing.")
         }
     }
 
     func askQuestion(
         question: String,
         sources: [(sourceTitle: String, sourceDescription: String)]
+        
         
     ) async throws -> String {
 
@@ -43,6 +44,7 @@ final class ChatService {
                 "Source: \($0.sourceTitle)\n\($0.sourceDescription)"
               }.joined(separator: "\n\n")
 
+        
         let prompt = """
         You are a helpful UK legal assistant.
 
@@ -69,6 +71,7 @@ final class ChatService {
             "temperature": 0.7
         ])
 
+        
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse else {
             throw ChatError.network

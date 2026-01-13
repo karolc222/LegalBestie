@@ -6,8 +6,8 @@
 import SwiftUI
 
 struct AuthGate: View {
-    @StateObject private var auth = AuthService()
-    @State private var isGuest = false
+@StateObject private var auth = AuthService()
+@State private var isGuest = false
     
     
     var body: some View {
@@ -30,6 +30,7 @@ struct AuthGate: View {
                 }
             } else if isGuest {
 
+                
                 MainTabView(
                     user: nil,
                     isGuest: true

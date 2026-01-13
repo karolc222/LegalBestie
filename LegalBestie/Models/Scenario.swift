@@ -6,14 +6,11 @@
 import Foundation
 import SwiftData
 
-//not used for JSON decoding
-// represents original legal scenario from JSON files
-
 @Model
 final class Scenario {
     @Attribute(.unique) var scenarioId: String
     var scenarioTitle: String
-    var categoryIds: [String] // FK to LegalCategory
+    var categoryIds: [String]
     var scenarioDescription: String?
     var scenarioStartNode: String
     var legalSummaryText: String
@@ -43,11 +40,12 @@ final class Scenario {
     }
 }
 
+// structs used for JSON decoding
 struct ScenarioNode: Codable {
     let stepId: String
     let question: String
     let choices: [Choice]
-    let type: String? // "question" or "outcome"
+    let type: String?
     let stepOutcome: String?
     let nextStepID: String?
     let isRequired: Bool
@@ -60,6 +58,7 @@ struct Choice: Codable, Hashable {
 }
 
 // legal source reference in the scenario
+// real_name should be LegalSourceDTO
 struct ChoiceDTO: Codable, Hashable, Identifiable {
     let sourceId: String
         let sourceTitle: String
@@ -72,7 +71,7 @@ struct ChoiceDTO: Codable, Hashable, Identifiable {
         var id: String { sourceId }
 }
 
-// runtime Codable structs to decode JSON into memory
+// runtime codable structs to decode JSON scenario into memory
 struct ScenarioTemplate: Codable {
     let scenarioId: String
     let scenarioTitle: String
@@ -98,6 +97,7 @@ struct ScenarioSourceDTO: Codable, Hashable, Identifiable {
     var id: String { sourceId }
 }
 
+// struct for displaying scenario lists
 struct ScenarioListItem: Identifiable {
     let id = UUID()
     let fileName: String

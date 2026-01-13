@@ -2,7 +2,6 @@
 //  LegalBestie
 //
 //  Created by Carolina LC on 31/12/2025.
-
 import Foundation
 import SwiftData
 
@@ -11,10 +10,10 @@ final class ScenarioPlayerViewModel: ObservableObject {
     
     @Published var template: ScenarioTemplate?
     @Published var currentKey: String = ""
-    @Published var errorText: String?
     @Published var userResponses: [UserResponse] = []
     @Published var report: ScenarioReport?
     @Published var showOutcome = false
+    @Published var errorText: String?
     
     private let category: String
     private let name: String
@@ -31,6 +30,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
                 try await ScenarioPlayerViewModel.loadTemplate(category: category, name: name)
             }.value
 
+            
             template = t
             currentKey = t.startNode
             errorText = nil
@@ -52,7 +52,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
         
         
         
-        // Convert responses to StepReports with statements
+        //conversion responses to StepReports
         let steps = userResponses.map { response in
             let statement = convertToStatement(
                 question: response.question,
@@ -66,7 +66,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
             )
         }
         
-        // Create report
+        //for report creation
         report = ScenarioReport(
             userId: "guest",
             scenarioId: template.scenarioId,
@@ -96,6 +96,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
     var isOutcomeNode: Bool {
         currentNode?.choices.isEmpty ?? false
     }
+    
     
     
     private static func loadTemplate(category: String, name: String) throws -> ScenarioTemplate {
@@ -168,6 +169,7 @@ final class ScenarioPlayerViewModel: ObservableObject {
                 )
             }
             
+            
         } else if choice == "no" {
             statement = statement.replacingOccurrences(of: "Did the ", with: "The ")
             statement = statement.replacingOccurrences(of: "Did ", with: "")
@@ -177,7 +179,8 @@ final class ScenarioPlayerViewModel: ObservableObject {
             statement = statement.replacingOccurrences(of: "Was your ", with: "My ")
             statement = statement.replacingOccurrences(of: "Does the ", with: "The ")
             
-            // Add negation
+            
+            //add negation
             let verbs = [
                 "ask", "request", "attempt", "refuse", "provide",
                 "stop", "seize", "delete", "pressure", "send", "show", "protect"

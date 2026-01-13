@@ -5,16 +5,19 @@
 
 import SwiftUI
 import FirebaseAuth
-
 private let brandRose = Color(red: 0.965, green: 0.29, blue: 0.54)
 
+
+
 struct LoginView: View {
+    
     @EnvironmentObject var auth: AuthService
     
     var onContinueAsGuest: (() -> Void)? = nil
     
     @StateObject private var viewModel = LoginViewModel()
     @FocusState private var focused: Bool
+    
     
     
     var body: some View {
@@ -97,7 +100,7 @@ struct LoginView: View {
 
                         
                         
-                        card(title: "NEW HERE?") {
+                        card(title: "YOU NEW HERE?") {
                             Button {
                                 focused = false
                                 Task { await viewModel.signUp(auth: auth) }
@@ -126,6 +129,7 @@ struct LoginView: View {
                             .tint(brandRose)
                             .disabled(viewModel.isLoading || viewModel.email.isEmpty)
                         }
+                        
 
                         if let guestAction = onContinueAsGuest {
                             card(title: "BROWSE WITHOUT SIGN UP") {
@@ -147,6 +151,7 @@ struct LoginView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                        
 
 
                         Spacer(minLength: 15)
