@@ -3,6 +3,10 @@
 //
 //  Created by Carolina LC on 15/11/2025.
 
+LINK TO APP PRESENTATION ON YOUTUBE
+https://www.youtube.com/watch?v=bh5dAMa2zb8&t=3s
+__________________________________________________
+
 
 LegalBestie – UK Legal Knowledge App (MSc Software Engineering Project)
 
