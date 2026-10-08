@@ -30,7 +30,7 @@ For immigrant communities, limited proficiency in French or English creates a co
 2. Digital Accessibility
 
 Most legal information exists only on government websites.
-But many women, including older immigrants — cannot use a computer, navigate official portals, or identify where to find relevant laws.
+But many women, older immigrants, cannot use a computer, navigate official portals, or identify where to find relevant laws.
 When the digital interface becomes a barrier, the law becomes unreachable.
 
 3. Epistemic Accessibility (Trusted Information)
